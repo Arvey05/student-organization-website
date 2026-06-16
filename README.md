@@ -1,36 +1,261 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Student Organization Website
 
-## Getting Started
+A modern student organization website built for managing public organization information, member accounts, announcements, activities, calendars, member profiles, and officer-only event creation.
 
-First, run the development server:
+This project is designed to run using a free-tier-friendly stack:
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Supabase
+* PostgreSQL
+* Supabase Auth
+* Supabase Storage
+* GitHub
+* Vercel
+
+## Project Purpose
+
+This website serves as the official online platform of the student organization. It allows visitors to learn about the organization, view activities and partners, and sign up or log in as members.
+
+Authenticated members can access their dashboard, profile, announcements, calendar, activities, and account settings.
+
+The President, Vice President for Internal Affairs, and Vice President for External Affairs have additional privileges to add events or programs to the website.
+
+## Main Features
+
+### Public Pages
+
+The public side of the website includes:
+
+* Home page
+* About page
+* Activities page
+* Partners page
+* Footer with school, OSOA, and government logos
+* Social media links
+* Login
+* Sign up
+
+### Authenticated Member Features
+
+After logging in, users can access:
+
+* Dashboard
+* Profile
+* Edit profile
+* Announcements
+* Activities
+* Calendar
+* My registered activities
+* Change password
+* Settings
+* Logout
+
+### Officer-Only Features
+
+Only the following roles can add events or programs:
+
+* President
+* Vice President for Internal Affairs
+* Vice President for External Affairs
+
+The event creation form should include:
+
+* Event / Program Name
+* Date and Time
+* Short Description
+* Location
+
+Officer-only features must be protected in both the frontend interface and the Supabase database security rules.
+
+## User Roles
+
+The system should support role-based access control.
+
+Recommended roles:
+
+```ts
+member
+officer
+president
+vp_internal_affairs
+vp_external_affairs
+```
+
+Only these roles may create events:
+
+```ts
+president
+vp_internal_affairs
+vp_external_affairs
+```
+
+## Tech Stack
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+### Backend
+
+* Supabase
+* PostgreSQL
+* Supabase Auth
+* Supabase Storage
+
+### Deployment
+
+* GitHub for version control
+* Vercel for hosting and deployment
+
+## Recommended Project Structure
+
+```txt
+src/
+  app/
+    page.tsx
+    login/
+    signup/
+    dashboard/
+    profile/
+    activities/
+    announcements/
+    calendar/
+    settings/
+
+  components/
+    ui/
+    layout/
+    forms/
+    dashboard/
+    activities/
+
+  lib/
+    supabase/
+    utils/
+
+  types/
+    database.ts
+
+  styles/
+    globals.css
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the project root.
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+```
+
+Do not commit `.env.local` to GitHub.
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the local website:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build Check
 
-## Learn More
+Before deploying or submitting changes, run:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project should pass both commands before deployment.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Tables
 
-## Deploy on Vercel
+Recommended Supabase tables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* profiles
+* announcements
+* activities
+* activity_registrations
+* calendar_events
+* partners
+* officers
+* committees
+* event_logs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Security Requirements
+
+The website must use Supabase Row Level Security.
+
+Security rules should ensure that:
+
+* Users can only edit their own profile.
+* Public users can only view public content.
+* Members can view authenticated content.
+* Only President, VPIA, and VPEA can add events.
+* Sensitive keys must never be exposed in frontend code.
+* Supabase service role keys must never be used in client-side code.
+
+## Design Direction
+
+The website should use a modern SaaS-inspired design style.
+
+Design characteristics:
+
+* Clean white or light gray background
+* Bold hero section
+* Rounded navigation and buttons
+* Soft gradients
+* Floating cards
+* Subtle grid or dotted background
+* Glassmorphism-style cards
+* Smooth hover effects
+* Fully responsive layout
+
+The design should feel modern, professional, organized, student-friendly, and easy to use.
+
+## Deployment
+
+The project should be deployed using Vercel.
+
+Recommended deployment flow:
+
+```txt
+GitHub Repository → Vercel Project → Automatic Deployment
+```
+
+Whenever changes are pushed to the main branch, Vercel should automatically rebuild and redeploy the website.
+
+## Notes for Developers and AI Assistants
+
+When working on this project:
+
+* Follow the requirements in `WEBSITE_REQUIREMENTS.md`.
+* Use TypeScript for safer code.
+* Use Tailwind CSS for styling.
+* Keep components reusable and organized.
+* Protect all authenticated routes.
+* Protect officer-only features using role-based access control.
+* Do not expose secret keys.
+* Run `npm run lint` and `npm run build` before finalizing changes.
+* Keep the website mobile-responsive.
+* Keep the user interface clean, modern, and easy to understand.
