@@ -68,7 +68,7 @@ export function SiteFooter() {
           </h2>
           <div className="mt-4 space-y-3 text-sm text-slate-600">
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/bulsumsc"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-3 transition hover:text-blue-700"
@@ -77,7 +77,7 @@ export function SiteFooter() {
               Facebook page
             </a>
             <a
-              href="mailto:organization@example.edu"
+              href="mailto:bulsu.officialmsc@gmail.com "
               className="flex items-center gap-3 transition hover:text-blue-700"
             >
               <Mail className="size-4" aria-hidden="true" />
@@ -85,7 +85,12 @@ export function SiteFooter() {
             </a>
             <p className="flex items-center gap-3">
               <MapPin className="size-4" aria-hidden="true" />
-              Bulacan State University
+              <a href="https://www.bulsu.edu.ph/" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="transition hover:text-blue-700">
+                Bulacan State University
+              </a>
             </p>
           </div>
         </div>
