@@ -20,7 +20,7 @@ export default function SettingsPage() {
     {
       title: "Delete account",
       description: "Contact the organization email for account deletion concerns.",
-      href: "mailto:organization@example.edu",
+      href: "mailto:bulsu.officialmsc@gmail.com",
       icon: Trash2,
     },
   ];
