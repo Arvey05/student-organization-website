@@ -1,9 +1,10 @@
 import { ClipboardCheck, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getRegisteredActivities } from "@/lib/member/activity-data";
-import { formatDateTime } from "@/lib/member/display";
+import { formatDateTimeRange } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 
 export default async function MyActivitiesPage() {
@@ -14,9 +15,9 @@ export default async function MyActivitiesPage() {
     <main className="px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <MemberPageHeader
-          eyebrow="Registered activities"
-          title="My registered activities"
-          description="Review activities you joined or pre-registered for."
+          eyebrow="My Activities"
+          title="My Activities"
+          description="Review registered events, completed activities, and attended organization programs."
         />
 
         <section className="mt-8 grid gap-5 md:grid-cols-3">
@@ -27,6 +28,17 @@ export default async function MyActivitiesPage() {
                 href={`/member/activities/${activity.id}`}
                 className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
               >
+                {activity.image_url ? (
+                  <div className="relative mb-5 aspect-video overflow-hidden rounded-2xl">
+                    <Image
+                      src={activity.image_url}
+                      alt={`${activity.name} cover`}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : null}
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
                   <ClipboardCheck className="size-5" aria-hidden="true" />
                 </div>
@@ -37,7 +49,7 @@ export default async function MyActivitiesPage() {
                   {registration.status.replace("_", " ")}
                 </p>
                 <p className="mt-3 text-sm text-slate-600">
-                  {formatDateTime(activity.starts_at)}
+                  {formatDateTimeRange(activity.starts_at, activity.ends_at)}
                 </p>
                 <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
                   <MapPin className="size-4" aria-hidden="true" />
@@ -47,7 +59,8 @@ export default async function MyActivitiesPage() {
             ))
           ) : (
             <article className="rounded-3xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm md:col-span-3">
-              You have not registered for any activities yet.
+              You have not registered for any activities yet. Joined and
+              completed activities will appear here.
             </article>
           )}
         </section>

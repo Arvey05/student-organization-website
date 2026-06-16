@@ -1,9 +1,10 @@
+import Image from "next/image";
 import {
   ArrowRight,
   BadgeCheck,
   CalendarDays,
-  GraduationCap,
   Handshake,
+  LogIn,
   Megaphone,
   ShieldCheck,
   Sparkles,
@@ -14,38 +15,14 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
 import { SectionHeading } from "@/components/ui/section-heading";
+import {
+  getAnnouncements,
+  getPublicActivities,
+  type ActivityRow,
+  type AnnouncementRow,
+} from "@/lib/member/activity-data";
+import { formatDateTime, formatDateTimeRange } from "@/lib/member/display";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-const floatingCards = [
-  {
-    label: "Upcoming Event",
-    value: "Leadership Forum",
-    detail: "June 28, 2026",
-    icon: CalendarDays,
-    className: "lg:left-2 lg:top-16 lg:-rotate-3",
-  },
-  {
-    label: "Active Members",
-    value: "500+",
-    detail: "Students connected",
-    icon: UsersRound,
-    className: "lg:right-0 lg:top-24 lg:rotate-3",
-  },
-  {
-    label: "Announcement",
-    value: "Membership drive",
-    detail: "Now open",
-    icon: Megaphone,
-    className: "lg:bottom-14 lg:left-24 lg:rotate-2",
-  },
-  {
-    label: "Partners",
-    value: "Campus offices",
-    detail: "OSOA and community links",
-    icon: Handshake,
-    className: "lg:bottom-20 lg:right-20 lg:-rotate-2",
-  },
-];
 
 const highlights = [
   {
@@ -68,84 +45,234 @@ const highlights = [
   },
 ];
 
-const activities = [
-  "Leadership development sessions",
-  "Community service programs",
-  "Academic and student support drives",
-  "Partner-led campus activities",
-];
+function getAnnouncementDate(announcement: AnnouncementRow) {
+  return (
+    announcement.starts_at ??
+    announcement.published_at ??
+    announcement.created_at
+  );
+}
+
+function PublicActivityCard({
+  activity,
+  userHref,
+}: {
+  activity: ActivityRow;
+  userHref: string;
+}) {
+  return (
+    <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/60">
+      <div className="relative aspect-video bg-slate-100">
+        {activity.image_url ? (
+          <Image
+            src={activity.image_url}
+            alt={`${activity.name} cover`}
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.36),transparent_32%),linear-gradient(135deg,#dbeafe,#ede9fe)]" />
+        )}
+        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold capitalize text-blue-700 backdrop-blur">
+          {activity.status}
+        </span>
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-bold text-slate-950">{activity.name}</h3>
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+          {activity.short_description}
+        </p>
+        <p className="mt-4 flex items-start gap-2 text-sm font-semibold text-slate-700">
+          <CalendarDays className="mt-0.5 size-4 shrink-0 text-blue-600" />
+          {formatDateTimeRange(activity.starts_at, activity.ends_at)}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <ButtonLink href={userHref} className="gap-2">
+            Join
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </ButtonLink>
+          <ButtonLink href="/activities" variant="secondary">
+            View Activities
+          </ButtonLink>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function PublicAnnouncementCard({
+  announcement,
+}: {
+  announcement: AnnouncementRow;
+}) {
+  const date = getAnnouncementDate(announcement);
+
+  return (
+    <article className="rounded-3xl border border-violet-100 bg-white p-5 shadow-sm">
+      {announcement.image_url ? (
+        <div className="relative mb-4 aspect-video overflow-hidden rounded-2xl bg-slate-100">
+          <Image
+            src={announcement.image_url}
+            alt={`${announcement.title} cover`}
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div className="mb-4 flex aspect-video items-center justify-center rounded-2xl bg-violet-50 text-violet-700">
+          <Megaphone className="size-8" aria-hidden="true" />
+        </div>
+      )}
+      <p className="text-sm font-semibold text-violet-700">
+        {announcement.starts_at
+          ? formatDateTimeRange(announcement.starts_at, announcement.ends_at)
+          : formatDateTime(date)}
+      </p>
+      <h3 className="mt-2 text-lg font-bold text-slate-950">
+        {announcement.title}
+      </h3>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+        {announcement.content}
+      </p>
+    </article>
+  );
+}
 
 export default async function Home() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const [activities, announcements] = await Promise.all([
+    getPublicActivities(),
+    getAnnouncements(),
+  ]);
+  const upcomingActivities = activities
+    .filter((activity) => activity.status === "upcoming")
+    .slice(0, 3);
+  const publicAnnouncements = announcements
+    .filter((announcement) => announcement.is_public)
+    .slice(0, 3);
+  const featuredActivity = upcomingActivities[0] ?? activities[0];
+  const featuredAnnouncement = publicAnnouncements[0];
   const activitiesHref = user ? "/member/activities" : "/activities";
+  const joinHref = user ? "/member/activities" : "/login";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
       <SiteHeader />
 
       <main>
-        <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:44px_44px]">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.18),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(180deg,rgba(248,250,252,0.78),#f8fafc_78%)]" />
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-            <div className="relative mx-auto max-w-5xl">
-              <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-                <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur">
-                  <BadgeCheck className="size-4" aria-hidden="true" />
-                  Official Student Organization Platform
-                </div>
-
-                <h1 className="mt-8 max-w-4xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
-                  Empowering Students Through Leadership, Service, and
-                  Community
-                </h1>
-
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-                  A modern digital home for members to discover programs, follow
-                  announcements, manage profiles, and stay connected with the
-                  organization throughout the academic year.
-                </p>
-
-                <div className="mt-9 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-                  <ButtonLink href="/signup" className="gap-2">
-                    Join Now
-                    <ArrowRight className="size-4" aria-hidden="true" />
-                  </ButtonLink>
-                  <ButtonLink href={activitiesHref} variant="secondary">
-                    View Activities
-                  </ButtonLink>
-                </div>
+        <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
+          {featuredActivity?.image_url ? (
+            <Image
+              src={featuredActivity.image_url}
+              alt={`${featuredActivity.name} cover`}
+              fill
+              priority
+              sizes="100vw"
+              className="-z-20 object-cover opacity-18"
+            />
+          ) : null}
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(226,232,240,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(226,232,240,0.8)_1px,transparent_1px)] bg-[size:44px_44px]" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.2),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(180deg,rgba(248,250,252,0.86),#f8fafc_82%)]" />
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-24">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur">
+                <BadgeCheck className="size-4" aria-hidden="true" />
+                Official Student Organization Platform
               </div>
 
-              <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-0 lg:block">
-                {floatingCards.map((card) => {
-                  const Icon = card.icon;
+              <h1 className="mt-8 max-w-4xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl">
+                Empowering Students Through Leadership, Service, and Community
+              </h1>
 
-                  return (
-                    <div
-                      key={card.label}
-                      className={`rounded-3xl border border-white/80 bg-white/75 p-5 shadow-xl shadow-slate-200/70 backdrop-blur transition hover:-translate-y-1 hover:shadow-2xl lg:absolute lg:w-64 ${card.className}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="flex size-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
-                          <Icon className="size-5" aria-hidden="true" />
-                        </span>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                            {card.label}
-                          </p>
-                          <p className="mt-1 font-bold text-slate-950">
-                            {card.value}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="mt-3 text-sm text-slate-500">{card.detail}</p>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                A modern digital home for members to discover programs, follow
+                announcements, manage profiles, and stay connected with the
+                organization throughout the academic year.
+              </p>
+
+              <div className="mt-9 flex flex-col gap-3 sm:w-auto sm:flex-row">
+                <ButtonLink href={user ? "/dashboard" : "/signup"} className="gap-2">
+                  {user ? "Open Portal" : "Join Now"}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </ButtonLink>
+                <ButtonLink href={activitiesHref} variant="secondary">
+                  View Activities
+                </ButtonLink>
+              </div>
+            </div>
+
+            <div className="grid content-start gap-4">
+              {featuredActivity ? (
+                <article className="rounded-3xl border border-white/80 bg-white/85 p-5 shadow-2xl shadow-slate-200/70 backdrop-blur">
+                  <div className="flex items-start gap-4">
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                      <CalendarDays className="size-5" aria-hidden="true" />
                     </div>
-                  );
-                })}
-              </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                        Featured activity
+                      </p>
+                      <h2 className="mt-1 text-xl font-black text-slate-950">
+                        {featuredActivity.name}
+                      </h2>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                        {formatDateTimeRange(
+                          featuredActivity.starts_at,
+                          featuredActivity.ends_at,
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ) : (
+                <article className="rounded-3xl border border-dashed border-slate-200 bg-white/85 p-5 shadow-sm backdrop-blur">
+                  <p className="text-sm font-semibold text-slate-600">
+                    No public activities yet.
+                  </p>
+                </article>
+              )}
+
+              {featuredAnnouncement ? (
+                <article className="rounded-3xl border border-white/80 bg-white/85 p-5 shadow-xl shadow-slate-200/70 backdrop-blur">
+                  <div className="flex items-start gap-4">
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-violet-50 text-violet-700">
+                      <Megaphone className="size-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                        Latest announcement
+                      </p>
+                      <h2 className="mt-1 text-xl font-black text-slate-950">
+                        {featuredAnnouncement.title}
+                      </h2>
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">
+                        {featuredAnnouncement.content}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ) : null}
+
+              <article className="rounded-3xl border border-white/80 bg-white/85 p-5 shadow-xl shadow-slate-200/70 backdrop-blur">
+                <div className="flex items-center gap-4">
+                  <div className="flex size-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                    <Handshake className="size-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                      Partners
+                    </p>
+                    <p className="mt-1 font-bold text-slate-950">
+                      Campus offices and community links
+                    </p>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </section>
@@ -184,53 +311,77 @@ export default async function Home() {
         </section>
 
         <section className="bg-slate-50 py-16 sm:py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-600">
-                Organization snapshot
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-                Built for public discovery now, ready for member tools next
-              </h2>
-              <p className="mt-5 text-base leading-8 text-slate-600">
-                This first phase establishes the public experience: a strong
-                landing page, accessible navigation, reusable sections, and a
-                footer prepared for official logos and social links.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href="/about" variant="secondary">
-                  Learn About Us
-                </ButtonLink>
-                <ButtonLink href="/partners" variant="ghost">
-                  Meet Partners
-                </ButtonLink>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+                  Public activities
+                </p>
+                <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                  Upcoming opportunities to join
+                </h2>
               </div>
+              <ButtonLink href="/activities" variant="secondary">
+                Browse All
+              </ButtonLink>
             </div>
 
-            <div className="rounded-[2rem] border border-white/80 bg-white/80 p-4 shadow-2xl shadow-slate-200/70 backdrop-blur">
-              <div className="rounded-[1.5rem] border border-slate-200 bg-slate-950 p-6 text-white">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-semibold text-blue-200">
-                      Academic Year Theme
-                    </p>
-                    <h3 className="mt-2 text-2xl font-black">
-                      Lead with purpose. Serve with impact.
-                    </h3>
-                  </div>
-                  <GraduationCap className="size-10 text-blue-200" aria-hidden="true" />
-                </div>
+            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+              {upcomingActivities.length ? (
+                upcomingActivities.map((activity) => (
+                  <PublicActivityCard
+                    key={activity.id}
+                    activity={activity}
+                    userHref={joinHref}
+                  />
+                ))
+              ) : (
+                <article className="rounded-3xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-600 lg:col-span-3">
+                  No public upcoming activities are available yet.
+                </article>
+              )}
+            </div>
+          </div>
+        </section>
 
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {activities.map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm font-medium text-slate-100"
-                    >
-                      {item}
-                    </div>
-                  ))}
+        <section className="bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-600">
+                  Announcements
+                </p>
+                <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                  Booths, bazaars, reminders, and updates
+                </h2>
+                <p className="mt-5 text-base leading-8 text-slate-600">
+                  Public announcements appear here when officers publish updates
+                  for students and visitors.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <ButtonLink href={user ? "/dashboard" : "/login"} className="gap-2">
+                    {user ? "Open Dashboard" : "Log In for Member Updates"}
+                    <LogIn className="size-4" aria-hidden="true" />
+                  </ButtonLink>
+                  <ButtonLink href="/about" variant="secondary">
+                    Learn About Us
+                  </ButtonLink>
                 </div>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                {publicAnnouncements.length ? (
+                  publicAnnouncements.map((announcement) => (
+                    <PublicAnnouncementCard
+                      key={announcement.id}
+                      announcement={announcement}
+                    />
+                  ))
+                ) : (
+                  <article className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-600 md:col-span-2">
+                    No public announcements are available yet.
+                  </article>
+                )}
               </div>
             </div>
           </div>

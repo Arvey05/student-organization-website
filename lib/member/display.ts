@@ -18,6 +18,35 @@ export function formatDateTime(value: string): string {
   }).format(new Date(value));
 }
 
+export function formatDateTimeRange(
+  startsAt: string,
+  endsAt?: string | null,
+): string {
+  if (!endsAt) {
+    return formatDateTime(startsAt);
+  }
+
+  const startDate = new Date(startsAt);
+  const endDate = new Date(endsAt);
+  const sameDay = startDate.toDateString() === endDate.toDateString();
+
+  if (sameDay) {
+    const date = new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+    }).format(startDate);
+    const startTime = new Intl.DateTimeFormat("en-US", {
+      timeStyle: "short",
+    }).format(startDate);
+    const endTime = new Intl.DateTimeFormat("en-US", {
+      timeStyle: "short",
+    }).format(endDate);
+
+    return `${date}, ${startTime} - ${endTime}`;
+  }
+
+  return `${formatDateTime(startsAt)} - ${formatDateTime(endsAt)}`;
+}
+
 export function getCalendarDateParts(value: string) {
   const date = new Date(value);
 

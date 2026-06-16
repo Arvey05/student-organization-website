@@ -1,11 +1,21 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { canCreateEvents } from "@/lib/supabase/roles";
+
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]);
 
 function getOptionalString(formData: FormData, key: string): string | null {
   const value = formData.get(key);
@@ -16,6 +26,90 @@ function getOptionalString(formData: FormData, key: string): string | null {
 
   const trimmed = value.trim();
   return trimmed.length ? trimmed : null;
+}
+
+function isInvalidTimeFrame(startsAt: string, endsAt: string | null): boolean {
+  return Boolean(endsAt && new Date(endsAt) < new Date(startsAt));
+}
+
+function getOptionalFile(formData: FormData, key: string): File | null {
+  const value = formData.get(key);
+
+  if (!(value instanceof File) || value.size === 0) {
+    return null;
+  }
+
+  return value;
+}
+
+function getImageExtension(file: File): string {
+  const extension = file.name.split(".").pop()?.toLowerCase();
+
+  if (extension && /^[a-z0-9]+$/.test(extension)) {
+    return extension;
+  }
+
+  return file.type.split("/")[1] ?? "jpg";
+}
+
+async function uploadPublicImage(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  bucket: "activity-images" | "announcement-images",
+  userId: string,
+  folder: string,
+  file: File | null,
+): Promise<{ imageUrl: string | null; error: "type" | "size" | "upload" | null }> {
+  if (!file) {
+    return { imageUrl: null, error: null };
+  }
+
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    return { imageUrl: null, error: "type" };
+  }
+
+  if (file.size > MAX_IMAGE_SIZE) {
+    return { imageUrl: null, error: "size" };
+  }
+
+  const extension = getImageExtension(file);
+  const path = `${userId}/${folder}/${randomUUID()}.${extension}`;
+  const { error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, {
+      cacheControl: "3600",
+      contentType: file.type,
+      upsert: false,
+    });
+
+  if (error) {
+    return { imageUrl: null, error: "upload" };
+  }
+
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+
+  return { imageUrl: data.publicUrl, error: null };
+}
+
+async function uploadEventCover(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  userId: string,
+  file: File | null,
+) {
+  return uploadPublicImage(supabase, "activity-images", userId, "events", file);
+}
+
+async function uploadAnnouncementImage(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  userId: string,
+  file: File | null,
+) {
+  return uploadPublicImage(
+    supabase,
+    "announcement-images",
+    userId,
+    "announcements",
+    file,
+  );
 }
 
 export async function updateProfile(formData: FormData) {
@@ -117,18 +211,32 @@ export async function createOfficerEvent(formData: FormData) {
 
   const name = getOptionalString(formData, "name");
   const startsAt = getOptionalString(formData, "starts_at");
+  const endsAt = getOptionalString(formData, "ends_at");
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
+  const coverFile = getOptionalFile(formData, "cover_image");
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect("/officer/events/new?error=missing_fields");
   }
 
+  if (isInvalidTimeFrame(startsAt, endsAt)) {
+    redirect("/officer/events/new?error=invalid_time_frame");
+  }
+
+  const upload = await uploadEventCover(supabase, user.id, coverFile);
+
+  if (upload.error) {
+    redirect(`/officer/events/new?error=cover_${upload.error}`);
+  }
+
   const { error } = await supabase.from("activities").insert({
     name,
     starts_at: startsAt,
+    ends_at: endsAt,
     short_description: shortDescription,
     location,
+    image_url: upload.imageUrl,
     status: "upcoming",
     is_public: true,
     created_by: user.id,
@@ -248,16 +356,28 @@ export async function updateOfficerEvent(formData: FormData) {
 
   const name = getOptionalString(formData, "name");
   const startsAt = getOptionalString(formData, "starts_at");
+  const endsAt = getOptionalString(formData, "ends_at");
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
   const status = getOptionalString(formData, "status");
+  const coverFile = getOptionalFile(formData, "cover_image");
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect(`/officer/events/${activityId}/edit?error=missing_fields`);
   }
 
+  if (isInvalidTimeFrame(startsAt, endsAt)) {
+    redirect(`/officer/events/${activityId}/edit?error=invalid_time_frame`);
+  }
+
   if (status !== "upcoming" && status !== "completed" && status !== "past") {
     redirect(`/officer/events/${activityId}/edit?error=invalid_status`);
+  }
+
+  const upload = await uploadEventCover(supabase, user.id, coverFile);
+
+  if (upload.error) {
+    redirect(`/officer/events/${activityId}/edit?error=cover_${upload.error}`);
   }
 
   const { error } = await supabase
@@ -265,9 +385,11 @@ export async function updateOfficerEvent(formData: FormData) {
     .update({
       name,
       starts_at: startsAt,
+      ends_at: endsAt,
       short_description: shortDescription,
       location,
       status,
+      ...(upload.imageUrl ? { image_url: upload.imageUrl } : {}),
       updated_at: new Date().toISOString(),
     })
     .eq("id", activityId)
@@ -284,4 +406,247 @@ export async function updateOfficerEvent(formData: FormData) {
   revalidatePath("/calendar");
   revalidatePath("/dashboard");
   redirect(`/member/activities/${activityId}`);
+}
+
+export async function archiveOfficerEvent(formData: FormData) {
+  const activityId = getOptionalString(formData, "activity_id");
+
+  if (!activityId) {
+    redirect("/member/activities");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!canCreateEvents(profile?.role)) {
+    redirect("/dashboard?error=officer_required");
+  }
+
+  const { error } = await supabase
+    .from("activities")
+    .update({
+      archived_at: new Date().toISOString(),
+      archived_by: user.id,
+      archive_reason: "Officer deleted event",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", activityId)
+    .is("archived_at", null)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect(`/member/activities/${activityId}?error=delete_failed`);
+  }
+
+  revalidatePath(`/member/activities/${activityId}`);
+  revalidatePath("/activities");
+  revalidatePath("/member/activities");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  revalidatePath("/my-activities");
+  redirect("/member/activities?event=deleted");
+}
+
+export async function createOfficerAnnouncement(formData: FormData) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!canCreateEvents(profile?.role)) {
+    redirect("/dashboard?error=officer_required");
+  }
+
+  const title = getOptionalString(formData, "title");
+  const content = getOptionalString(formData, "content");
+  const startsAt = getOptionalString(formData, "starts_at");
+  const endsAt = getOptionalString(formData, "ends_at");
+  const location = getOptionalString(formData, "location");
+  const imageFile = getOptionalFile(formData, "image");
+  const isPublic = formData.get("is_public") === "on";
+
+  if (!title || !content) {
+    redirect("/officer/announcements/new?error=missing_fields");
+  }
+
+  if (startsAt && isInvalidTimeFrame(startsAt, endsAt)) {
+    redirect("/officer/announcements/new?error=invalid_time_frame");
+  }
+
+  const upload = await uploadAnnouncementImage(supabase, user.id, imageFile);
+
+  if (upload.error) {
+    redirect(`/officer/announcements/new?error=image_${upload.error}`);
+  }
+
+  const { error } = await supabase.from("announcements").insert({
+    title,
+    content,
+    starts_at: startsAt,
+    ends_at: endsAt,
+    location,
+    image_url: upload.imageUrl,
+    is_public: isPublic,
+    published_at: startsAt ?? new Date().toISOString(),
+    created_by: user.id,
+  });
+
+  if (error) {
+    redirect("/officer/announcements/new?error=create_failed");
+  }
+
+  revalidatePath("/announcements");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  redirect("/announcements?announcement=created");
+}
+
+export async function updateOfficerAnnouncement(formData: FormData) {
+  const announcementId = getOptionalString(formData, "announcement_id");
+
+  if (!announcementId) {
+    redirect("/announcements");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!canCreateEvents(profile?.role)) {
+    redirect("/dashboard?error=officer_required");
+  }
+
+  const title = getOptionalString(formData, "title");
+  const content = getOptionalString(formData, "content");
+  const startsAt = getOptionalString(formData, "starts_at");
+  const endsAt = getOptionalString(formData, "ends_at");
+  const location = getOptionalString(formData, "location");
+  const imageFile = getOptionalFile(formData, "image");
+  const isPublic = formData.get("is_public") === "on";
+
+  if (!title || !content) {
+    redirect(`/officer/announcements/${announcementId}/edit?error=missing_fields`);
+  }
+
+  if (startsAt && isInvalidTimeFrame(startsAt, endsAt)) {
+    redirect(
+      `/officer/announcements/${announcementId}/edit?error=invalid_time_frame`,
+    );
+  }
+
+  const upload = await uploadAnnouncementImage(supabase, user.id, imageFile);
+
+  if (upload.error) {
+    redirect(
+      `/officer/announcements/${announcementId}/edit?error=image_${upload.error}`,
+    );
+  }
+
+  const { error } = await supabase
+    .from("announcements")
+    .update({
+      title,
+      content,
+      starts_at: startsAt,
+      ends_at: endsAt,
+      location,
+      is_public: isPublic,
+      published_at: startsAt ?? new Date().toISOString(),
+      ...(upload.imageUrl ? { image_url: upload.imageUrl } : {}),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", announcementId)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect(`/officer/announcements/${announcementId}/edit?error=update_failed`);
+  }
+
+  revalidatePath("/announcements");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  redirect("/announcements?announcement=updated");
+}
+
+export async function archiveOfficerAnnouncement(formData: FormData) {
+  const announcementId = getOptionalString(formData, "announcement_id");
+
+  if (!announcementId) {
+    redirect("/announcements");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!canCreateEvents(profile?.role)) {
+    redirect("/dashboard?error=officer_required");
+  }
+
+  const { error } = await supabase
+    .from("announcements")
+    .update({
+      archived_at: new Date().toISOString(),
+      archived_by: user.id,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", announcementId)
+    .is("archived_at", null)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect("/announcements?error=delete_failed");
+  }
+
+  revalidatePath("/announcements");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  redirect("/announcements?announcement=deleted");
 }

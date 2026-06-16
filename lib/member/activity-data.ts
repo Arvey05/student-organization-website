@@ -17,6 +17,7 @@ export async function getActivities(): Promise<ActivityRow[]> {
   const { data, error } = await supabase
     .from("activities")
     .select("*")
+    .is("archived_at", null)
     .order("starts_at", { ascending: true });
 
   if (error) {
@@ -34,6 +35,7 @@ export async function getActivityById(
     .from("activities")
     .select("*")
     .eq("id", activityId)
+    .is("archived_at", null)
     .maybeSingle();
 
   if (error) {
@@ -49,6 +51,7 @@ export async function getPublicActivities(): Promise<ActivityRow[]> {
     .from("activities")
     .select("*")
     .eq("is_public", true)
+    .is("archived_at", null)
     .order("starts_at", { ascending: true });
 
   if (error) {
@@ -63,6 +66,7 @@ export async function getAnnouncements(): Promise<AnnouncementRow[]> {
   const { data, error } = await supabase
     .from("announcements")
     .select("*")
+    .is("archived_at", null)
     .order("published_at", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 
@@ -71,6 +75,24 @@ export async function getAnnouncements(): Promise<AnnouncementRow[]> {
   }
 
   return data ?? [];
+}
+
+export async function getAnnouncementById(
+  announcementId: string,
+): Promise<AnnouncementRow | null> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("announcements")
+    .select("*")
+    .eq("id", announcementId)
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Unable to load announcement: ${error.message}`);
+  }
+
+  return data;
 }
 
 export async function getRegisteredActivities(
@@ -100,7 +122,8 @@ export async function getRegisteredActivities(
   const { data: activities, error: activityError } = await supabase
     .from("activities")
     .select("*")
-    .in("id", activityIds);
+    .in("id", activityIds)
+    .is("archived_at", null);
 
   if (activityError) {
     throw new Error(

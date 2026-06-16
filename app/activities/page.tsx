@@ -1,8 +1,9 @@
 import { CalendarCheck, Clock, MapPin } from "lucide-react";
+import Image from "next/image";
 
 import { PublicPageShell } from "@/components/layout/public-page-shell";
 import { getPublicActivities } from "@/lib/member/activity-data";
-import { formatDateTime } from "@/lib/member/display";
+import { formatDateTimeRange } from "@/lib/member/display";
 
 export default async function ActivitiesPage() {
   const activities = await getPublicActivities();
@@ -50,10 +51,21 @@ export default async function ActivitiesPage() {
                       key={item.id}
                       className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg hover:shadow-blue-100/60"
                     >
+                      {item.image_url ? (
+                        <div className="relative mb-4 aspect-video overflow-hidden rounded-xl">
+                          <Image
+                            src={item.image_url}
+                            alt={`${item.name} cover`}
+                            fill
+                            sizes="(min-width: 1024px) 33vw, 100vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : null}
                       <h3 className="font-bold text-slate-950">{item.name}</h3>
                       <p className="mt-3 flex items-center gap-2 text-sm text-slate-600">
                         <Clock className="size-4" aria-hidden="true" />
-                        {formatDateTime(item.starts_at)}
+                        {formatDateTimeRange(item.starts_at, item.ends_at)}
                       </p>
                       <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
                         <MapPin className="size-4" aria-hidden="true" />

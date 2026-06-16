@@ -1,8 +1,10 @@
 import { CalendarDays, CheckCircle2, Clock, MapPin, Pencil } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import {
+  archiveOfficerEvent,
   cancelActivityRegistration,
   registerForActivity,
 } from "@/app/member/actions";
@@ -11,7 +13,7 @@ import {
   getActivityById,
   getCurrentUserRegistration,
 } from "@/lib/member/activity-data";
-import { formatDateTime } from "@/lib/member/display";
+import { formatDateTimeRange } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 import { canCreateEvents } from "@/lib/supabase/roles";
 
@@ -44,16 +46,28 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
           description={activity.short_description}
         />
 
+        {activity.image_url ? (
+          <div className="relative mt-8 aspect-video overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-sm">
+            <Image
+              src={activity.image_url}
+              alt={`${activity.name} cover`}
+              fill
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
+
         <section className="mt-8 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
           <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className="flex items-center gap-2 text-sm font-semibold text-blue-600">
                   <Clock className="size-4" aria-hidden="true" />
-                  Date and Time
+                  Time Frame
                 </p>
                 <p className="mt-2 font-bold text-slate-950">
-                  {formatDateTime(activity.starts_at)}
+                  {formatDateTimeRange(activity.starts_at, activity.ends_at)}
                 </p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
@@ -123,13 +137,28 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
               )}
 
               {isOfficerEventCreator ? (
-                <Link
-                  href={`/officer/events/${activity.id}/edit`}
-                  className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm"
-                >
-                  <Pencil className="size-4" aria-hidden="true" />
-                  Edit Event
-                </Link>
+                <>
+                  <Link
+                    href={`/officer/events/${activity.id}/edit`}
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm"
+                  >
+                    <Pencil className="size-4" aria-hidden="true" />
+                    Edit Event
+                  </Link>
+                  <form action={archiveOfficerEvent}>
+                    <input
+                      type="hidden"
+                      name="activity_id"
+                      value={activity.id}
+                    />
+                    <button
+                      type="submit"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-sm"
+                    >
+                      Delete Event
+                    </button>
+                  </form>
+                </>
               ) : null}
             </div>
           </aside>
