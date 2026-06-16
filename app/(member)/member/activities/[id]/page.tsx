@@ -96,7 +96,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
           <div className="max-w-4xl">
             <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
               <CalendarDays className="size-4" aria-hidden="true" />
-              Activity details
+              Activity Details
             </p>
             <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-6xl">
               {activity.name}
@@ -169,7 +169,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-white px-5 text-sm font-semibold text-red-700 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-red-500/15"
                   >
                     Cancel Registration
                   </button>
@@ -179,7 +179,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-blue-500 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-950/30 transition hover:-translate-y-0.5 hover:bg-blue-400"
                   >
                     Register for Event
                   </button>
