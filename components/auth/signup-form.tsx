@@ -14,7 +14,7 @@ export function SignupForm() {
     <form action={action}>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm font-semibold text-slate-700">
+          <span className="text-sm font-semibold text-slate-200">
             First name
           </span>
           <input
@@ -23,12 +23,12 @@ export function SignupForm() {
             autoComplete="given-name"
             required
             placeholder="First name"
-            className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
           />
         </label>
 
         <label className="block">
-          <span className="text-sm font-semibold text-slate-700">
+          <span className="text-sm font-semibold text-slate-200">
             Last name
           </span>
           <input
@@ -37,12 +37,12 @@ export function SignupForm() {
             autoComplete="family-name"
             required
             placeholder="Last name"
-            className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
           />
         </label>
 
         <label className="block sm:col-span-2">
-          <span className="text-sm font-semibold text-slate-700">
+          <span className="text-sm font-semibold text-slate-200">
             Email address
           </span>
           <input
@@ -51,24 +51,24 @@ export function SignupForm() {
             autoComplete="email"
             required
             placeholder="member@example.edu"
-            className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
           />
         </label>
 
         <label className="block">
-          <span className="text-sm font-semibold text-slate-700">Password</span>
+          <span className="text-sm font-semibold text-slate-200">Password</span>
           <input
             name="password"
             type="password"
             autoComplete="new-password"
             required
             placeholder="Create password"
-            className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
           />
         </label>
 
         <label className="block">
-          <span className="text-sm font-semibold text-slate-700">
+          <span className="text-sm font-semibold text-slate-200">
             Confirm password
           </span>
           <input
@@ -77,7 +77,7 @@ export function SignupForm() {
             autoComplete="new-password"
             required
             placeholder="Confirm password"
-            className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
           />
         </label>
       </div>
@@ -87,9 +87,9 @@ export function SignupForm() {
         Sign Up
       </AuthSubmitButton>
 
-      <p className="mt-5 text-center text-sm text-slate-600">
+      <p className="mt-5 text-center text-sm text-slate-300">
         Already registered?{" "}
-        <Link href="/login" className="font-semibold text-blue-700">
+        <Link href="/login" className="font-semibold text-blue-200">
           Log in
         </Link>
       </p>

@@ -1,7 +1,6 @@
 import { Award, Eye, HeartHandshake, Target, UsersRound } from "lucide-react";
 
 import { PublicPageShell } from "@/components/layout/public-page-shell";
-import { SectionHeading } from "@/components/ui/section-heading";
 
 const values = [
   {
@@ -46,13 +45,21 @@ export default function AboutPage() {
       title="A student organization built around leadership and service"
       description="Learn who we are, what guides our work, and how officers and committees support members across the academic year."
     >
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-slate-950 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Who we are"
-            title="Organized, student-led, and community-focused"
-            description="The organization connects students with programs, announcements, partners, and opportunities that support growth inside and outside the university."
-          />
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+              Who we are
+            </p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              Organized, student-led, and community-focused
+            </h2>
+            <p className="mt-4 text-base leading-8 text-slate-300">
+              The organization connects students with programs, announcements,
+              partners, and opportunities that support growth inside and
+              outside the university.
+            </p>
+          </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {values.map((item) => {
@@ -61,15 +68,15 @@ export default function AboutPage() {
               return (
                 <article
                   key={item.title}
-                  className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-100/60"
+                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-blue-300/35"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                  <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-100 ring-1 ring-blue-300/20">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
-                  <h2 className="mt-5 text-xl font-bold text-slate-950">
+                  <h2 className="mt-5 text-xl font-bold text-white">
                     {item.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                  <p className="mt-3 text-sm leading-7 text-slate-300">
                     {item.description}
                   </p>
                 </article>
@@ -79,12 +86,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 sm:py-20">
+      <section className="bg-slate-950 py-16 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5">
             <div className="flex items-center gap-3">
-              <UsersRound className="size-6 text-blue-600" aria-hidden="true" />
-              <h2 className="text-2xl font-bold text-slate-950">
+              <UsersRound className="size-6 text-blue-200" aria-hidden="true" />
+              <h2 className="text-2xl font-bold text-white">
                 Organization officers
               </h2>
             </div>
@@ -92,7 +99,7 @@ export default function AboutPage() {
               {officers.map((officer) => (
                 <div
                   key={officer}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
+                  className="rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {officer}
                 </div>
@@ -100,10 +107,10 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5">
             <div className="flex items-center gap-3">
-              <Award className="size-6 text-violet-600" aria-hidden="true" />
-              <h2 className="text-2xl font-bold text-slate-950">
+              <Award className="size-6 text-violet-200" aria-hidden="true" />
+              <h2 className="text-2xl font-bold text-white">
                 Organization committees
               </h2>
             </div>
@@ -111,7 +118,7 @@ export default function AboutPage() {
               {committees.map((committee) => (
                 <div
                   key={committee}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
+                  className="rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {committee}
                 </div>
