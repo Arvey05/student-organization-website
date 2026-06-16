@@ -130,7 +130,7 @@ function ActivityCover({
         fill
         priority={priority}
         sizes="(min-width: 1280px) 1280px, 100vw"
-        className="object-cover"
+        className="object-cover transition duration-700 group-hover:scale-105"
       />
     );
   }
@@ -152,37 +152,49 @@ function ActivityLandscapeCard({
   registeredActivities: RegisteredActivity[];
 }) {
   return (
-    <article className="group w-[min(82vw,23rem)] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 ring-1 ring-white/5 transition duration-300 hover:-translate-y-1 hover:border-blue-300/40 hover:bg-white/[0.09] hover:shadow-blue-950/40">
-      <Link
-        href={`/member/activities/${activity.id}`}
-        className="relative block aspect-video overflow-hidden bg-slate-900"
-      >
+    <article className="group relative aspect-video w-[min(86vw,28rem)] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl shadow-black/30 ring-1 ring-white/5 transition duration-300 hover:-translate-y-1 hover:border-blue-300/50 hover:shadow-blue-950/50">
+      <div className="absolute inset-0 bg-slate-900">
         <ActivityCover activity={activity} />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent opacity-90 transition group-hover:opacity-70" />
-        <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-xs font-semibold capitalize text-white backdrop-blur">
-          {activity.status}
-        </span>
-      </Link>
-      <div className="p-4">
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/55 to-slate-950/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-transparent to-transparent opacity-80" />
+      <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-xs font-semibold capitalize text-white backdrop-blur">
+        {activity.status}
+      </span>
+      <div className="absolute inset-x-0 bottom-0 p-4">
         <Link
           href={`/member/activities/${activity.id}`}
-          className="line-clamp-2 text-base font-bold text-white transition hover:text-blue-200"
+          className="line-clamp-2 text-lg font-black tracking-tight text-white transition hover:text-blue-200"
         >
           {activity.name}
         </Link>
-        <p className="mt-3 flex items-start gap-2 text-sm leading-6 text-slate-300">
-          <Clock className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
+        <p className="mt-2 flex items-start gap-2 text-xs font-semibold leading-5 text-slate-200">
+          <Clock
+            className="mt-0.5 size-3.5 shrink-0 text-blue-200"
+            aria-hidden="true"
+          />
           {formatDateTimeRange(activity.starts_at, activity.ends_at)}
         </p>
-        <p className="mt-2 flex items-center gap-2 text-sm text-slate-300">
-          <MapPin className="size-4 shrink-0 text-blue-200" aria-hidden="true" />
+        <p className="mt-1 flex items-center gap-2 text-xs font-semibold text-slate-200">
+          <MapPin
+            className="size-3.5 shrink-0 text-blue-200"
+            aria-hidden="true"
+          />
           <span className="truncate">{activity.location}</span>
         </p>
-        <div className="mt-4">
+        <div className="mt-3 flex flex-wrap gap-2">
           <ActivityAction
             activity={activity}
             registeredActivities={registeredActivities}
           />
+          {activity.status === "upcoming" ? (
+            <Link
+              href={`/member/activities/${activity.id}`}
+              className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+            >
+              Details
+            </Link>
+          ) : null}
         </div>
       </div>
     </article>
