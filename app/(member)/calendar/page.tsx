@@ -1,8 +1,13 @@
-import { CalendarDays, MapPin, Megaphone } from "lucide-react";
+import {
+  CalendarDays,
+  CheckCircle2,
+  Circle,
+  MapPin,
+  Megaphone,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { MemberPageHeader } from "@/components/member/page-header";
 import {
   getActivities,
   getAnnouncements,
@@ -135,16 +140,40 @@ function announcementToCalendarItem(
   };
 }
 
-function getItemClasses(item: CalendarItem) {
+function getChipClasses(item: CalendarItem) {
   if (item.kind === "announcement") {
-    return "border-violet-200 bg-violet-50 text-violet-800";
+    return "border-violet-200 bg-violet-50 text-violet-800 hover:border-violet-300 hover:bg-violet-100";
   }
 
   if (item.isRegistered) {
-    return "border-emerald-200 bg-emerald-50 text-emerald-800";
+    return "border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 hover:bg-emerald-100";
   }
 
-  return "border-blue-200 bg-blue-50 text-blue-800";
+  return "border-blue-200 bg-blue-50 text-blue-800 hover:border-blue-300 hover:bg-blue-100";
+}
+
+function getAgendaClasses(item: CalendarItem) {
+  if (item.kind === "announcement") {
+    return "border-violet-200 bg-violet-50/80";
+  }
+
+  if (item.isRegistered) {
+    return "border-emerald-200 bg-emerald-50/80";
+  }
+
+  return "border-blue-200 bg-blue-50/80";
+}
+
+function isActivityItem(
+  item: CalendarItem,
+): item is Extract<CalendarItem, { kind: "activity" }> {
+  return item.kind === "activity";
+}
+
+function isAnnouncementItem(
+  item: CalendarItem,
+): item is Extract<CalendarItem, { kind: "announcement" }> {
+  return item.kind === "announcement";
 }
 
 export default async function CalendarPage() {
@@ -172,7 +201,10 @@ export default async function CalendarPage() {
     : new Date();
   const monthDays = getCalendarDays(anchorDate);
   const currentMonth = anchorDate.getMonth();
+  const todayKey = getDateKey(new Date());
   const itemsByDate = new Map<string, CalendarItem[]>();
+  const activityItems = calendarItems.filter(isActivityItem);
+  const announcementItems = calendarItems.filter(isAnnouncementItem);
 
   calendarItems.forEach((item) => {
     const key = getDateKey(item.startsAt);
@@ -182,113 +214,146 @@ export default async function CalendarPage() {
   });
 
   return (
-    <main className="px-4 py-8 sm:px-6 lg:px-8">
+    <main className="bg-slate-100 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <MemberPageHeader
-          eyebrow="Calendar"
-          title="University and organization calendar"
-          description="Track upcoming activities, deadlines, and organization events from your member account."
-        />
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm shadow-slate-200/80">
+          <div className="relative border-b border-slate-200 bg-slate-950 p-6 text-white sm:p-8">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />
+            <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
+                  <CalendarDays className="size-4" aria-hidden="true" />
+                  Calendar
+                </p>
+                <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">
+                  {getMonthLabel(anchorDate)}
+                </h1>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
+                  Track organization activities and announcements in one clean
+                  month view.
+                </p>
+              </div>
 
-        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h2 className="text-2xl font-black text-slate-950">
-                {getMonthLabel(anchorDate)}
-              </h2>
-              <p className="mt-1 text-sm text-slate-600">
-                Month overview for activities and announcements.
+              <div className="grid gap-2 text-xs font-semibold sm:grid-cols-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-emerald-100">
+                  <CheckCircle2 className="size-3.5" aria-hidden="true" />
+                  Registered activities
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/15 px-3 py-2 text-blue-100">
+                  <Circle className="size-3.5" aria-hidden="true" />
+                  Not registered
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-2 text-violet-100">
+                  <Megaphone className="size-3.5" aria-hidden="true" />
+                  Announcements
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {calendarItems.length ? (
+            <>
+              <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                {weekDays.map((day) => (
+                  <div key={day} className="border-r border-slate-200 py-3 last:border-r-0">
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 bg-slate-200 sm:grid-cols-7 sm:gap-px">
+                {monthDays.map((day) => {
+                  const key = getDateKey(day);
+                  const dayItems = itemsByDate.get(key) ?? [];
+                  const isOutsideMonth = day.getMonth() !== currentMonth;
+                  const isToday = key === todayKey;
+
+                  return (
+                    <div
+                      key={key}
+                      className={`min-h-36 bg-white p-3 transition ${
+                        isOutsideMonth ? "bg-slate-50/80" : ""
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p
+                          className={`flex size-8 items-center justify-center rounded-full text-sm font-bold ${
+                            isToday
+                              ? "bg-slate-950 text-white"
+                              : isOutsideMonth
+                                ? "text-slate-300"
+                                : "text-slate-700"
+                          }`}
+                        >
+                          {getDayNumber(day)}
+                        </p>
+                        {dayItems.length ? (
+                          <span className="text-xs font-semibold text-slate-400">
+                            {dayItems.length}
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="mt-3 space-y-1.5">
+                        {dayItems.slice(0, 4).map((item) =>
+                          item.href ? (
+                            <Link
+                              key={`${item.kind}-${item.id}`}
+                              href={item.href}
+                              className={`block truncate rounded-lg border px-2.5 py-1.5 text-left text-xs font-semibold transition hover:-translate-y-0.5 ${getChipClasses(
+                                item,
+                              )}`}
+                            >
+                              {item.title}
+                            </Link>
+                          ) : (
+                            <a
+                              key={`${item.kind}-${item.id}`}
+                              href={`#announcement-${item.id}`}
+                              className={`block truncate rounded-lg border px-2.5 py-1.5 text-left text-xs font-semibold transition hover:-translate-y-0.5 ${getChipClasses(
+                                item,
+                              )}`}
+                            >
+                              {item.title}
+                            </a>
+                          ),
+                        )}
+                        {dayItems.length > 4 ? (
+                          <p className="rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-500">
+                            +{dayItems.length - 4} more
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <div className="p-6">
+              <p className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
+                No calendar events or announcements are available yet.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold">
-              <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-blue-700">
-                Activity
-              </span>
-              <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700">
-                Registered
-              </span>
-              <span className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-violet-700">
-                Announcement
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-7 border-b border-l border-slate-200 text-center text-xs font-bold uppercase text-slate-500">
-            {weekDays.map((day) => (
-              <div key={day} className="border-r border-t border-slate-200 py-3">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 border-l border-slate-200 sm:grid-cols-7">
-            {monthDays.map((day) => {
-              const key = getDateKey(day);
-              const dayItems = itemsByDate.get(key) ?? [];
-              const isOutsideMonth = day.getMonth() !== currentMonth;
-
-              return (
-                <div
-                  key={key}
-                  className="min-h-36 border-b border-r border-slate-200 bg-white p-3"
-                >
-                  <p
-                    className={`text-sm font-bold ${
-                      isOutsideMonth ? "text-slate-300" : "text-slate-700"
-                    }`}
-                  >
-                    {getDayNumber(day)}
-                  </p>
-                  <div className="mt-3 space-y-2">
-                    {dayItems.slice(0, 3).map((item) =>
-                      item.href ? (
-                        <Link
-                          key={`${item.kind}-${item.id}`}
-                          href={item.href}
-                          className={`block rounded-xl border px-3 py-2 text-left text-xs font-semibold transition hover:-translate-y-0.5 ${getItemClasses(
-                            item,
-                          )}`}
-                        >
-                          {item.title}
-                        </Link>
-                      ) : (
-                        <div
-                          key={`${item.kind}-${item.id}`}
-                          className={`rounded-xl border px-3 py-2 text-xs font-semibold ${getItemClasses(
-                            item,
-                          )}`}
-                        >
-                          {item.title}
-                        </div>
-                      ),
-                    )}
-                    {dayItems.length > 3 ? (
-                      <p className="text-xs font-semibold text-slate-500">
-                        +{dayItems.length - 3} more
-                      </p>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          )}
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-950">
-              Activity agenda
-            </h2>
+          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/80">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+                Agenda
+              </p>
+              <h2 className="mt-1 text-xl font-bold text-slate-950">
+                Activity schedule
+              </h2>
+            </div>
             <div className="mt-5 space-y-4">
-              {calendarItems.filter((item) => item.kind === "activity")
-                .length ? (
-                calendarItems
-                  .filter((item) => item.kind === "activity")
-                  .map((item) => (
+              {activityItems.length ? (
+                activityItems.map((item) => (
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`block rounded-2xl border p-4 transition hover:-translate-y-1 ${getItemClasses(
+                      className={`block rounded-2xl border p-4 transition hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-100/60 ${getAgendaClasses(
                         item,
                       )}`}
                     >
@@ -305,7 +370,7 @@ export default async function CalendarPage() {
                           </div>
                         ) : null}
                         <div>
-                          <p className="flex items-center gap-2 text-sm font-semibold">
+                          <p className="flex items-center gap-2 text-sm font-semibold text-slate-700">
                             <CalendarDays
                               className="size-4"
                               aria-hidden="true"
@@ -319,6 +384,11 @@ export default async function CalendarPage() {
                             <MapPin className="size-4" aria-hidden="true" />
                             {item.location}
                           </p>
+                          <p className="mt-3 inline-flex rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-slate-700">
+                            {item.isRegistered
+                              ? "Registered"
+                              : "Not registered"}
+                          </p>
                         </div>
                       </div>
                     </Link>
@@ -331,19 +401,22 @@ export default async function CalendarPage() {
             </div>
           </article>
 
-          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-950">
-              Announcement details
-            </h2>
+          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/80">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-600">
+                Announcements
+              </p>
+              <h2 className="mt-1 text-xl font-bold text-slate-950">
+                Announcement details
+              </h2>
+            </div>
             <div className="mt-5 space-y-4">
-              {calendarItems.filter((item) => item.kind === "announcement")
-                .length ? (
-                calendarItems
-                  .filter((item) => item.kind === "announcement")
-                  .map((item) => (
+              {announcementItems.length ? (
+                announcementItems.map((item) => (
                     <div
                       key={item.id}
-                      className="rounded-2xl border border-violet-200 bg-violet-50 p-4"
+                      id={`announcement-${item.id}`}
+                      className="scroll-mt-24 rounded-2xl border border-violet-200 bg-violet-50/80 p-4 transition target:ring-4 target:ring-violet-200"
                     >
                       {item.imageUrl ? (
                         <div className="relative mb-4 aspect-video overflow-hidden rounded-xl">
