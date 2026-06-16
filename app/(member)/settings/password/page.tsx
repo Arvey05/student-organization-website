@@ -17,12 +17,25 @@ export default function ChangePasswordPage() {
         >
           <label className="block">
             <span className="text-sm font-semibold text-slate-700">
+              Old Password
+            </span>
+            <input
+              name="old_password"
+              type="password"
+              required
+              autoComplete="current-password"
+              className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-semibold text-slate-700">
               New Password
             </span>
             <input
               name="new_password"
               type="password"
               required
+              autoComplete="new-password"
               className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
             />
           </label>
@@ -34,6 +47,7 @@ export default function ChangePasswordPage() {
               name="confirm_password"
               type="password"
               required
+              autoComplete="new-password"
               className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
             />
           </label>

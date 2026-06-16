@@ -58,10 +58,11 @@ export async function updateProfile(formData: FormData) {
 }
 
 export async function changePassword(formData: FormData) {
+  const oldPassword = getOptionalString(formData, "old_password");
   const password = getOptionalString(formData, "new_password");
   const confirmPassword = getOptionalString(formData, "confirm_password");
 
-  if (!password || password !== confirmPassword) {
+  if (!oldPassword || !password || password !== confirmPassword) {
     redirect("/settings/password?error=password_mismatch");
   }
 
