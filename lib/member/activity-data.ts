@@ -26,6 +26,23 @@ export async function getActivities(): Promise<ActivityRow[]> {
   return data ?? [];
 }
 
+export async function getActivityById(
+  activityId: string,
+): Promise<ActivityRow | null> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("activities")
+    .select("*")
+    .eq("id", activityId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Unable to load activity: ${error.message}`);
+  }
+
+  return data;
+}
+
 export async function getPublicActivities(): Promise<ActivityRow[]> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
@@ -64,6 +81,7 @@ export async function getRegisteredActivities(
     .from("activity_registrations")
     .select("*")
     .eq("user_id", userId)
+    .neq("status", "cancelled")
     .order("created_at", { ascending: false });
 
   if (registrationError) {
@@ -98,4 +116,29 @@ export async function getRegisteredActivities(
     const activity = activityById.get(registration.activity_id);
     return activity ? [{ registration, activity }] : [];
   });
+}
+
+export async function getCurrentUserRegistration(activityId: string) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("activity_registrations")
+    .select("*")
+    .eq("activity_id", activityId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Unable to load registration: ${error.message}`);
+  }
+
+  return data;
 }

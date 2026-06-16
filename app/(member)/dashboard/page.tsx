@@ -204,9 +204,12 @@ export default async function DashboardPage() {
                       key={registration.id}
                       className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
                     >
-                      <p className="font-bold text-slate-950">
+                      <Link
+                        href={`/member/activities/${activity.id}`}
+                        className="font-bold text-slate-950 transition hover:text-blue-700"
+                      >
                         {activity.name}
-                      </p>
+                      </Link>
                       <p className="mt-1 text-sm capitalize text-slate-600">
                         {formatDateTime(activity.starts_at)} -{" "}
                         {registration.status.replace("_", " ")}
@@ -231,14 +234,18 @@ export default async function DashboardPage() {
                   const date = getCalendarDateParts(item.starts_at);
 
                   return (
-                    <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
+                    <Link
+                      key={item.id}
+                      href={`/member/activities/${item.id}`}
+                      className="rounded-2xl bg-slate-50 p-4 transition hover:bg-blue-50"
+                    >
                       <p className="text-sm font-black text-blue-700">
                         {date.month} {date.day}
                       </p>
                       <p className="mt-2 text-sm font-semibold text-slate-800">
                         {item.name}
                       </p>
-                    </div>
+                    </Link>
                   );
                 })
               ) : (

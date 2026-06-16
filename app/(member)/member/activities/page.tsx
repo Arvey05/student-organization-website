@@ -62,9 +62,12 @@ export default async function MemberActivitiesPage() {
                       className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
-                        <h3 className="font-bold text-slate-950">
+                        <Link
+                          href={`/member/activities/${activity.id}`}
+                          className="font-bold text-slate-950 transition hover:text-blue-700"
+                        >
                           {activity.name}
-                        </h3>
+                        </Link>
                         <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold capitalize text-blue-700">
                           {activity.status}
                         </span>
@@ -77,6 +80,12 @@ export default async function MemberActivitiesPage() {
                         <MapPin className="size-4" aria-hidden="true" />
                         {activity.location}
                       </p>
+                      <Link
+                        href={`/member/activities/${activity.id}`}
+                        className="mt-4 inline-flex text-sm font-semibold text-blue-700"
+                      >
+                        View details
+                      </Link>
                     </div>
                   ))
                 ) : (

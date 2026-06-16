@@ -26,3 +26,10 @@ export function getCalendarDateParts(value: string) {
     month: new Intl.DateTimeFormat("en-US", { month: "short" }).format(date),
   };
 }
+
+export function formatDateTimeLocalInput(value: string): string {
+  const date = new Date(value);
+  const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+  return offsetDate.toISOString().slice(0, 16);
+}

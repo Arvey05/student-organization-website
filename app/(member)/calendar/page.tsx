@@ -1,4 +1,5 @@
 import { CalendarDays } from "lucide-react";
+import Link from "next/link";
 
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getActivities } from "@/lib/member/activity-data";
@@ -22,8 +23,9 @@ export default async function CalendarPage() {
               const date = getCalendarDateParts(activity.starts_at);
 
               return (
-                <article
+                <Link
                   key={activity.id}
+                  href={`/member/activities/${activity.id}`}
                   className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
                 >
                   <div className="flex items-center gap-4">
@@ -46,7 +48,7 @@ export default async function CalendarPage() {
                       </p>
                     </div>
                   </div>
-                </article>
+                </Link>
               );
             })
           ) : (

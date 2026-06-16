@@ -144,3 +144,144 @@ export async function createOfficerEvent(formData: FormData) {
   revalidatePath("/dashboard");
   redirect("/dashboard?event=created");
 }
+
+export async function registerForActivity(formData: FormData) {
+  const activityId = getOptionalString(formData, "activity_id");
+
+  if (!activityId) {
+    redirect("/member/activities");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase.from("activity_registrations").upsert(
+    {
+      activity_id: activityId,
+      user_id: user.id,
+      status: "registered",
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "activity_id,user_id" },
+  );
+
+  if (error) {
+    redirect(`/member/activities/${activityId}?error=registration_failed`);
+  }
+
+  revalidatePath(`/member/activities/${activityId}`);
+  revalidatePath("/member/activities");
+  revalidatePath("/my-activities");
+  revalidatePath("/dashboard");
+  redirect(`/member/activities/${activityId}`);
+}
+
+export async function cancelActivityRegistration(formData: FormData) {
+  const activityId = getOptionalString(formData, "activity_id");
+
+  if (!activityId) {
+    redirect("/member/activities");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("activity_registrations")
+    .update({
+      status: "cancelled",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("activity_id", activityId)
+    .eq("user_id", user.id)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect(`/member/activities/${activityId}?error=cancellation_failed`);
+  }
+
+  revalidatePath(`/member/activities/${activityId}`);
+  revalidatePath("/member/activities");
+  revalidatePath("/my-activities");
+  revalidatePath("/dashboard");
+  redirect(`/member/activities/${activityId}`);
+}
+
+export async function updateOfficerEvent(formData: FormData) {
+  const activityId = getOptionalString(formData, "activity_id");
+
+  if (!activityId) {
+    redirect("/member/activities");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!canCreateEvents(profile?.role)) {
+    redirect("/dashboard?error=officer_required");
+  }
+
+  const name = getOptionalString(formData, "name");
+  const startsAt = getOptionalString(formData, "starts_at");
+  const shortDescription = getOptionalString(formData, "short_description");
+  const location = getOptionalString(formData, "location");
+  const status = getOptionalString(formData, "status");
+
+  if (!name || !startsAt || !shortDescription || !location) {
+    redirect(`/officer/events/${activityId}/edit?error=missing_fields`);
+  }
+
+  if (status !== "upcoming" && status !== "completed" && status !== "past") {
+    redirect(`/officer/events/${activityId}/edit?error=invalid_status`);
+  }
+
+  const { error } = await supabase
+    .from("activities")
+    .update({
+      name,
+      starts_at: startsAt,
+      short_description: shortDescription,
+      location,
+      status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", activityId)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect(`/officer/events/${activityId}/edit?error=update_failed`);
+  }
+
+  revalidatePath(`/member/activities/${activityId}`);
+  revalidatePath("/activities");
+  revalidatePath("/member/activities");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  redirect(`/member/activities/${activityId}`);
+}
