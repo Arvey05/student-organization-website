@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { canCreateEvents } from "@/lib/supabase/roles";
 
@@ -27,31 +28,49 @@ export async function updateProfile(formData: FormData) {
     redirect("/login");
   }
 
-  await supabase.from("profiles").upsert({
-    id: user.id,
-    msc_id_code: getOptionalString(formData, "msc_id_code"),
-    school_id_code: getOptionalString(formData, "school_id_code"),
-    last_name: getOptionalString(formData, "last_name"),
-    first_name: getOptionalString(formData, "first_name"),
-    middle_name: getOptionalString(formData, "middle_name"),
-    extension: getOptionalString(formData, "extension"),
-    college: getOptionalString(formData, "college"),
-    program: getOptionalString(formData, "program"),
-    year_level: getOptionalString(formData, "year_level"),
-    section: getOptionalString(formData, "section"),
-    phone: getOptionalString(formData, "phone"),
-    personal_email: getOptionalString(formData, "personal_email"),
-    bulsu_email: getOptionalString(formData, "bulsu_email"),
-    social_media_url: getOptionalString(formData, "social_media_url"),
-    address: getOptionalString(formData, "address"),
-    date_of_birth: getOptionalString(formData, "date_of_birth"),
-    gender: getOptionalString(formData, "gender"),
-    guardian_name: getOptionalString(formData, "guardian_name"),
-    guardian_relationship: getOptionalString(formData, "guardian_relationship"),
-    guardian_phone: getOptionalString(formData, "guardian_phone"),
-    guardian_address: getOptionalString(formData, "guardian_address"),
-    updated_at: new Date().toISOString(),
-  });
+  const { error: ensureError } = await ensureMemberProfile(supabase, user);
+
+  if (ensureError) {
+    redirect("/profile/edit?error=profile_setup_failed");
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      msc_id_code: getOptionalString(formData, "msc_id_code"),
+      school_id_code: getOptionalString(formData, "school_id_code"),
+      last_name: getOptionalString(formData, "last_name"),
+      first_name: getOptionalString(formData, "first_name"),
+      middle_name: getOptionalString(formData, "middle_name"),
+      extension: getOptionalString(formData, "extension"),
+      college: getOptionalString(formData, "college"),
+      program: getOptionalString(formData, "program"),
+      major: getOptionalString(formData, "major"),
+      year_level: getOptionalString(formData, "year_level"),
+      section: getOptionalString(formData, "section"),
+      phone: getOptionalString(formData, "phone"),
+      personal_email: getOptionalString(formData, "personal_email"),
+      bulsu_email: getOptionalString(formData, "bulsu_email"),
+      social_media_url: getOptionalString(formData, "social_media_url"),
+      address: getOptionalString(formData, "address"),
+      date_of_birth: getOptionalString(formData, "date_of_birth"),
+      gender: getOptionalString(formData, "gender"),
+      guardian_name: getOptionalString(formData, "guardian_name"),
+      guardian_relationship: getOptionalString(
+        formData,
+        "guardian_relationship",
+      ),
+      guardian_phone: getOptionalString(formData, "guardian_phone"),
+      guardian_address: getOptionalString(formData, "guardian_address"),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", user.id)
+    .select("id")
+    .single();
+
+  if (error) {
+    redirect("/profile/edit?error=update_failed");
+  }
 
   revalidatePath("/profile");
   redirect("/profile");

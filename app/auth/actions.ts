@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 
+import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type AuthResult = {
@@ -25,13 +26,27 @@ export async function login(
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (data.user) {
+    const { error: profileError } = await ensureMemberProfile(
+      supabase,
+      data.user,
+      { email },
+    );
+
+    if (profileError) {
+      return {
+        error: `Signed in, but profile setup failed: ${profileError.message}`,
+      };
+    }
   }
 
   redirect("/dashboard");
@@ -56,7 +71,7 @@ export async function signup(
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -69,6 +84,20 @@ export async function signup(
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (data.user && data.session) {
+    const { error: profileError } = await ensureMemberProfile(
+      supabase,
+      data.user,
+      { firstName, lastName, email },
+    );
+
+    if (profileError) {
+      return {
+        error: `Account created, but profile setup failed: ${profileError.message}`,
+      };
+    }
   }
 
   redirect("/dashboard");

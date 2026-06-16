@@ -1,5 +1,6 @@
 import type { AuthUser } from "@supabase/supabase-js";
 
+import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 
@@ -23,11 +24,40 @@ export async function getCurrentMemberProfile(): Promise<MemberProfile> {
     throw new Error("Authenticated user is required.");
   }
 
-  const { data: profile } = await supabase
+  const {
+    data: initialProfile,
+    error: profileError,
+  } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .maybeSingle();
+
+  if (profileError) {
+    throw new Error(`Unable to load member profile: ${profileError.message}`);
+  }
+
+  let profile = initialProfile;
+
+  if (!profile) {
+    const { error: ensureError } = await ensureMemberProfile(supabase, user);
+
+    if (ensureError) {
+      throw new Error(`Unable to create member profile: ${ensureError.message}`);
+    }
+
+    const retry = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (retry.error) {
+      throw new Error(`Unable to reload member profile: ${retry.error.message}`);
+    }
+
+    profile = retry.data;
+  }
 
   const firstName =
     profile?.first_name ??
