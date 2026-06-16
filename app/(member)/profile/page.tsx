@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Mail, ShieldCheck, UserRound } from "lucide-react";
 
 import { MemberPageHeader } from "@/components/member/page-header";
-import { formatRole } from "@/lib/member/mock-data";
+import { formatRole } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 
 export default async function ProfilePage() {

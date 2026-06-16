@@ -2,40 +2,29 @@ import { CalendarCheck, CheckCircle2, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
 
 import { MemberPageHeader } from "@/components/member/page-header";
-import { memberActivities } from "@/lib/member/mock-data";
+import { getActivities } from "@/lib/member/activity-data";
+import { formatDateTime } from "@/lib/member/display";
 
-const activitySections = [
-  {
-    title: "Upcoming activities",
-    description: "Activities open for registration or pre-registration.",
-    items: memberActivities.filter((activity) => activity.status !== "Joined"),
-  },
-  {
-    title: "Completed activities",
-    description: "Activities you have already joined or completed.",
-    items: memberActivities.filter((activity) => activity.status === "Joined"),
-  },
-  {
-    title: "Past activities",
-    description: "Previous organization activities kept for member reference.",
-    items: [
-      {
-        name: "Year-End Recognition",
-        date: "March 15, 2026",
-        location: "Main Auditorium",
-        status: "Completed",
-      },
-      {
-        name: "Partner Appreciation Day",
-        date: "February 20, 2026",
-        location: "Campus Grounds",
-        status: "Completed",
-      },
-    ],
-  },
-];
+export default async function MemberActivitiesPage() {
+  const activities = await getActivities();
+  const activitySections = [
+    {
+      title: "Upcoming activities",
+      description: "Activities open for registration or pre-registration.",
+      items: activities.filter((activity) => activity.status === "upcoming"),
+    },
+    {
+      title: "Completed activities",
+      description: "Activities you have already joined or completed.",
+      items: activities.filter((activity) => activity.status === "completed"),
+    },
+    {
+      title: "Past activities",
+      description: "Previous organization activities kept for member reference.",
+      items: activities.filter((activity) => activity.status === "past"),
+    },
+  ];
 
-export default function MemberActivitiesPage() {
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -66,29 +55,35 @@ export default function MemberActivitiesPage() {
               </div>
 
               <div className="mt-6 space-y-4">
-                {section.items.map((activity) => (
-                  <div
-                    key={activity.name}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-bold text-slate-950">
-                        {activity.name}
-                      </h3>
-                      <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700">
-                        {activity.status}
-                      </span>
+                {section.items.length ? (
+                  section.items.map((activity) => (
+                    <div
+                      key={activity.id}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <h3 className="font-bold text-slate-950">
+                          {activity.name}
+                        </h3>
+                        <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold capitalize text-blue-700">
+                          {activity.status}
+                        </span>
+                      </div>
+                      <p className="mt-3 flex items-center gap-2 text-sm text-slate-600">
+                        <Clock className="size-4" aria-hidden="true" />
+                        {formatDateTime(activity.starts_at)}
+                      </p>
+                      <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                        <MapPin className="size-4" aria-hidden="true" />
+                        {activity.location}
+                      </p>
                     </div>
-                    <p className="mt-3 flex items-center gap-2 text-sm text-slate-600">
-                      <Clock className="size-4" aria-hidden="true" />
-                      {activity.date}
-                    </p>
-                    <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-                      <MapPin className="size-4" aria-hidden="true" />
-                      {activity.location}
-                    </p>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                    No activities available yet.
+                  </p>
+                )}
               </div>
             </article>
           ))}

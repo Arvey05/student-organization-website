@@ -10,17 +10,32 @@ import {
 
 import { MemberPageHeader } from "@/components/member/page-header";
 import {
-  calendarPreview,
+  getActivities,
+  getAnnouncements,
+  getRegisteredActivities,
+} from "@/lib/member/activity-data";
+import {
+  formatDateTime,
   formatRole,
-  memberActivities,
-  memberAnnouncements,
-} from "@/lib/member/mock-data";
+  getCalendarDateParts,
+} from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 import { canCreateEvents } from "@/lib/supabase/roles";
 
 export default async function DashboardPage() {
   const { displayName, profile, user } = await getCurrentMemberProfile();
+  const [activities, announcements, registeredActivities] = await Promise.all([
+    getActivities(),
+    getAnnouncements(),
+    getRegisteredActivities(user.id),
+  ]);
   const isOfficerEventCreator = canCreateEvents(profile?.role);
+  const preRegisteredCount = registeredActivities.filter(
+    ({ registration }) => registration.status === "pre_registered",
+  ).length;
+  const registeredCount = registeredActivities.filter(
+    ({ registration }) => registration.status === "registered",
+  ).length;
 
   const stats = [
     {
@@ -28,8 +43,16 @@ export default async function DashboardPage() {
       value: profile?.member_status ?? "active",
       icon: ShieldCheck,
     },
-    { label: "Events Joined", value: "1", icon: ClipboardCheck },
-    { label: "Pre-Registered", value: "1", icon: CalendarDays },
+    {
+      label: "Events Joined",
+      value: String(registeredCount),
+      icon: ClipboardCheck,
+    },
+    {
+      label: "Pre-Registered",
+      value: String(preRegisteredCount),
+      icon: CalendarDays,
+    },
   ];
 
   return (
@@ -118,19 +141,25 @@ export default async function DashboardPage() {
               <Megaphone className="size-5 text-violet-600" aria-hidden="true" />
             </div>
             <div className="mt-5 space-y-4">
-              {memberAnnouncements.slice(0, 2).map((item) => (
-                <div key={item.title} className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-blue-600">
-                    {item.date}
-                  </p>
-                  <h3 className="mt-1 font-bold text-slate-950">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {item.summary}
-                  </p>
-                </div>
-              ))}
+              {announcements.length ? (
+                announcements.slice(0, 2).map((item) => (
+                  <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs font-semibold text-blue-600">
+                      {formatDateTime(item.published_at ?? item.created_at)}
+                    </p>
+                    <h3 className="mt-1 font-bold text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {item.content}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                  No important updates at the moment.
+                </p>
+              )}
             </div>
           </article>
         </section>
@@ -167,17 +196,28 @@ export default async function DashboardPage() {
               My registered activities
             </h2>
             <div className="mt-5 space-y-3">
-              {memberActivities.map((activity) => (
-                <div
-                  key={activity.name}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                >
-                  <p className="font-bold text-slate-950">{activity.name}</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    {activity.date} - {activity.status}
-                  </p>
-                </div>
-              ))}
+              {registeredActivities.length ? (
+                registeredActivities
+                  .slice(0, 3)
+                  .map(({ activity, registration }) => (
+                    <div
+                      key={registration.id}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                    >
+                      <p className="font-bold text-slate-950">
+                        {activity.name}
+                      </p>
+                      <p className="mt-1 text-sm capitalize text-slate-600">
+                        {formatDateTime(activity.starts_at)} -{" "}
+                        {registration.status.replace("_", " ")}
+                      </p>
+                    </div>
+                  ))
+              ) : (
+                <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                  You have not registered for any activities yet.
+                </p>
+              )}
             </div>
           </article>
 
@@ -186,16 +226,26 @@ export default async function DashboardPage() {
               University calendar
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {calendarPreview.map((item) => (
-                <div key={item.title} className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-sm font-black text-blue-700">
-                    {item.month} {item.day}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-slate-800">
-                    {item.title}
-                  </p>
-                </div>
-              ))}
+              {activities.length ? (
+                activities.slice(0, 4).map((item) => {
+                  const date = getCalendarDateParts(item.starts_at);
+
+                  return (
+                    <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
+                      <p className="text-sm font-black text-blue-700">
+                        {date.month} {date.day}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-slate-800">
+                        {item.name}
+                      </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 sm:col-span-2">
+                  No calendar events available yet.
+                </p>
+              )}
             </div>
           </article>
         </section>
