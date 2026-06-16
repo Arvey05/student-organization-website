@@ -81,7 +81,7 @@ export function SiteFooter() {
               className="flex items-center gap-3 transition hover:text-blue-700"
             >
               <Mail className="size-4" aria-hidden="true" />
-              organization@example.edu
+              bulsu.officialmsc@gmail.com 
             </a>
             <p className="flex items-center gap-3">
               <MapPin className="size-4" aria-hidden="true" />
