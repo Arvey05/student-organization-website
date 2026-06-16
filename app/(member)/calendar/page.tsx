@@ -142,26 +142,26 @@ function announcementToCalendarItem(
 
 function getChipClasses(item: CalendarItem) {
   if (item.kind === "announcement") {
-    return "border-violet-200 bg-violet-50 text-violet-800 hover:border-violet-300 hover:bg-violet-100";
+    return "border-violet-300/30 bg-violet-400/15 text-violet-100 hover:border-violet-200/60 hover:bg-violet-400/25";
   }
 
   if (item.isRegistered) {
-    return "border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 hover:bg-emerald-100";
+    return "border-teal-300/30 bg-teal-400/15 text-teal-100 hover:border-teal-200/60 hover:bg-teal-400/25";
   }
 
-  return "border-blue-200 bg-blue-50 text-blue-800 hover:border-blue-300 hover:bg-blue-100";
+  return "border-blue-300/30 bg-blue-500/15 text-blue-100 hover:border-blue-200/60 hover:bg-blue-500/25";
 }
 
 function getAgendaClasses(item: CalendarItem) {
   if (item.kind === "announcement") {
-    return "border-violet-200 bg-violet-50/80";
+    return "border-violet-300/20 bg-violet-400/10";
   }
 
   if (item.isRegistered) {
-    return "border-emerald-200 bg-emerald-50/80";
+    return "border-teal-300/20 bg-teal-400/10";
   }
 
-  return "border-blue-200 bg-blue-50/80";
+  return "border-blue-300/20 bg-blue-500/10";
 }
 
 function isActivityItem(
@@ -214,10 +214,10 @@ export default async function CalendarPage() {
   });
 
   return (
-    <main className="bg-slate-100 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
+    <main className="min-h-screen overflow-hidden bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm shadow-slate-200/80">
-          <div className="relative border-b border-slate-200 bg-slate-950 p-6 text-white sm:p-8">
+        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/30 ring-1 ring-white/5 backdrop-blur">
+          <div className="relative border-b border-white/10 bg-slate-950 p-6 text-white sm:p-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />
             <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
@@ -235,7 +235,7 @@ export default async function CalendarPage() {
               </div>
 
               <div className="grid gap-2 text-xs font-semibold sm:grid-cols-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-emerald-100">
+                <span className="inline-flex items-center gap-2 rounded-full border border-teal-300/30 bg-teal-400/10 px-3 py-2 text-teal-100">
                   <CheckCircle2 className="size-3.5" aria-hidden="true" />
                   Registered activities
                 </span>
@@ -253,15 +253,15 @@ export default async function CalendarPage() {
 
           {calendarItems.length ? (
             <>
-              <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+              <div className="grid grid-cols-7 border-b border-white/10 bg-white/[0.03] text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
                 {weekDays.map((day) => (
-                  <div key={day} className="border-r border-slate-200 py-3 last:border-r-0">
+                  <div key={day} className="border-r border-white/10 py-3 last:border-r-0">
                     {day}
                   </div>
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 bg-slate-200 sm:grid-cols-7 sm:gap-px">
+              <div className="grid grid-cols-1 bg-white/10 sm:grid-cols-7 sm:gap-px">
                 {monthDays.map((day) => {
                   const key = getDateKey(day);
                   const dayItems = itemsByDate.get(key) ?? [];
@@ -271,24 +271,24 @@ export default async function CalendarPage() {
                   return (
                     <div
                       key={key}
-                      className={`min-h-36 bg-white p-3 transition ${
-                        isOutsideMonth ? "bg-slate-50/80" : ""
+                      className={`min-h-36 bg-slate-950/70 p-3 transition hover:bg-slate-900/90 ${
+                        isOutsideMonth ? "bg-slate-950/35" : ""
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <p
                           className={`flex size-8 items-center justify-center rounded-full text-sm font-bold ${
                             isToday
-                              ? "bg-slate-950 text-white"
+                              ? "bg-blue-500 text-white shadow-lg shadow-blue-950/40"
                               : isOutsideMonth
-                                ? "text-slate-300"
-                                : "text-slate-700"
+                                ? "text-slate-600"
+                                : "text-slate-200"
                           }`}
                         >
                           {getDayNumber(day)}
                         </p>
                         {dayItems.length ? (
-                          <span className="text-xs font-semibold text-slate-400">
+                          <span className="text-xs font-semibold text-slate-500">
                             {dayItems.length}
                           </span>
                         ) : null}
@@ -318,7 +318,7 @@ export default async function CalendarPage() {
                           ),
                         )}
                         {dayItems.length > 4 ? (
-                          <p className="rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-500">
+                          <p className="rounded-lg bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-slate-400">
                             +{dayItems.length - 4} more
                           </p>
                         ) : null}
@@ -330,7 +330,7 @@ export default async function CalendarPage() {
             </>
           ) : (
             <div className="p-6">
-              <p className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
+              <p className="rounded-3xl border border-dashed border-white/15 bg-white/[0.04] p-6 text-sm text-slate-300">
                 No calendar events or announcements are available yet.
               </p>
             </div>
@@ -338,12 +338,12 @@ export default async function CalendarPage() {
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/80">
+          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-black/20 ring-1 ring-white/5 backdrop-blur">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                 Agenda
               </p>
-              <h2 className="mt-1 text-xl font-bold text-slate-950">
+              <h2 className="mt-1 text-xl font-bold text-white">
                 Activity schedule
               </h2>
             </div>
@@ -353,7 +353,7 @@ export default async function CalendarPage() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`block rounded-2xl border p-4 transition hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-100/60 ${getAgendaClasses(
+                      className={`block rounded-2xl border p-4 transition hover:-translate-y-1 hover:border-blue-200/40 hover:shadow-lg hover:shadow-blue-950/30 ${getAgendaClasses(
                         item,
                       )}`}
                     >
@@ -370,21 +370,21 @@ export default async function CalendarPage() {
                           </div>
                         ) : null}
                         <div>
-                          <p className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                          <p className="flex items-center gap-2 text-sm font-semibold text-slate-300">
                             <CalendarDays
                               className="size-4"
                               aria-hidden="true"
                             />
                             {formatDateTimeRange(item.startsAt, item.endsAt)}
                           </p>
-                          <h3 className="mt-2 text-lg font-bold text-slate-950">
+                          <h3 className="mt-2 text-lg font-bold text-white">
                             {item.title}
                           </h3>
-                          <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                          <p className="mt-2 flex items-center gap-2 text-sm text-slate-300">
                             <MapPin className="size-4" aria-hidden="true" />
                             {item.location}
                           </p>
-                          <p className="mt-3 inline-flex rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-slate-700">
+                          <p className="mt-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
                             {item.isRegistered
                               ? "Registered"
                               : "Not registered"}
@@ -394,19 +394,19 @@ export default async function CalendarPage() {
                     </Link>
                   ))
               ) : (
-                <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                <p className="rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-4 text-sm text-slate-300">
                   No activities available yet.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/80">
+          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-black/20 ring-1 ring-white/5 backdrop-blur">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-200">
                 Announcements
               </p>
-              <h2 className="mt-1 text-xl font-bold text-slate-950">
+              <h2 className="mt-1 text-xl font-bold text-white">
                 Announcement details
               </h2>
             </div>
@@ -416,7 +416,7 @@ export default async function CalendarPage() {
                     <div
                       key={item.id}
                       id={`announcement-${item.id}`}
-                      className="scroll-mt-24 rounded-2xl border border-violet-200 bg-violet-50/80 p-4 transition target:ring-4 target:ring-violet-200"
+                      className="scroll-mt-24 rounded-2xl border border-violet-300/20 bg-violet-400/10 p-4 transition target:ring-4 target:ring-violet-300/25"
                     >
                       {item.imageUrl ? (
                         <div className="relative mb-4 aspect-video overflow-hidden rounded-xl">
@@ -429,20 +429,20 @@ export default async function CalendarPage() {
                           />
                         </div>
                       ) : null}
-                      <p className="flex items-center gap-2 text-sm font-semibold text-violet-700">
+                      <p className="flex items-center gap-2 text-sm font-semibold text-violet-200">
                         <Megaphone className="size-4" aria-hidden="true" />
                         {item.endsAt
                           ? formatDateTimeRange(item.startsAt, item.endsAt)
                           : formatDateTime(item.startsAt)}
                       </p>
-                      <h3 className="mt-2 text-lg font-bold text-slate-950">
+                      <h3 className="mt-2 text-lg font-bold text-white">
                         {item.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                      <p className="mt-2 text-sm leading-6 text-slate-300">
                         {item.description}
                       </p>
                       {item.location ? (
-                        <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-slate-600">
+                        <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-slate-300">
                           <MapPin className="size-4" aria-hidden="true" />
                           {item.location}
                         </p>
@@ -450,7 +450,7 @@ export default async function CalendarPage() {
                     </div>
                   ))
               ) : (
-                <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                <p className="rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-4 text-sm text-slate-300">
                   No announcements available yet.
                 </p>
               )}
