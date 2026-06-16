@@ -1,4 +1,10 @@
-import { CalendarCheck, Clock, MapPin, TicketCheck } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarCheck,
+  Clock,
+  MapPin,
+  TicketCheck,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,7 +48,10 @@ function getFeaturedActivity(activities: ActivityRow[], now: Date) {
   }
 
   return [...activities]
-    .filter((activity) => activity.status === "past")
+    .filter(
+      (activity) =>
+        activity.status === "past" || activity.status === "completed",
+    )
     .sort(
       (firstActivity, secondActivity) =>
         new Date(secondActivity.starts_at).getTime() -
@@ -76,7 +85,7 @@ function ActivityAction({
     return (
       <Link
         href={`/member/activities/${activity.id}`}
-        className="inline-flex h-11 items-center justify-center rounded-full border border-white/30 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+        className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
       >
         View Details
       </Link>
@@ -88,7 +97,7 @@ function ActivityAction({
       <input type="hidden" name="activity_id" value={activity.id} />
       <button
         type="submit"
-        className="inline-flex h-11 items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-sm"
+        className="inline-flex h-11 items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
       >
         Cancel Registration
       </button>
@@ -98,7 +107,7 @@ function ActivityAction({
       <input type="hidden" name="activity_id" value={activity.id} />
       <button
         type="submit"
-        className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20"
+        className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
       >
         Join Event
       </button>
@@ -127,7 +136,11 @@ function ActivityCover({
   }
 
   return (
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.55),transparent_32%),linear-gradient(135deg,#0f172a,#1d4ed8_52%,#7c3aed)]" />
+    <div className="absolute inset-0 overflow-hidden bg-slate-950">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(37,99,235,0.72),transparent_28%),radial-gradient(circle_at_80%_12%,rgba(14,165,233,0.32),transparent_24%),linear-gradient(135deg,#020617,#0f172a_45%,#1d4ed8)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)] opacity-30" />
+      <div className="absolute bottom-4 left-5 right-5 h-16 rounded-full bg-blue-500/20 blur-2xl" />
+    </div>
   );
 }
 
@@ -139,29 +152,30 @@ function ActivityLandscapeCard({
   registeredActivities: RegisteredActivity[];
 }) {
   return (
-    <article className="w-[min(78vw,22rem)] shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/60">
+    <article className="group w-[min(82vw,23rem)] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 ring-1 ring-white/5 transition duration-300 hover:-translate-y-1 hover:border-blue-300/40 hover:bg-white/[0.09] hover:shadow-blue-950/40">
       <Link
         href={`/member/activities/${activity.id}`}
-        className="relative block aspect-video bg-slate-200"
+        className="relative block aspect-video overflow-hidden bg-slate-900"
       >
         <ActivityCover activity={activity} />
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold capitalize text-slate-800 backdrop-blur">
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent opacity-90 transition group-hover:opacity-70" />
+        <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-xs font-semibold capitalize text-white backdrop-blur">
           {activity.status}
         </span>
       </Link>
       <div className="p-4">
         <Link
           href={`/member/activities/${activity.id}`}
-          className="line-clamp-2 text-base font-bold text-slate-950 transition hover:text-blue-700"
+          className="line-clamp-2 text-base font-bold text-white transition hover:text-blue-200"
         >
           {activity.name}
         </Link>
-        <p className="mt-3 flex items-start gap-2 text-sm text-slate-600">
-          <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+        <p className="mt-3 flex items-start gap-2 text-sm leading-6 text-slate-300">
+          <Clock className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
           {formatDateTimeRange(activity.starts_at, activity.ends_at)}
         </p>
-        <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-          <MapPin className="size-4 shrink-0" aria-hidden="true" />
+        <p className="mt-2 flex items-center gap-2 text-sm text-slate-300">
+          <MapPin className="size-4 shrink-0 text-blue-200" aria-hidden="true" />
           <span className="truncate">{activity.location}</span>
         </p>
         <div className="mt-4">
@@ -185,16 +199,23 @@ function ActivityRowSection({
   registeredActivities: RegisteredActivity[];
 }) {
   return (
-    <section className="mt-8">
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="text-xl font-bold text-slate-950">{title}</h2>
-        <span className="text-sm font-semibold text-slate-500">
+    <section className="mt-10">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-200">
+            Browse
+          </p>
+          <h2 className="mt-2 text-2xl font-black tracking-tight text-white">
+            {title}
+          </h2>
+        </div>
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
           {activities.length} {activities.length === 1 ? "event" : "events"}
         </span>
       </div>
 
       {activities.length ? (
-        <div className="mt-4 flex gap-4 overflow-x-auto pb-4">
+        <div className="mt-5 flex snap-x gap-4 overflow-x-auto pb-5 [scrollbar-color:rgba(96,165,250,0.45)_transparent]">
           {activities.map((activity) => (
             <ActivityLandscapeCard
               key={activity.id}
@@ -204,7 +225,7 @@ function ActivityRowSection({
           ))}
         </div>
       ) : (
-        <p className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-white p-5 text-sm text-slate-600">
+        <p className="mt-5 rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-5 text-sm text-slate-300">
           No activities available in this section yet.
         </p>
       )}
@@ -220,66 +241,68 @@ export default async function MemberActivitiesPage() {
   ]);
   const now = new Date();
   const featuredActivity = getFeaturedActivity(activities, now);
-  const upcomingActivities = activities
-    .filter((activity) => activity.status === "upcoming")
-    .filter((activity) => activity.id !== featuredActivity?.id);
-  const pastActivities = activities
-    .filter((activity) => activity.status === "past")
-    .filter((activity) => activity.id !== featuredActivity?.id);
+  const upcomingActivities = activities.filter(
+    (activity) => activity.status === "upcoming",
+  );
+  const pastActivities = activities.filter(
+    (activity) =>
+      activity.status === "past" || activity.status === "completed",
+  );
 
   return (
-    <main className="bg-slate-950 pb-10 text-white">
-      <section className="relative min-h-[34rem] overflow-hidden">
+    <main className="min-h-screen overflow-hidden bg-slate-950 pb-12 text-white">
+      <section className="relative min-h-[36rem] overflow-hidden">
         {featuredActivity ? (
           <>
             <ActivityCover activity={featuredActivity} priority />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/10" />
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
-            <div className="relative z-10 mx-auto flex min-h-[34rem] max-w-7xl flex-col justify-end px-4 py-10 sm:px-6 lg:px-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/78 to-slate-950/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-950 to-transparent" />
+            <div className="relative z-10 mx-auto flex min-h-[36rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
               <div className="max-w-3xl">
-                <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
                   <CalendarCheck className="size-4" aria-hidden="true" />
                   Featured Activity
                 </p>
-                <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-6xl">
+                <h1 className="mt-5 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
                   {featuredActivity.name}
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
                   {featuredActivity.short_description}
                 </p>
                 <div className="mt-5 grid gap-3 text-sm font-semibold text-slate-200 sm:grid-cols-2">
-                  <p className="flex items-center gap-2">
-                    <Clock className="size-4" aria-hidden="true" />
+                  <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                    <Clock className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
                     {formatDateTimeRange(
                       featuredActivity.starts_at,
                       featuredActivity.ends_at,
                     )}
                   </p>
-                  <p className="flex items-center gap-2">
-                    <MapPin className="size-4" aria-hidden="true" />
+                  <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                    <MapPin className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
                     {featuredActivity.location}
                   </p>
                 </div>
                 <div className="mt-7 flex flex-wrap gap-3">
-                  {featuredActivity.status === "upcoming" ? (
-                    <ActivityAction
-                      activity={featuredActivity}
-                      registeredActivities={registeredActivities}
-                    />
-                  ) : null}
+                  <ActivityAction
+                    activity={featuredActivity}
+                    registeredActivities={registeredActivities}
+                  />
                   <Link
                     href={`/member/activities/${featuredActivity.id}`}
-                    className="inline-flex h-11 items-center justify-center rounded-full border border-white/30 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
                   >
                     View Details
+                    <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </div>
               </div>
             </div>
           </>
         ) : (
-          <div className="mx-auto flex min-h-[26rem] max-w-7xl flex-col justify-end px-4 py-10 sm:px-6 lg:px-8">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+          <div className="relative mx-auto flex min-h-[30rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%)]" />
+            <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur">
               <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                 <TicketCheck className="size-4" aria-hidden="true" />
                 Activities
@@ -294,22 +317,28 @@ export default async function MemberActivitiesPage() {
         )}
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="-mt-4 rounded-3xl border border-white/10 bg-white p-5 text-slate-950 shadow-2xl shadow-black/20">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="absolute -top-28 left-1/2 h-56 w-[42rem] -translate-x-1/2 rounded-full bg-blue-600/15 blur-3xl" />
+        <div className="relative -mt-2 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-200">
                 Activities
               </p>
-              <h2 className="mt-1 text-2xl font-black">
+              <h2 className="mt-2 text-3xl font-black tracking-tight text-white">
                 Discover and join organization events
               </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-400">
+                Browse real upcoming programs and past activity highlights from
+                the organization.
+              </p>
             </div>
             <Link
               href="/my-activities"
-              className="inline-flex h-11 items-center justify-center rounded-full border border-slate-200 bg-slate-950 px-5 text-sm font-semibold text-white"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/10 bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
             >
               My Activities
+              <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
 
