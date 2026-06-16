@@ -8,10 +8,10 @@ import {
   cancelActivityRegistration,
   registerForActivity,
 } from "@/app/member/actions";
-import { MemberPageHeader } from "@/components/member/page-header";
 import {
   getActivityById,
   getCurrentUserRegistration,
+  type ActivityRow,
 } from "@/lib/member/activity-data";
 import { formatDateTimeRange } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
@@ -20,6 +20,29 @@ import { canCreateEvents } from "@/lib/supabase/roles";
 type PageProps = {
   params: Promise<{ id: string }>;
 };
+
+function ActivityBackdrop({ activity }: { activity: ActivityRow }) {
+  if (activity.image_url) {
+    return (
+      <Image
+        src={activity.image_url}
+        alt={`${activity.name} cover`}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+    );
+  }
+
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-slate-950">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(37,99,235,0.72),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(14,165,233,0.32),transparent_24%),linear-gradient(135deg,#020617,#0f172a_46%,#1d4ed8)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)] opacity-30" />
+      <div className="absolute bottom-8 left-8 right-8 h-24 rounded-full bg-blue-500/20 blur-3xl" />
+    </div>
+  );
+}
 
 export default async function MemberActivityDetailsPage({ params }: PageProps) {
   const { id } = await params;
@@ -36,90 +59,117 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
   const isOfficerEventCreator = canCreateEvents(profile?.role);
   const activeRegistration =
     registration && registration.status !== "cancelled" ? registration : null;
+  const detailItems = [
+    {
+      label: "Time Frame",
+      value: formatDateTimeRange(activity.starts_at, activity.ends_at),
+      icon: Clock,
+    },
+    {
+      label: "Location",
+      value: activity.location,
+      icon: MapPin,
+    },
+    {
+      label: "Status",
+      value: activity.status,
+      icon: CalendarDays,
+    },
+    {
+      label: "Registration",
+      value: activeRegistration
+        ? activeRegistration.status.replace("_", " ")
+        : "Not registered",
+      icon: CheckCircle2,
+    },
+  ];
 
   return (
-    <main className="px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <MemberPageHeader
-          eyebrow="Activity details"
-          title={activity.name}
-          description={activity.short_description}
-        />
+    <main className="min-h-screen overflow-hidden bg-slate-950 pb-12 text-white">
+      <section className="relative min-h-[38rem] overflow-hidden">
+        <ActivityBackdrop activity={activity} />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/78 to-slate-950/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-slate-950 to-transparent" />
 
-        {activity.image_url ? (
-          <div className="relative mt-8 aspect-video overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-sm">
-            <Image
-              src={activity.image_url}
-              alt={`${activity.name} cover`}
-              fill
-              sizes="(min-width: 1024px) 1024px, 100vw"
-              className="object-cover"
-            />
-          </div>
-        ) : null}
-
-        <section className="mt-8 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  <Clock className="size-4" aria-hidden="true" />
-                  Time Frame
-                </p>
-                <p className="mt-2 font-bold text-slate-950">
-                  {formatDateTimeRange(activity.starts_at, activity.ends_at)}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  <MapPin className="size-4" aria-hidden="true" />
-                  Location
-                </p>
-                <p className="mt-2 font-bold text-slate-950">
-                  {activity.location}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  <CalendarDays className="size-4" aria-hidden="true" />
-                  Status
-                </p>
-                <p className="mt-2 font-bold capitalize text-slate-950">
-                  {activity.status}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  <CheckCircle2 className="size-4" aria-hidden="true" />
-                  Registration
-                </p>
-                <p className="mt-2 font-bold capitalize text-slate-950">
-                  {activeRegistration
-                    ? activeRegistration.status.replace("_", " ")
-                    : "Not registered"}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <h2 className="text-lg font-bold text-slate-950">
-                Short Description
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                {activity.short_description}
+        <div className="relative z-10 mx-auto flex min-h-[38rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
+          <div className="max-w-4xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
+              <CalendarDays className="size-4" aria-hidden="true" />
+              Activity details
+            </p>
+            <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-6xl">
+              {activity.name}
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
+              {activity.short_description}
+            </p>
+            <div className="mt-6 grid gap-3 text-sm font-semibold text-slate-200 sm:grid-cols-2">
+              <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                <Clock
+                  className="mt-0.5 size-4 shrink-0 text-blue-200"
+                  aria-hidden="true"
+                />
+                {formatDateTimeRange(activity.starts_at, activity.ends_at)}
+              </p>
+              <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                <MapPin
+                  className="mt-0.5 size-4 shrink-0 text-blue-200"
+                  aria-hidden="true"
+                />
+                {activity.location}
               </p>
             </div>
-          </article>
+          </div>
+        </div>
+      </section>
 
-          <aside className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-950">Actions</h2>
-            <div className="mt-5 space-y-3">
+      <section className="relative mx-auto -mt-8 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.25fr_0.75fr] lg:px-8">
+        <div className="absolute left-1/2 top-0 h-56 w-[42rem] -translate-x-1/2 rounded-full bg-blue-600/15 blur-3xl" />
+
+        <article className="relative rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/25 ring-1 ring-white/5 backdrop-blur">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {detailItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-white/10 bg-slate-950/45 p-4"
+                >
+                  <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
+                    <Icon className="size-4" aria-hidden="true" />
+                    {item.label}
+                  </p>
+                  <p className="mt-2 font-bold capitalize text-white">
+                    {item.value}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-white/10 bg-slate-950/45 p-5">
+            <h2 className="text-lg font-bold text-white">Short Description</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-300">
+              {activity.short_description || "No description available."}
+            </p>
+          </div>
+        </article>
+
+        <aside className="relative rounded-3xl border border-white/10 bg-white/[0.08] p-6 shadow-2xl shadow-black/25 ring-1 ring-white/5 backdrop-blur">
+          <h2 className="text-xl font-bold text-white">Actions</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            Manage your registration or open officer tools if your role allows
+            it.
+          </p>
+          <div className="mt-5 space-y-3">
               {activeRegistration ? (
                 <form action={cancelActivityRegistration}>
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-sm"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-white px-5 text-sm font-semibold text-red-700 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
                   >
                     Cancel Registration
                   </button>
@@ -129,7 +179,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
                   >
                     Register for Event
                   </button>
@@ -140,7 +190,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                 <>
                   <Link
                     href={`/officer/events/${activity.id}/edit`}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-white/15"
                   >
                     <Pencil className="size-4" aria-hidden="true" />
                     Edit Event
@@ -153,17 +203,16 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                     />
                     <button
                       type="submit"
-                      className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-sm"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 shadow-sm transition hover:-translate-y-0.5 hover:bg-red-500/15"
                     >
                       Delete Event
                     </button>
                   </form>
                 </>
               ) : null}
-            </div>
-          </aside>
-        </section>
-      </div>
+          </div>
+        </aside>
+      </section>
     </main>
   );
 }
