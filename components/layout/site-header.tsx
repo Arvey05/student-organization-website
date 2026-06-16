@@ -24,9 +24,10 @@ const navItems = [
 
 const authenticatedNavItems = [
   { label: "Dashboard", href: "/dashboard" },
-  { label: "Profile", href: "/profile" },
   { label: "Activities", href: "/member/activities" },
   { label: "Calendar", href: "/calendar" },
+  { label: "My Activities", href: "/my-activities" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export async function SiteHeader() {

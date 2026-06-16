@@ -14,7 +14,6 @@ import {
   Megaphone,
   Settings,
   SquarePlus,
-  UserRound,
 } from "lucide-react";
 
 import { logout } from "@/app/auth/actions";
@@ -23,8 +22,6 @@ import { canCreateEvents } from "@/lib/supabase/roles";
 
 const memberNav = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Profile", href: "/profile", icon: UserRound },
-  { label: "Announcements", href: "/announcements", icon: Megaphone },
   { label: "Activities", href: "/member/activities", icon: ClipboardList },
   { label: "Calendar", href: "/calendar", icon: CalendarDays },
   { label: "My Activities", href: "/my-activities", icon: ClipboardList },
