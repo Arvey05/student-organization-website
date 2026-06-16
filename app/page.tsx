@@ -14,6 +14,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const floatingCards = [
   {
@@ -74,7 +75,13 @@ const activities = [
   "Partner-led campus activities",
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const activitiesHref = user ? "/member/activities" : "/activities";
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
       <SiteHeader />
@@ -106,7 +113,7 @@ export default function Home() {
                     Join Now
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </ButtonLink>
-                  <ButtonLink href="/activities" variant="secondary">
+                  <ButtonLink href={activitiesHref} variant="secondary">
                     View Activities
                   </ButtonLink>
                 </div>

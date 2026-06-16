@@ -1,6 +1,16 @@
 import Link from "next/link";
-import { CalendarDays, LogIn, Sparkles, UserPlus } from "lucide-react";
+import {
+  CalendarDays,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  Sparkles,
+  UserPlus,
+  UserRound,
+} from "lucide-react";
 
+import { logout } from "@/app/auth/actions";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { ButtonLink } from "@/components/ui/button-link";
 
 const navItems = [
@@ -12,7 +22,20 @@ const navItems = [
   { label: "Calendar", href: "/calendar" },
 ];
 
-export function SiteHeader() {
+const authenticatedNavItems = [
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Profile", href: "/profile" },
+  { label: "Activities", href: "/member/activities" },
+  { label: "Calendar", href: "/calendar" },
+];
+
+export async function SiteHeader() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const activeNavItems = user ? authenticatedNavItems : navItems;
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/70 bg-white/75 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
@@ -34,7 +57,7 @@ export function SiteHeader() {
           aria-label="Main navigation"
           className="hidden items-center gap-1 rounded-full border border-slate-200 bg-white/80 p-1 shadow-sm lg:flex"
         >
-          {navItems.map((item) => (
+          {activeNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -46,19 +69,47 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
-          <ButtonLink href="/login" variant="secondary" className="gap-2">
-            <LogIn className="size-4" aria-hidden="true" />
-            Log In
-          </ButtonLink>
-          <ButtonLink href="/signup" className="gap-2">
-            <UserPlus className="size-4" aria-hidden="true" />
-            Sign Up
-          </ButtonLink>
+          {user ? (
+            <>
+              <ButtonLink href="/dashboard" variant="secondary" className="gap-2">
+                <LayoutDashboard className="size-4" aria-hidden="true" />
+                Dashboard
+              </ButtonLink>
+              <form action={logout}>
+                <button
+                  type="submit"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/20"
+                >
+                  <LogOut className="size-4" aria-hidden="true" />
+                  Logout
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <ButtonLink href="/login" variant="secondary" className="gap-2">
+                <LogIn className="size-4" aria-hidden="true" />
+                Log In
+              </ButtonLink>
+              <ButtonLink href="/signup" className="gap-2">
+                <UserPlus className="size-4" aria-hidden="true" />
+                Sign Up
+              </ButtonLink>
+            </>
+          )}
         </div>
 
-        <ButtonLink href="/calendar" variant="secondary" className="gap-2 sm:hidden">
-          <CalendarDays className="size-4" aria-hidden="true" />
-          Calendar
+        <ButtonLink
+          href={user ? "/dashboard" : "/calendar"}
+          variant="secondary"
+          className="gap-2 sm:hidden"
+        >
+          {user ? (
+            <UserRound className="size-4" aria-hidden="true" />
+          ) : (
+            <CalendarDays className="size-4" aria-hidden="true" />
+          )}
+          {user ? "Portal" : "Calendar"}
         </ButtonLink>
       </div>
 
@@ -66,7 +117,7 @@ export function SiteHeader() {
         aria-label="Mobile navigation"
         className="flex gap-2 overflow-x-auto border-t border-slate-100 px-4 py-3 lg:hidden"
       >
-        {navItems.map((item) => (
+        {activeNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}

@@ -120,6 +120,7 @@ export async function createOfficerEvent(formData: FormData) {
   }
 
   revalidatePath("/activities");
+  revalidatePath("/member/activities");
   revalidatePath("/calendar");
   revalidatePath("/dashboard");
   redirect("/dashboard?event=created");

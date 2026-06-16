@@ -19,7 +19,7 @@ const memberNav = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Profile", href: "/profile", icon: UserRound },
   { label: "Announcements", href: "/announcements", icon: Megaphone },
-  { label: "Activities", href: "/activities", icon: ClipboardList },
+  { label: "Activities", href: "/member/activities", icon: ClipboardList },
   { label: "Calendar", href: "/calendar", icon: CalendarDays },
   { label: "Registered", href: "/my-activities", icon: ClipboardList },
   { label: "Settings", href: "/settings", icon: Settings },
