@@ -12,7 +12,7 @@ export default async function MyActivitiesPage() {
 
   return (
     <main className="min-h-screen bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[96rem]">
         <section className="border-y border-white/10 bg-[#02040a] p-6 sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
             My Activities

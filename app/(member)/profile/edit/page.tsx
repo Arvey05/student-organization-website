@@ -63,7 +63,7 @@ export default async function EditProfilePage() {
 
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[96rem]">
         <MemberPageHeader
           eyebrow="Edit profile"
           title="Update your member information"

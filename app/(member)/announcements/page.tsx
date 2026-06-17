@@ -17,7 +17,7 @@ export default async function AnnouncementsPage() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-[96rem]">
         <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(37,99,235,0.35),transparent_28%),radial-gradient(circle_at_85%_0%,rgba(124,58,237,0.18),transparent_24%)]" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">

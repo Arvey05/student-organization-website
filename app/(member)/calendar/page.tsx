@@ -215,7 +215,7 @@ export default async function CalendarPage() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[96rem]">
         <section className="overflow-hidden border-y border-white/10 bg-[#02040a]">
           <div className="relative border-b border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />

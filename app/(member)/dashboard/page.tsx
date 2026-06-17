@@ -116,7 +116,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[96rem]">
         <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(37,99,235,0.5),transparent_30%),radial-gradient(circle_at_85%_0%,rgba(59,130,246,0.28),transparent_25%)]" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-blue-950/60 to-transparent" />

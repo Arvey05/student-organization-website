@@ -29,7 +29,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
 
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-5xl">
         <MemberPageHeader
           eyebrow="Officer tools"
           title="Edit event or program"

@@ -270,7 +270,7 @@ export default async function MemberActivitiesPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/78 to-slate-950/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-950 to-transparent" />
-            <div className="relative z-10 mx-auto flex min-h-[36rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
+            <div className="relative z-10 mx-auto flex min-h-[36rem] max-w-[96rem] flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
               <div className="max-w-3xl">
                 <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
                   <CalendarCheck className="size-4" aria-hidden="true" />
@@ -312,7 +312,7 @@ export default async function MemberActivitiesPage() {
             </div>
           </>
         ) : (
-          <div className="relative mx-auto flex min-h-[30rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
+          <div className="relative mx-auto flex min-h-[30rem] max-w-[96rem] flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%)]" />
             <div className="relative border-y border-white/10 bg-[#02040a] p-8">
               <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
@@ -329,7 +329,7 @@ export default async function MemberActivitiesPage() {
         )}
       </section>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[96rem] px-4 sm:px-6 lg:px-8">
         <div className="absolute -top-28 left-1/2 h-56 w-[42rem] -translate-x-1/2  bg-blue-500/15 blur-3xl" />
         <div className="relative -mt-2 border-t border-white/10 pt-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
