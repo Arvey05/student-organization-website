@@ -128,7 +128,7 @@ function PlatformPreview({
   featuredAnnouncement?: AnnouncementRow;
 }) {
   return (
-    <div className="relative mx-auto mt-14 max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:mt-12 lg:px-8">
       <div className="absolute inset-x-8 -top-10 h-32 bg-blue-500/25 blur-3xl" />
       <div className="relative overflow-hidden border border-white/10 bg-[#020712] shadow-2xl shadow-blue-950/50">
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
@@ -319,23 +319,23 @@ export default async function Home() {
           <div className="absolute inset-0 -z-10 opacity-35 [background-image:radial-gradient(rgba(255,255,255,0.4)_0.7px,transparent_0.7px)] [background-size:24px_24px]" />
           <div className="absolute left-1/2 top-[46%] -z-10 h-px w-[70vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-300/50 to-transparent" />
 
-          <div className="mx-auto flex min-h-[calc(100vh-88px)] max-w-7xl flex-col items-center px-4 pb-16 pt-24 text-center sm:px-6 lg:px-8">
+          <div className="mx-auto flex min-h-[calc(100vh-76px)] max-w-7xl flex-col items-center px-4 pb-12 pt-16 text-center sm:px-6 sm:pt-20 lg:px-8">
             <div className="inline-flex items-center gap-2 border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">
               <BadgeCheck className="size-4" aria-hidden="true" />
               Official Student Organization Platform
             </div>
 
-            <h1 className="mt-8 max-w-5xl text-5xl font-black tracking-tight text-white sm:text-7xl lg:text-8xl">
+            <h1 className="mt-7 max-w-5xl text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
               Empowering Students Through Leadership, Service, and Community
             </h1>
 
-            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               A modern digital home for members to discover activities, follow
               announcements, join programs, and stay connected with the
               organization.
             </p>
 
-            <div className="mt-9 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+            <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
               <Link
                 href={joinHref}
                 className="inline-flex h-12 items-center justify-center gap-2 bg-blue-500 px-7 text-sm font-black text-white shadow-[0_0_34px_rgba(37,99,235,0.55)] transition hover:bg-blue-400"

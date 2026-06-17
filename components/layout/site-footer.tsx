@@ -16,11 +16,11 @@ const logoItems = ["School Logo", "OSOA Logo", "Government Logo"];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-slate-950 text-white">
+    <footer className="border-t border-white/10 bg-[#02040a] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">
+            <div className="flex size-12 items-center justify-center border border-blue-300/25 bg-blue-500/15 text-sm font-black text-blue-100">
               MSC
             </div>
             <div>
@@ -37,7 +37,7 @@ export function SiteFooter() {
             {logoItems.map((item) => (
               <div
                 key={item}
-                className="flex aspect-[4/3] items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.04] px-3 text-center text-xs font-semibold text-slate-400"
+                className="flex aspect-[4/3] items-center justify-center border border-dashed border-white/15 bg-white/[0.03] px-3 text-center text-xs font-semibold text-slate-400"
               >
                 {item}
               </div>

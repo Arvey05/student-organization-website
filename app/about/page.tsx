@@ -45,35 +45,35 @@ export default function AboutPage() {
       title="A student organization built around leadership and service"
       description="Learn who we are, what guides our work, and how officers and committees support members across the academic year."
     >
-      <section className="bg-slate-950 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+      <section className="border-b border-white/10 bg-[#02040a] py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
               Who we are
             </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">
               Organized, student-led, and community-focused
             </h2>
-            <p className="mt-4 text-base leading-8 text-slate-300">
+            <p className="mt-5 text-base leading-8 text-slate-300">
               The organization connects students with programs, announcements,
               partners, and opportunities that support growth inside and
               outside the university.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="grid gap-px bg-white/10 md:grid-cols-3">
             {values.map((item) => {
               const Icon = item.icon;
 
               return (
                 <article
                   key={item.title}
-                  className="border-t border-white/10 bg-slate-950 p-6 transition hover:border-blue-300/35"
+                  className="bg-slate-950 p-6 transition hover:bg-slate-900/80"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
+                  <div className="flex size-12 items-center justify-center bg-blue-500/15 text-blue-100">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
-                  <h2 className="mt-5 text-xl font-bold text-white">
+                  <h2 className="mt-5 text-xl font-black text-white">
                     {item.title}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-slate-300">
@@ -86,12 +86,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-slate-950 py-16 sm:py-20">
+      <section className="bg-[#030814] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="border-y border-white/10 bg-slate-950 p-6">
             <div className="flex items-center gap-3">
               <UsersRound className="size-6 text-blue-200" aria-hidden="true" />
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-black text-white">
                 Organization officers
               </h2>
             </div>
@@ -99,7 +99,7 @@ export default function AboutPage() {
               {officers.map((officer) => (
                 <div
                   key={officer}
-                  className="border-t border-white/10 bg-black px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="border-l border-blue-300/40 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {officer}
                 </div>
@@ -110,7 +110,7 @@ export default function AboutPage() {
           <div className="border-y border-white/10 bg-slate-950 p-6">
             <div className="flex items-center gap-3">
               <Award className="size-6 text-blue-200" aria-hidden="true" />
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-black text-white">
                 Organization committees
               </h2>
             </div>
@@ -118,7 +118,7 @@ export default function AboutPage() {
               {committees.map((committee) => (
                 <div
                   key={committee}
-                  className="border-t border-white/10 bg-black px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="border-l border-violet-300/35 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {committee}
                 </div>

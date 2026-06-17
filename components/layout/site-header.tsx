@@ -11,7 +11,7 @@ import {
 
 import { logout } from "@/app/auth/actions";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { ButtonLink } from "@/components/ui/button-link";
+import { SiteNavLinks } from "@/components/layout/site-nav-links";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -38,14 +38,14 @@ export async function SiteHeader() {
   const activeNavItems = user ? authenticatedNavItems : navItems;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#02040a]/90 text-white backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <span className="flex size-11 items-center justify-center rounded-md bg-blue-600 text-white">
+          <span className="flex size-10 items-center justify-center border border-blue-300/25 bg-blue-500/15 text-blue-100 shadow-[0_0_22px_rgba(37,99,235,0.25)]">
             <Sparkles className="size-5" aria-hidden="true" />
           </span>
           <span className="leading-tight">
-            <span className="block text-sm font-black tracking-tight text-white">
+            <span className="block text-sm font-black tracking-[0.02em] text-white">
               BulSU MSC
             </span>
             <span className="block text-xs font-medium text-slate-400">
@@ -56,30 +56,25 @@ export async function SiteHeader() {
 
         <nav
           aria-label="Main navigation"
-          className="hidden items-center gap-1 border border-white/10 bg-slate-950 p-1 lg:flex"
+          className="hidden items-center gap-2 lg:flex"
         >
-          {activeNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+          <SiteNavLinks items={activeNavItems} />
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
           {user ? (
             <>
-              <ButtonLink href="/dashboard" variant="secondary" className="gap-2">
+              <Link
+                href="/dashboard"
+                className="inline-flex h-10 items-center justify-center gap-2 border border-white/10 px-4 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-white"
+              >
                 <LayoutDashboard className="size-4" aria-hidden="true" />
                 Dashboard
-              </ButtonLink>
+              </Link>
               <form action={logout}>
                 <button
                   type="submit"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
+                  className="inline-flex h-10 items-center justify-center gap-2 bg-blue-500 px-4 text-sm font-semibold text-white transition hover:bg-blue-400"
                 >
                   <LogOut className="size-4" aria-hidden="true" />
                   Logout
@@ -88,22 +83,27 @@ export async function SiteHeader() {
             </>
           ) : (
             <>
-              <ButtonLink href="/login" variant="secondary" className="gap-2">
+              <Link
+                href="/login"
+                className="inline-flex h-10 items-center justify-center gap-2 px-3 text-sm font-semibold text-slate-300 transition hover:text-white"
+              >
                 <LogIn className="size-4" aria-hidden="true" />
                 Log In
-              </ButtonLink>
-              <ButtonLink href="/signup" className="gap-2">
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex h-10 items-center justify-center gap-2 bg-blue-500 px-4 text-sm font-semibold text-white shadow-[0_0_22px_rgba(37,99,235,0.35)] transition hover:bg-blue-400"
+              >
                 <UserPlus className="size-4" aria-hidden="true" />
                 Sign Up
-              </ButtonLink>
+              </Link>
             </>
           )}
         </div>
 
-        <ButtonLink
+        <Link
           href={user ? "/dashboard" : "/calendar"}
-          variant="secondary"
-          className="gap-2 sm:hidden"
+          className="inline-flex h-10 items-center justify-center gap-2 border border-white/10 px-3 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 sm:hidden"
         >
           {user ? (
             <UserRound className="size-4" aria-hidden="true" />
@@ -111,22 +111,14 @@ export async function SiteHeader() {
             <CalendarDays className="size-4" aria-hidden="true" />
           )}
           {user ? "Portal" : "Calendar"}
-        </ButtonLink>
+        </Link>
       </div>
 
       <nav
         aria-label="Mobile navigation"
-        className="flex gap-2 overflow-x-auto border-t border-white/10 px-4 py-3 lg:hidden"
+        className="flex gap-4 overflow-x-auto border-t border-white/10 px-4 py-2 lg:hidden"
       >
-        {activeNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="shrink-0 rounded-md border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-blue-300/40 hover:text-white"
-          >
-            {item.label}
-          </Link>
-        ))}
+        <SiteNavLinks items={activeNavItems} mobile />
       </nav>
     </header>
   );
