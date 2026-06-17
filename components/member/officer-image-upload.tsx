@@ -45,6 +45,8 @@ export function OfficerImageUpload({
   const [error, setError] = React.useState<string | null>(null);
   const [isUploading, setIsUploading] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const hiddenInputRef = React.useRef<HTMLInputElement>(null);
+  const imageUrlRef = React.useRef(currentImageUrl ?? "");
 
   React.useEffect(() => {
     const form = containerRef.current?.closest("form");
@@ -65,16 +67,31 @@ export function OfficerImageUpload({
       }
     }
 
+    function handleFormData(event: FormDataEvent) {
+      event.formData.set(hiddenInputName, imageUrlRef.current);
+    }
+
     form.addEventListener("submit", handleSubmit);
+    form.addEventListener("formdata", handleFormData);
 
     return () => {
       form.removeEventListener("submit", handleSubmit);
+      form.removeEventListener("formdata", handleFormData);
     };
-  }, [error, isUploading]);
+  }, [error, hiddenInputName, isUploading]);
+
+  function setSubmittedImageUrl(nextImageUrl: string) {
+    imageUrlRef.current = nextImageUrl;
+    setImageUrl(nextImageUrl);
+
+    if (hiddenInputRef.current) {
+      hiddenInputRef.current.value = nextImageUrl;
+    }
+  }
 
   async function uploadFile(file: File) {
     setError(null);
-    setImageUrl("");
+    setSubmittedImageUrl("");
 
     if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
       setPreviewUrl(currentImageUrl ?? "");
@@ -116,13 +133,14 @@ export function OfficerImageUpload({
         });
 
       if (uploadError) {
+        setSubmittedImageUrl(currentImageUrl ?? "");
         setError(uploadError.message || "Image upload failed.");
         setPreviewUrl(currentImageUrl ?? "");
         return;
       }
 
       const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-      setImageUrl(data.publicUrl);
+      setSubmittedImageUrl(data.publicUrl);
       setPreviewUrl(data.publicUrl);
       setError(null);
     } finally {
@@ -132,7 +150,12 @@ export function OfficerImageUpload({
 
   return (
     <div ref={containerRef} className="mt-4">
-      <input type="hidden" name={hiddenInputName} value={imageUrl} />
+      <input
+        ref={hiddenInputRef}
+        type="hidden"
+        name={hiddenInputName}
+        defaultValue={imageUrl}
+      />
       <label className="block">
         <span className="text-sm font-semibold text-slate-200">{label}</span>
         <input
@@ -144,7 +167,7 @@ export function OfficerImageUpload({
             if (file) {
               void uploadFile(file);
             } else {
-              setImageUrl(currentImageUrl ?? "");
+              setSubmittedImageUrl(currentImageUrl ?? "");
               setPreviewUrl(currentImageUrl ?? "");
               setError(null);
             }

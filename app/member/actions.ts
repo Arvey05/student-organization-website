@@ -28,6 +28,32 @@ function getOptionalString(formData: FormData, key: string): string | null {
   return trimmed.length ? trimmed : null;
 }
 
+function getOptionalImageUrl(formData: FormData): string | null {
+  const imageUrl = getOptionalString(formData, "image_url");
+
+  if (!imageUrl) {
+    return null;
+  }
+
+  if (/[\s<>"']/.test(imageUrl)) {
+    return null;
+  }
+
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    return imageUrl;
+  }
+
+  if (/^[a-z0-9][a-z0-9/_-]*\.[a-z0-9]+$/i.test(imageUrl)) {
+    return imageUrl;
+  }
+
+  return null;
+}
+
+function hasInvalidImageUrl(formData: FormData): boolean {
+  return Boolean(getOptionalString(formData, "image_url")) && !getOptionalImageUrl(formData);
+}
+
 function isInvalidTimeFrame(startsAt: string, endsAt: string | null): boolean {
   return Boolean(endsAt && new Date(endsAt) < new Date(startsAt));
 }
@@ -204,7 +230,7 @@ export async function createOfficerEvent(formData: FormData) {
   const endsAt = getOptionalString(formData, "ends_at");
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
-  const imageUrl = getOptionalString(formData, "image_url");
+  const imageUrl = getOptionalImageUrl(formData);
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect("/officer/events/new?error=missing_fields");
@@ -212,6 +238,10 @@ export async function createOfficerEvent(formData: FormData) {
 
   if (isInvalidTimeFrame(startsAt, endsAt)) {
     redirect("/officer/events/new?error=invalid_time_frame");
+  }
+
+  if (hasInvalidImageUrl(formData)) {
+    redirect("/officer/events/new?error=invalid_image_url");
   }
 
   const { error } = await supabase.from("activities").insert({
@@ -344,7 +374,7 @@ export async function updateOfficerEvent(formData: FormData) {
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
   const status = getOptionalString(formData, "status");
-  const imageUrl = getOptionalString(formData, "image_url");
+  const imageUrl = getOptionalImageUrl(formData);
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect(`/officer/events/${activityId}/edit?error=missing_fields`);
@@ -356,6 +386,10 @@ export async function updateOfficerEvent(formData: FormData) {
 
   if (status !== "upcoming" && status !== "completed" && status !== "past") {
     redirect(`/officer/events/${activityId}/edit?error=invalid_status`);
+  }
+
+  if (hasInvalidImageUrl(formData)) {
+    redirect(`/officer/events/${activityId}/edit?error=invalid_image_url`);
   }
 
   const { error } = await supabase
@@ -463,7 +497,7 @@ export async function createOfficerAnnouncement(formData: FormData) {
   const startsAt = getOptionalString(formData, "starts_at");
   const endsAt = getOptionalString(formData, "ends_at");
   const location = getOptionalString(formData, "location");
-  const imageUrl = getOptionalString(formData, "image_url");
+  const imageUrl = getOptionalImageUrl(formData);
   const isPublic = formData.get("is_public") === "on";
 
   if (!title || !content) {
@@ -472,6 +506,10 @@ export async function createOfficerAnnouncement(formData: FormData) {
 
   if (startsAt && isInvalidTimeFrame(startsAt, endsAt)) {
     redirect("/officer/announcements/new?error=invalid_time_frame");
+  }
+
+  if (hasInvalidImageUrl(formData)) {
+    redirect("/officer/announcements/new?error=invalid_image_url");
   }
 
   const { error } = await supabase.from("announcements").insert({
@@ -527,7 +565,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
   const startsAt = getOptionalString(formData, "starts_at");
   const endsAt = getOptionalString(formData, "ends_at");
   const location = getOptionalString(formData, "location");
-  const imageUrl = getOptionalString(formData, "image_url");
+  const imageUrl = getOptionalImageUrl(formData);
   const isPublic = formData.get("is_public") === "on";
 
   if (!title || !content) {
@@ -538,6 +576,10 @@ export async function updateOfficerAnnouncement(formData: FormData) {
     redirect(
       `/officer/announcements/${announcementId}/edit?error=invalid_time_frame`,
     );
+  }
+
+  if (hasInvalidImageUrl(formData)) {
+    redirect(`/officer/announcements/${announcementId}/edit?error=invalid_image_url`);
   }
 
   const { error } = await supabase
