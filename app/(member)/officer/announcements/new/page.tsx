@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { createOfficerAnnouncement } from "@/app/member/actions";
+import { OfficerForm } from "@/components/member/officer-form";
 import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
@@ -22,7 +23,7 @@ export default async function NewOfficerAnnouncementPage() {
           description="Publish booths, bazaars, reminders, and organization updates for members."
         />
 
-        <form
+        <OfficerForm
           action={createOfficerAnnouncement}
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
@@ -101,7 +102,7 @@ export default async function NewOfficerAnnouncementPage() {
           >
             Create Announcement
           </button>
-        </form>
+        </OfficerForm>
       </div>
     </main>
   );

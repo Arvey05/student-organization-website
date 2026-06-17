@@ -4,6 +4,7 @@ import {
   archiveOfficerAnnouncement,
   updateOfficerAnnouncement,
 } from "@/app/member/actions";
+import { OfficerForm } from "@/components/member/officer-form";
 import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getAnnouncementById } from "@/lib/member/activity-data";
@@ -41,7 +42,7 @@ export default async function EditOfficerAnnouncementPage({
           description="Update organization announcements shown to members."
         />
 
-        <form
+        <OfficerForm
           action={updateOfficerAnnouncement}
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
@@ -137,7 +138,7 @@ export default async function EditOfficerAnnouncementPage({
           >
             Save Announcement
           </button>
-        </form>
+        </OfficerForm>
 
         <form
           action={archiveOfficerAnnouncement}

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { archiveOfficerEvent, updateOfficerEvent } from "@/app/member/actions";
+import { OfficerForm } from "@/components/member/officer-form";
 import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getActivityById } from "@/lib/member/activity-data";
@@ -36,7 +37,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           description="Update official organization activity details."
         />
 
-        <form
+        <OfficerForm
           action={updateOfficerEvent}
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
@@ -136,7 +137,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           >
             Save Event
           </button>
-        </form>
+        </OfficerForm>
 
         <form
           action={archiveOfficerEvent}

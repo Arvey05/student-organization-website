@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { createOfficerEvent } from "@/app/member/actions";
+import { OfficerForm } from "@/components/member/officer-form";
 import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
@@ -22,7 +23,7 @@ export default async function NewOfficerEventPage() {
           description="President, VPIA, and VPEA accounts may create official organization events and programs."
         />
 
-        <form
+        <OfficerForm
           action={createOfficerEvent}
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
@@ -96,7 +97,7 @@ export default async function NewOfficerEventPage() {
           >
             Create Event
           </button>
-        </form>
+        </OfficerForm>
       </div>
     </main>
   );
