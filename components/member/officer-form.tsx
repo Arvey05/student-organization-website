@@ -34,6 +34,23 @@ function getFolder(bucket: OfficerImageBucket) {
   return bucket === "activity-images" ? "events" : "announcements";
 }
 
+function createUploadSupabaseClient() {
+  try {
+    return createSupabaseBrowserClient();
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.includes("NEXT_PUBLIC_SUPABASE")
+    ) {
+      throw new Error(
+        "Image upload is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in this environment.",
+      );
+    }
+
+    throw error;
+  }
+}
+
 async function uploadOfficerImage(file: File, bucket: OfficerImageBucket) {
   if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
     throw new Error("Upload a JPG, PNG, WebP, or GIF image.");
@@ -43,7 +60,7 @@ async function uploadOfficerImage(file: File, bucket: OfficerImageBucket) {
     throw new Error("Image must be 10 MB or smaller.");
   }
 
-  const supabase = createSupabaseBrowserClient();
+  const supabase = createUploadSupabaseClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
