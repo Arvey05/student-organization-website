@@ -313,42 +313,79 @@ export default async function Home() {
 
       <main>
         <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#02040a]">
-          <div className="absolute inset-0 -z-30 bg-[linear-gradient(180deg,#02040a_0%,#061121_52%,#02040a_100%)]" />
-          <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_50%_58%,rgba(37,99,235,0.34),transparent_25%),radial-gradient(circle_at_50%_82%,rgba(124,58,237,0.28),transparent_28%)]" />
-          <div className="absolute inset-x-[-20%] bottom-0 -z-10 h-[46%] origin-bottom bg-[linear-gradient(rgba(96,165,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(96,165,250,0.16)_1px,transparent_1px)] bg-[size:56px_56px] [transform:perspective(520px)_rotateX(62deg)]" />
-          <div className="absolute inset-0 -z-10 opacity-35 [background-image:radial-gradient(rgba(255,255,255,0.4)_0.7px,transparent_0.7px)] [background-size:24px_24px]" />
-          <div className="absolute left-1/2 top-[46%] -z-10 h-px w-[70vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-300/50 to-transparent" />
+          <div className="absolute inset-0 -z-30 bg-[linear-gradient(180deg,#02040a_0%,#05070b_58%,#02040a_100%)]" />
+          <div className="absolute inset-x-0 top-0 -z-20 h-[34rem] bg-[radial-gradient(circle_at_25%_18%,rgba(37,99,235,0.28),transparent_28%),radial-gradient(circle_at_78%_28%,rgba(124,58,237,0.18),transparent_25%)]" />
+          <div className="absolute inset-x-[-8%] bottom-0 -z-20 h-64 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.22),transparent_62%)]" />
+          <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(147,197,253,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(147,197,253,0.12)_1px,transparent_1px)] [background-size:64px_64px]" />
+          <div className="absolute left-1/2 top-[57%] -z-10 h-px w-[78vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
 
-          <div className="mx-auto flex min-h-[calc(100vh-76px)] max-w-7xl flex-col items-center px-4 pb-12 pt-16 text-center sm:px-6 sm:pt-20 lg:px-8">
-            <div className="inline-flex items-center gap-2 border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">
-              <BadgeCheck className="size-4" aria-hidden="true" />
-              Official Student Organization Platform
-            </div>
+          <div className="mx-auto flex min-h-[calc(100vh-76px)] max-w-[96rem] flex-col px-4 pb-12 pt-14 sm:px-6 sm:pt-16 lg:px-8">
+            <div className="relative mx-auto flex w-full max-w-6xl flex-1 items-center justify-center py-6 text-center">
+              <div className="pointer-events-none absolute inset-x-4 top-12 hidden h-[21rem] border border-white/12 sm:block">
+                <span className="absolute -left-1 -top-1 size-2 bg-orange-400" />
+                <span className="absolute -right-1 -top-1 size-2 bg-rose-400" />
+                <span className="absolute -bottom-1 -left-1 size-2 bg-blue-400" />
+                <span className="absolute -bottom-1 -right-1 size-2 bg-orange-300" />
+              </div>
 
-            <h1 className="mt-7 max-w-5xl text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Empowering Students Through Leadership, Service, and Community
-            </h1>
+              <div className="relative z-10 flex w-full flex-col items-center">
+                <div className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
+                  <BadgeCheck className="size-4" aria-hidden="true" />
+                  Official Student Organization Platform
+                </div>
 
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
-              A modern digital home for members to discover activities, follow
-              announcements, join programs, and stay connected with the
-              organization.
-            </p>
+                <div className="pointer-events-none absolute left-2 top-36 hidden -translate-x-full items-center gap-2 lg:flex">
+                  <span className="h-px w-12 bg-orange-300/50" />
+                  <span className="bg-orange-500 px-3 py-1 font-mono text-[0.62rem] font-bold uppercase tracking-[0.12em] text-white">
+                    student-led
+                  </span>
+                </div>
+                <div className="pointer-events-none absolute right-2 top-28 hidden translate-x-full items-center gap-2 lg:flex">
+                  <span className="bg-white px-3 py-1 font-mono text-[0.62rem] font-bold uppercase tracking-[0.12em] text-slate-950">
+                    verified
+                  </span>
+                  <span className="h-px w-12 bg-blue-300/50" />
+                </div>
+                <div className="pointer-events-none absolute bottom-28 right-16 hidden items-center gap-2 lg:flex">
+                  <span className="size-2 bg-yellow-300" />
+                  <span className="border border-yellow-200/30 px-3 py-1 font-mono text-[0.62rem] font-bold uppercase tracking-[0.12em] text-yellow-100">
+                    member tools
+                  </span>
+                </div>
 
-            <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-              <Link
-                href={joinHref}
-                className="inline-flex h-12 items-center justify-center gap-2 bg-blue-500 px-7 text-sm font-black text-white shadow-[0_0_34px_rgba(37,99,235,0.55)] transition hover:bg-blue-400"
-              >
-                {user ? "Open Dashboard" : "Join Now"}
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
-              <Link
-                href={activitiesHref}
-                className="inline-flex h-12 items-center justify-center border border-white/15 bg-white/[0.04] px-7 text-sm font-black text-white transition hover:border-blue-300/50 hover:bg-blue-400/10"
-              >
-                View Activities
-              </Link>
+                <h1 className="mt-7 max-w-5xl text-[clamp(3rem,8vw,6.7rem)] font-black leading-[0.92] tracking-tight text-white">
+                  Designing student{" "}
+                  <span className="bg-gradient-to-r from-blue-200 via-blue-400 to-violet-300 bg-clip-text text-transparent">
+                    leadership
+                  </span>{" "}
+                  for a digital{" "}
+                  <span className="font-serif italic font-medium text-orange-200">
+                    future
+                  </span>
+                </h1>
+
+                <p className="mt-6 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+                  A modern digital home for members to discover activities,
+                  follow announcements, join programs, and stay connected with
+                  the organization.
+                </p>
+
+                <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+                  <Link
+                    href={joinHref}
+                    className="inline-flex h-11 items-center justify-center gap-2 bg-white px-6 text-sm font-black text-slate-950 transition hover:bg-blue-100"
+                  >
+                    {user ? "Open Dashboard" : "Join Now"}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                  <Link
+                    href={activitiesHref}
+                    className="inline-flex h-11 items-center justify-center border border-white/15 px-6 text-sm font-black text-white transition hover:border-blue-300/50 hover:text-blue-100"
+                  >
+                    View Activities
+                  </Link>
+                </div>
+              </div>
             </div>
 
             <PlatformPreview

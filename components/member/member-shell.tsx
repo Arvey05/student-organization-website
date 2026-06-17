@@ -72,22 +72,28 @@ export function MemberShell({
 
   return (
     <div className="min-h-screen bg-[#02040a] text-white">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#02040a]">
-        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 bg-[#02040a]/95">
+        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href="/dashboard"
-            className="flex shrink-0 items-center gap-3 text-white transition hover:text-blue-200"
+            className="group flex shrink-0 items-center gap-3 text-white transition hover:text-blue-100"
           >
-            <span className="flex size-10 items-center justify-center border border-blue-300/30 bg-blue-500/10 text-xs font-black text-blue-100">
+            <span className="relative flex size-9 items-center justify-center border border-white/15 text-[0.62rem] font-black text-blue-100 transition group-hover:border-blue-300/50">
+              <span className="absolute -right-1 -top-1 size-1.5 bg-orange-400" />
               MSC
             </span>
-            <span className="hidden text-sm font-black tracking-wide sm:block">
-              BulSU MSC
+            <span className="hidden leading-none sm:block">
+              <span className="block text-sm font-black tracking-tight">
+                BulSU MSC
+              </span>
+              <span className="mt-1 block font-mono text-[0.62rem] uppercase tracking-[0.18em] text-slate-500">
+                Member portal
+              </span>
             </span>
           </Link>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto lg:flex"
+            className="hidden min-w-0 flex-1 items-center gap-4 overflow-x-auto lg:flex"
             aria-label="Member navigation"
           >
           {navItems.map((item) => {
@@ -100,10 +106,10 @@ export function MemberShell({
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`relative inline-flex shrink-0 items-center gap-2 px-3 py-2 text-sm font-semibold transition ${
+                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 font-mono text-xs uppercase tracking-[0.1em] transition ${
                   isActive
-                    ? "text-blue-100 after:absolute after:inset-x-3 after:-bottom-3 after:h-px after:bg-blue-300"
-                    : "text-slate-400 hover:text-blue-200"
+                    ? "text-blue-100 after:absolute after:inset-x-1 after:-bottom-4 after:h-px after:bg-blue-300"
+                    : "text-slate-500 hover:text-blue-200"
                 }`}
               >
                 <Icon className="size-4 shrink-0" aria-hidden="true" />
@@ -118,7 +124,7 @@ export function MemberShell({
               href="/profile"
               className="flex max-w-52 items-center gap-3 text-slate-300 transition hover:text-blue-200"
             >
-              <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md border border-white/10 bg-white/[0.04] text-xs font-black text-blue-100">
+              <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden border border-white/10 text-xs font-black text-blue-100">
                 {profilePictureUrl ? (
                   <Image
                     src={profilePictureUrl}
@@ -145,7 +151,7 @@ export function MemberShell({
             <form action={logout}>
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-400 transition hover:text-blue-200"
+                className="inline-flex items-center gap-2 px-2 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-slate-500 transition hover:text-blue-200"
               >
                 <LogOut className="size-4" aria-hidden="true" />
                 Logout
@@ -175,7 +181,7 @@ export function MemberShell({
             className="border-t border-white/10 px-4 py-4 sm:px-6 lg:hidden"
           >
             <div className="mb-4 flex items-center gap-3">
-              <span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-white/10 bg-white/[0.04] text-xs font-black text-blue-100">
+              <span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden border border-white/10 text-xs font-black text-blue-100">
                 {profilePictureUrl ? (
                   <Image
                     src={profilePictureUrl}
