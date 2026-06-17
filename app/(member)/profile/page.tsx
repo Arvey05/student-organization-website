@@ -29,45 +29,45 @@ export default async function ProfilePage() {
         />
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="border-y border-white/10 bg-slate-950 p-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex size-24 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-violet-600 text-white">
+              <div className="flex size-24 items-center justify-center rounded-md bg-blue-600 text-white">
                 <UserRound className="size-10" aria-hidden="true" />
               </div>
-              <h2 className="mt-5 text-2xl font-black text-slate-950">
+              <h2 className="mt-5 text-2xl font-black text-white">
                 {displayName}
               </h2>
               <p className="mt-2 flex items-center gap-2 text-sm text-slate-500">
                 <Mail className="size-4" aria-hidden="true" />
                 {email}
               </p>
-              <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+              <p className="mt-3 inline-flex items-center gap-2 rounded-md border border-blue-300/30 bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-100">
                 <ShieldCheck className="size-4" aria-hidden="true" />
                 {formatRole(profile?.role)}
               </p>
               <Link
                 href="/profile/edit"
-                className="mt-6 inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20"
+                className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
               >
                 Edit Profile
               </Link>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-950">
+          <div className="border-y border-white/10 bg-slate-950 p-6">
+            <h2 className="text-xl font-bold text-white">
               Personal information
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {profileItems.map(([label, value]) => (
                 <div
                   key={label}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                  className="border-t border-white/10 bg-black p-4"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
                     {label}
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-slate-900">
+                  <p className="mt-2 text-sm font-semibold text-white">
                     {value}
                   </p>
                 </div>

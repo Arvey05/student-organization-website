@@ -54,9 +54,9 @@ export default function PartnersPage() {
               return (
                 <article
                   key={partner.name}
-                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-center shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-blue-300/35"
+                  className="border-t border-white/10 bg-slate-950 p-6 text-center transition hover:border-blue-300/35"
                 >
-                  <div className="mx-auto flex aspect-square w-24 items-center justify-center rounded-3xl border border-dashed border-white/15 bg-slate-950/60 text-blue-100">
+                  <div className="mx-auto flex aspect-square w-24 items-center justify-center rounded-md border border-dashed border-white/15 bg-black text-blue-100">
                     <Icon className="size-8" aria-hidden="true" />
                   </div>
                   <h2 className="mt-5 text-base font-bold text-white">

@@ -30,14 +30,14 @@ export default async function ActivitiesPage() {
       description="Browse public upcoming, completed, and past activities from the organization."
     >
       <section className="bg-slate-950 py-16 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
           {activityGroups.map((group) => (
             <section
               key={group.title}
-              className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5"
+              className="border-t border-white/10 pt-6"
             >
               <div className="flex items-center gap-3">
-                <div className="flex size-11 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-100 ring-1 ring-blue-300/20">
+                <div className="flex size-11 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                   <CalendarCheck className="size-5" aria-hidden="true" />
                 </div>
                 <h2 className="text-xl font-bold text-white">
@@ -50,9 +50,9 @@ export default async function ActivitiesPage() {
                   group.items.map((item) => (
                     <article
                       key={item.id}
-                      className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 p-4 transition hover:-translate-y-1 hover:border-blue-300/40 hover:shadow-lg hover:shadow-blue-950/30"
+                      className="group overflow-hidden border-t border-white/10 bg-slate-950 transition hover:border-blue-300/40"
                     >
-                      <div className="relative mb-4 aspect-video overflow-hidden rounded-xl bg-slate-900">
+                      <div className="relative mb-4 aspect-video overflow-hidden rounded-md bg-slate-900">
                         {item.image_url ? (
                           <Image
                             src={item.image_url}
@@ -78,7 +78,7 @@ export default async function ActivitiesPage() {
                       {item.status === "upcoming" ? (
                         <Link
                           href="/login"
-                          className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-white px-4 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5"
+                          className="mt-4 inline-flex h-10 items-center justify-center rounded-md bg-white px-4 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
                         >
                           Log in to Join
                         </Link>
@@ -86,7 +86,7 @@ export default async function ActivitiesPage() {
                     </article>
                   ))
                 ) : (
-                  <p className="rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-4 text-sm text-slate-300">
+                  <p className="border-y border-dashed border-white/15 bg-slate-950 p-4 text-sm text-slate-300">
                     No activities available yet.
                   </p>
                 )}

@@ -85,7 +85,7 @@ function ActivityAction({
     return (
       <Link
         href={`/member/activities/${activity.id}`}
-        className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+        className="inline-flex h-11 items-center justify-center rounded-md border border-white/20 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
       >
         View Details
       </Link>
@@ -97,7 +97,7 @@ function ActivityAction({
       <input type="hidden" name="activity_id" value={activity.id} />
       <button
         type="submit"
-        className="inline-flex h-11 items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+        className="inline-flex h-11 items-center justify-center rounded-md border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 transition hover:bg-red-500/15"
       >
         Cancel Registration
       </button>
@@ -107,7 +107,7 @@ function ActivityAction({
       <input type="hidden" name="activity_id" value={activity.id} />
       <button
         type="submit"
-        className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+        className="inline-flex h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
       >
         Join Event
       </button>
@@ -152,13 +152,13 @@ function ActivityLandscapeCard({
   registeredActivities: RegisteredActivity[];
 }) {
   return (
-    <article className="group relative aspect-video w-[min(86vw,28rem)] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl shadow-black/30 ring-1 ring-white/5 transition duration-300 hover:-translate-y-1 hover:border-blue-300/50 hover:shadow-blue-950/50">
+    <article className="group relative aspect-video w-[min(86vw,28rem)] shrink-0 overflow-hidden rounded-md border border-white/10 bg-slate-950 transition duration-300 hover:border-blue-300/50">
       <div className="absolute inset-0 bg-slate-900">
         <ActivityCover activity={activity} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/55 to-slate-950/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-transparent to-transparent opacity-80" />
-      <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-xs font-semibold capitalize text-white backdrop-blur">
+      <span className="absolute left-4 top-4 border border-white/15 bg-black/70 px-3 py-1 text-xs font-semibold capitalize text-white">
         {activity.status}
       </span>
       <div className="absolute inset-x-0 bottom-0 p-4">
@@ -190,7 +190,7 @@ function ActivityLandscapeCard({
           {activity.status === "upcoming" ? (
             <Link
               href={`/member/activities/${activity.id}`}
-              className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-white/20 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
             >
               Details
             </Link>
@@ -221,7 +221,7 @@ function ActivityRowSection({
             {title}
           </h2>
         </div>
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
+        <span className="rounded-md border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm font-semibold text-slate-300">
           {activities.length} {activities.length === 1 ? "event" : "events"}
         </span>
       </div>
@@ -237,7 +237,7 @@ function ActivityRowSection({
           ))}
         </div>
       ) : (
-        <p className="mt-5 rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-5 text-sm text-slate-300">
+        <p className="mt-5 border-y border-dashed border-white/15 bg-slate-950 p-5 text-sm text-slate-300">
           No activities available in this section yet.
         </p>
       )}
@@ -272,7 +272,7 @@ export default async function MemberActivitiesPage() {
             <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-950 to-transparent" />
             <div className="relative z-10 mx-auto flex min-h-[36rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
               <div className="max-w-3xl">
-                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
+                <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
                   <CalendarCheck className="size-4" aria-hidden="true" />
                   Featured Activity
                 </p>
@@ -283,14 +283,14 @@ export default async function MemberActivitiesPage() {
                   {featuredActivity.short_description}
                 </p>
                 <div className="mt-5 grid gap-3 text-sm font-semibold text-slate-200 sm:grid-cols-2">
-                  <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                  <p className="flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.06] p-3">
                     <Clock className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
                     {formatDateTimeRange(
                       featuredActivity.starts_at,
                       featuredActivity.ends_at,
                     )}
                   </p>
-                  <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+                  <p className="flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.06] p-3">
                     <MapPin className="mt-0.5 size-4 shrink-0 text-blue-200" aria-hidden="true" />
                     {featuredActivity.location}
                   </p>
@@ -302,7 +302,7 @@ export default async function MemberActivitiesPage() {
                   />
                   <Link
                     href={`/member/activities/${featuredActivity.id}`}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/30 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
                   >
                     View Details
                     <ArrowRight className="size-4" aria-hidden="true" />
@@ -314,7 +314,7 @@ export default async function MemberActivitiesPage() {
         ) : (
           <div className="relative mx-auto flex min-h-[30rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%)]" />
-            <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="relative border-y border-white/10 bg-slate-950 p-8">
               <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                 <TicketCheck className="size-4" aria-hidden="true" />
                 Activities
@@ -347,7 +347,7 @@ export default async function MemberActivitiesPage() {
             </div>
             <Link
               href="/my-activities"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/10 bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/10 bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
             >
               My Activities
               <ArrowRight className="size-4" aria-hidden="true" />

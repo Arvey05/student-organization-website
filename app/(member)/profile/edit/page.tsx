@@ -72,18 +72,18 @@ export default async function EditProfilePage() {
 
         <form
           action={updateProfile}
-          className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="mt-8 border-y border-white/10 bg-slate-950 p-6"
         >
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {fields.map(({ name, label, value }) => (
               <label key={name} className="block">
-                <span className="text-sm font-semibold text-slate-700">
+                <span className="text-sm font-semibold text-slate-200">
                   {label}
                 </span>
                 <input
                   name={name}
                   defaultValue={value ?? ""}
-                  className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                  className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
                 />
               </label>
             ))}
@@ -92,13 +92,13 @@ export default async function EditProfilePage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
               Save Profile
             </button>
             <button
               type="reset"
-              className="inline-flex h-11 items-center justify-center rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
             >
               Reset
             </button>

@@ -39,25 +39,25 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
         <form
           action={updateOfficerEvent}
           encType="multipart/form-data"
-          className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="mt-8 border-y border-white/10 bg-slate-950 p-6"
         >
           <input type="hidden" name="activity_id" value={activity.id} />
 
           <label className="block">
-            <span className="text-sm font-semibold text-slate-700">
+            <span className="text-sm font-semibold text-slate-200">
               Event / Program Name
             </span>
             <input
               name="name"
               required
               defaultValue={activity.name}
-              className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+              className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
             />
           </label>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-semibold text-slate-200">
                 Start Date and Time
               </span>
               <input
@@ -65,12 +65,12 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
                 type="datetime-local"
                 required
                 defaultValue={formatDateTimeLocalInput(activity.starts_at)}
-                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
               />
             </label>
 
             <label className="block">
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-semibold text-slate-200">
                 End Date and Time
               </span>
               <input
@@ -81,13 +81,13 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
                     ? formatDateTimeLocalInput(activity.ends_at)
                     : undefined
                 }
-                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
               />
             </label>
           </div>
 
           <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-700">
+            <span className="text-sm font-semibold text-slate-200">
               Short Description
             </span>
             <textarea
@@ -95,29 +95,29 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
               required
               rows={4}
               defaultValue={activity.short_description}
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-blue-300/60"
             />
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-700">
+            <span className="text-sm font-semibold text-slate-200">
               Location
             </span>
             <input
               name="location"
               required
               defaultValue={activity.location}
-              className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+              className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
             />
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-700">Status</span>
+            <span className="text-sm font-semibold text-slate-200">Status</span>
             <select
               name="status"
               required
               defaultValue={activity.status}
-              className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+              className="mt-2 h-12 w-full rounded-md border border-white/10 bg-black px-4 text-sm text-white outline-none transition focus:border-blue-300/60"
             >
               <option value="upcoming">Upcoming</option>
               <option value="completed">Completed</option>
@@ -126,14 +126,14 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-700">
+            <span className="text-sm font-semibold text-slate-200">
               Cover Image
             </span>
             <input
               name="cover_image"
               type="file"
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
             />
             <span className="mt-2 block text-xs text-slate-500">
               JPG, PNG, WebP, or GIF. Maximum file size is 10 MB. Leave blank to
@@ -142,7 +142,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           </label>
 
           {activity.image_url ? (
-            <div className="relative mt-4 aspect-video overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+            <div className="relative mt-4 aspect-video overflow-hidden rounded-md border border-white/10 bg-black">
               <Image
                 src={activity.image_url}
                 alt={`${activity.name} cover`}
@@ -155,7 +155,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
 
           <button
             type="submit"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20"
+            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
           >
             Save Event
           </button>
@@ -163,7 +163,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
 
         <form
           action={archiveOfficerEvent}
-          className="mt-4 rounded-3xl border border-red-200 bg-red-50 p-6"
+          className="mt-4 border-y border-red-300/30 bg-red-500/10 p-6"
         >
           <input type="hidden" name="activity_id" value={activity.id} />
           <h2 className="text-lg font-bold text-red-950">Delete event</h2>
@@ -174,7 +174,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           </p>
           <button
             type="submit"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-full border border-red-200 bg-white px-5 text-sm font-semibold text-red-700 shadow-sm"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 transition hover:bg-red-500/15"
           >
             Delete Event
           </button>

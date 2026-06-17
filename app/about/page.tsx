@@ -68,9 +68,9 @@ export default function AboutPage() {
               return (
                 <article
                   key={item.title}
-                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-blue-300/35"
+                  className="border-t border-white/10 bg-slate-950 p-6 transition hover:border-blue-300/35"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-100 ring-1 ring-blue-300/20">
+                  <div className="flex size-12 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
                   <h2 className="mt-5 text-xl font-bold text-white">
@@ -88,7 +88,7 @@ export default function AboutPage() {
 
       <section className="bg-slate-950 py-16 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5">
+          <div className="border-y border-white/10 bg-slate-950 p-6">
             <div className="flex items-center gap-3">
               <UsersRound className="size-6 text-blue-200" aria-hidden="true" />
               <h2 className="text-2xl font-bold text-white">
@@ -99,7 +99,7 @@ export default function AboutPage() {
               {officers.map((officer) => (
                 <div
                   key={officer}
-                  className="rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="border-t border-white/10 bg-black px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {officer}
                 </div>
@@ -107,9 +107,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5">
+          <div className="border-y border-white/10 bg-slate-950 p-6">
             <div className="flex items-center gap-3">
-              <Award className="size-6 text-violet-200" aria-hidden="true" />
+              <Award className="size-6 text-blue-200" aria-hidden="true" />
               <h2 className="text-2xl font-bold text-white">
                 Organization committees
               </h2>
@@ -118,7 +118,7 @@ export default function AboutPage() {
               {committees.map((committee) => (
                 <div
                   key={committee}
-                  className="rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="border-t border-white/10 bg-black px-4 py-3 text-sm font-semibold text-slate-300"
                 >
                   {committee}
                 </div>

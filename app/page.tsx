@@ -89,11 +89,11 @@ function PublicActivityCard({
   joinHref: string;
 }) {
   return (
-    <article className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.05] shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-blue-300/40">
+    <article className="group overflow-hidden border-t border-white/10 bg-slate-950 transition hover:border-blue-300/40">
       <div className="relative aspect-video overflow-hidden bg-slate-900">
         <ActivityVisual activity={activity} />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent" />
-        <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-xs font-semibold capitalize text-white backdrop-blur">
+        <span className="absolute left-4 top-4 border border-white/15 bg-black/70 px-3 py-1 text-xs font-semibold capitalize text-white">
           {activity.status}
         </span>
       </div>
@@ -115,14 +115,14 @@ function PublicActivityCard({
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href={joinHref}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
           >
             Join
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
           <Link
             href="/activities"
-            className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-white/10 px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/15"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
           >
             View
           </Link>
@@ -140,9 +140,9 @@ function PublicAnnouncementCard({
   const date = getAnnouncementDate(announcement);
 
   return (
-    <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-violet-300/35">
+    <article className="border-t border-white/10 bg-slate-950 p-5 transition hover:border-blue-300/35">
       {announcement.image_url ? (
-        <div className="relative mb-4 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-slate-900">
+        <div className="relative mb-4 aspect-video overflow-hidden rounded-md border border-white/10 bg-slate-900">
           <Image
             src={announcement.image_url}
             alt={`${announcement.title} cover`}
@@ -153,11 +153,11 @@ function PublicAnnouncementCard({
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
         </div>
       ) : (
-        <div className="mb-4 flex aspect-video items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10 text-violet-100">
+        <div className="mb-4 flex aspect-video items-center justify-center rounded-md border border-blue-300/20 bg-blue-500/10 text-blue-100">
           <Megaphone className="size-8" aria-hidden="true" />
         </div>
       )}
-      <p className="text-sm font-semibold text-violet-200">
+      <p className="text-sm font-semibold text-blue-200">
         {announcement.starts_at
           ? formatDateTimeRange(announcement.starts_at, announcement.ends_at)
           : formatDateTime(date)}
@@ -213,7 +213,7 @@ export default async function Home() {
 
           <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-28">
             <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
+              <div className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
                 <BadgeCheck className="size-4" aria-hidden="true" />
                 Official Student Organization Platform
               </div>
@@ -231,14 +231,14 @@ export default async function Home() {
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href={user ? "/dashboard" : "/signup"}
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-bold text-slate-950 shadow-2xl shadow-black/20 transition hover:-translate-y-0.5"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-white px-6 text-sm font-bold text-slate-950 transition hover:bg-blue-50"
                 >
                   {user ? "Open Dashboard" : "Join Now"}
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
                 <Link
                   href={activitiesHref}
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-white/15 bg-white/10 px-6 text-sm font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15"
+                  className="inline-flex h-12 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-6 text-sm font-bold text-white transition hover:border-blue-300/40"
                 >
                   View Activities
                 </Link>
@@ -247,7 +247,7 @@ export default async function Home() {
 
             <div className="grid content-end gap-4">
               {featuredActivity ? (
-                <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.08] shadow-2xl shadow-black/30 ring-1 ring-white/5 backdrop-blur">
+                <article className="group overflow-hidden border-t border-white/10 bg-slate-950/85">
                   <div className="relative aspect-video overflow-hidden bg-slate-900">
                     <ActivityVisual activity={featuredActivity} priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
@@ -267,7 +267,7 @@ export default async function Home() {
                     </p>
                     <Link
                       href={joinHref}
-                      className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-blue-500 px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-blue-400"
+                      className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
                     >
                       {user ? "Open Activity" : "Log in to Join"}
                       <ArrowRight className="size-4" aria-hidden="true" />
@@ -275,14 +275,14 @@ export default async function Home() {
                   </div>
                 </article>
               ) : (
-                <article className="rounded-[2rem] border border-dashed border-white/15 bg-white/[0.05] p-6 text-sm text-slate-300">
+                <article className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
                   No public activities yet.
                 </article>
               )}
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {featuredAnnouncement ? (
-                  <article className="rounded-3xl border border-white/10 bg-white/[0.07] p-5 shadow-xl shadow-black/20 backdrop-blur">
+                  <article className="border-t border-white/10 bg-slate-950/80 p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-200">
                       Latest announcement
                     </p>
@@ -295,7 +295,7 @@ export default async function Home() {
                   </article>
                 ) : null}
 
-                <article className="rounded-3xl border border-white/10 bg-white/[0.07] p-5 shadow-xl shadow-black/20 backdrop-blur">
+                <article className="border-t border-white/10 bg-slate-950/80 p-5">
                   <Handshake className="size-6 text-blue-200" aria-hidden="true" />
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                     Campus credibility
@@ -333,9 +333,9 @@ export default async function Home() {
                 return (
                   <article
                     key={item.title}
-                    className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/5 transition hover:-translate-y-1 hover:border-blue-300/35"
+                    className="border-t border-white/10 bg-slate-950 p-6 transition hover:border-blue-300/35"
                   >
-                    <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-100 ring-1 ring-blue-300/20">
+                    <div className="flex size-12 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                       <Icon className="size-5" aria-hidden="true" />
                     </div>
                     <h3 className="mt-5 text-xl font-black text-white">
@@ -364,7 +364,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/activities"
-                className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-white/10 px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/15"
+                className="inline-flex h-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
               >
                 Browse All
               </Link>
@@ -380,7 +380,7 @@ export default async function Home() {
                   />
                 ))
               ) : (
-                <article className="rounded-3xl border border-dashed border-white/15 bg-white/[0.04] p-6 text-sm text-slate-300 lg:col-span-3">
+                <article className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300 lg:col-span-3">
                   No public upcoming activities are available yet.
                 </article>
               )}
@@ -391,7 +391,7 @@ export default async function Home() {
         <section className="border-y border-white/10 bg-slate-900/60 py-16 sm:py-20">
           <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-violet-200">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-200">
                 Announcements
               </p>
               <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
@@ -404,14 +404,14 @@ export default async function Home() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={user ? "/dashboard" : "/login"}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
                 >
                   {user ? "Open Dashboard" : "Log In for Member Updates"}
                   <LogIn className="size-4" aria-hidden="true" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-white/10 px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/15"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
                 >
                   Learn About Us
                 </Link>
@@ -427,7 +427,7 @@ export default async function Home() {
                   />
                 ))
               ) : (
-                <article className="rounded-3xl border border-dashed border-white/15 bg-white/[0.04] p-6 text-sm text-slate-300 md:col-span-2">
+                <article className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300 md:col-span-2">
                   No public announcements are available yet.
                 </article>
               )}
@@ -437,7 +437,7 @@ export default async function Home() {
 
         <section className="bg-slate-950 py-16 sm:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/25 ring-1 ring-white/5 sm:p-8">
+            <div className="border-y border-white/10 bg-slate-950 p-6 sm:p-8">
               <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-center">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-200">
@@ -457,7 +457,7 @@ export default async function Home() {
                   {["School Logo", "OSOA Logo", "Government Logo"].map((item) => (
                     <div
                       key={item}
-                      className="flex aspect-[4/3] items-center justify-center rounded-2xl border border-dashed border-white/15 bg-slate-950/50 px-3 text-center text-xs font-semibold text-slate-400"
+                      className="flex aspect-[4/3] items-center justify-center rounded-md border border-dashed border-white/15 bg-black px-3 text-center text-xs font-semibold text-slate-400"
                     >
                       {item}
                     </div>

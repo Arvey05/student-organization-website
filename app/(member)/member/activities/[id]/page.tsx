@@ -94,7 +94,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
 
         <div className="relative z-10 mx-auto flex min-h-[38rem] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 shadow-lg shadow-black/20 backdrop-blur">
+            <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
               <CalendarDays className="size-4" aria-hidden="true" />
               Activity Details
             </p>
@@ -105,14 +105,14 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
               {activity.short_description}
             </p>
             <div className="mt-6 grid gap-3 text-sm font-semibold text-slate-200 sm:grid-cols-2">
-              <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+              <p className="flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.06] p-3">
                 <Clock
                   className="mt-0.5 size-4 shrink-0 text-blue-200"
                   aria-hidden="true"
                 />
                 {formatDateTimeRange(activity.starts_at, activity.ends_at)}
               </p>
-              <p className="flex items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+              <p className="flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.06] p-3">
                 <MapPin
                   className="mt-0.5 size-4 shrink-0 text-blue-200"
                   aria-hidden="true"
@@ -127,7 +127,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
       <section className="relative mx-auto -mt-8 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.25fr_0.75fr] lg:px-8">
         <div className="absolute left-1/2 top-0 h-56 w-[42rem] -translate-x-1/2 rounded-full bg-blue-600/15 blur-3xl" />
 
-        <article className="relative rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/25 ring-1 ring-white/5 backdrop-blur">
+        <article className="relative border-y border-white/10 bg-slate-950 p-6">
           <div className="grid gap-4 sm:grid-cols-2">
             {detailItems.map((item) => {
               const Icon = item.icon;
@@ -135,7 +135,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
               return (
                 <div
                   key={item.label}
-                  className="rounded-2xl border border-white/10 bg-slate-950/45 p-4"
+                  className="border-t border-white/10 bg-slate-950 p-4"
                 >
                   <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                     <Icon className="size-4" aria-hidden="true" />
@@ -149,7 +149,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
             })}
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-slate-950/45 p-5">
+          <div className="mt-6 border-t border-white/10 bg-slate-950 p-5">
             <h2 className="text-lg font-bold text-white">Short Description</h2>
             <p className="mt-3 text-sm leading-7 text-slate-300">
               {activity.short_description || "No description available."}
@@ -157,7 +157,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
           </div>
         </article>
 
-        <aside className="relative rounded-3xl border border-white/10 bg-white/[0.08] p-6 shadow-2xl shadow-black/25 ring-1 ring-white/5 backdrop-blur">
+        <aside className="relative border-y border-white/10 bg-black p-6">
           <h2 className="text-xl font-bold text-white">Actions</h2>
           <p className="mt-2 text-sm leading-6 text-slate-400">
             Manage your registration or open officer tools if your role allows
@@ -169,7 +169,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-red-500/15"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-md border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 transition hover:bg-red-500/15"
                   >
                     Cancel Registration
                   </button>
@@ -179,7 +179,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-11 w-full items-center justify-center rounded-full bg-blue-500 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-950/30 transition hover:-translate-y-0.5 hover:bg-blue-400"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
                   >
                     Register for Event
                   </button>
@@ -190,7 +190,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                 <>
                   <Link
                     href={`/officer/events/${activity.id}/edit`}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-white/15"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
                   >
                     <Pencil className="size-4" aria-hidden="true" />
                     Edit Event
@@ -203,7 +203,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
                     />
                     <button
                       type="submit"
-                      className="inline-flex h-11 w-full items-center justify-center rounded-full border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 shadow-sm transition hover:-translate-y-0.5 hover:bg-red-500/15"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-md border border-red-300/40 bg-red-500/10 px-5 text-sm font-semibold text-red-100 transition hover:bg-red-500/15"
                     >
                       Delete Event
                     </button>

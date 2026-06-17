@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #111827;
+  --background: #020617;
+  --foreground: #f8fafc;
 }
 
 @theme inline {
@@ -55,4 +55,136 @@ label {
 ::selection {
   background: #bfdbfe;
   color: #1e3a8a;
+}
+
+/*
+  Visual-system pass: streaming-service interface with retro-tech feel.
+  Reduced border radius, removed heavy glassmorphism/blur/shadows,
+  flatter dark surfaces, subtle dividers instead of boxed cards.
+*/
+
+.rounded-\[2rem\],
+.rounded-3xl {
+  border-radius: 0.5rem !important;
+}
+
+.rounded-2xl {
+  border-radius: 0.5rem !important;
+}
+
+.rounded-xl {
+  border-radius: 0.5rem !important;
+}
+
+.shadow-2xl,
+.shadow-xl,
+.shadow-lg,
+.shadow-md,
+.shadow-sm {
+  box-shadow: none !important;
+}
+
+.backdrop-blur,
+.backdrop-blur-sm,
+.backdrop-blur-md,
+.backdrop-blur-lg,
+.backdrop-blur-xl,
+.backdrop-blur-2xl {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.ring-1 {
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+}
+
+/* Streaming-style utility classes */
+.stream-section {
+  background-color: #020617;
+}
+
+.stream-surface {
+  background-color: #0f172a;
+}
+
+.stream-surface-elevated {
+  background-color: #18181b;
+}
+
+.stream-divider {
+  border-color: #27272a;
+}
+
+.stream-card {
+  background-color: #0f172a;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+}
+
+.stream-card-hover:hover {
+  border-color: #3b82f6;
+  background-color: #111827;
+}
+
+.stream-input {
+  background-color: #0f172a;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+  color: #f8fafc;
+}
+
+.stream-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.stream-button-primary {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.stream-button-secondary {
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+  color: #f8fafc;
+}
+
+.stream-button-secondary:hover {
+  border-color: #3b82f6;
+  background-color: #1f2937;
+}
+
+.stream-badge {
+  background-color: #1e1b4b;
+  border: 1px solid #312e81;
+  border-radius: 9999px;
+  color: #bfdbfe;
+}
+
+.stream-badge-blue {
+  background-color: #1e3a8a;
+  border: 1px solid #3b82f6;
+  color: #bfdbfe;
+}
+
+.stream-badge-violet {
+  background-color: #312e81;
+  border: 1px solid #8b5cf6;
+  color: #ddd6fe;
+}
+
+.stream-badge-emerald {
+  background-color: #064e3b;
+  border: 1px solid #10b981;
+  color: #d1fae5;
+}
+
+.stream-badge-red {
+  background-color: #7f1d1d;
+  border: 1px solid #ef4444;
+  color: #fecaca;
 }

@@ -42,15 +42,15 @@ export default function SettingsPage() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
+                className="border-t border-white/10 bg-slate-950 p-6 transition hover:border-blue-300/40"
               >
-                <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                <div className="flex size-12 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                   <Icon className="size-5" aria-hidden="true" />
                 </div>
-                <h2 className="mt-5 text-xl font-bold text-slate-950">
+                <h2 className="mt-5 text-xl font-bold text-white">
                   {item.title}
                 </h2>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
+                <p className="mt-3 text-sm leading-7 text-slate-400">
                   {item.description}
                 </p>
               </Link>

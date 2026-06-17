@@ -216,12 +216,12 @@ export default async function CalendarPage() {
   return (
     <main className="min-h-screen overflow-hidden bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/30 ring-1 ring-white/5 backdrop-blur">
+        <section className="overflow-hidden border-y border-white/10 bg-slate-950">
           <div className="relative border-b border-white/10 bg-slate-950 p-6 text-white sm:p-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />
             <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
+                <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
                   <CalendarDays className="size-4" aria-hidden="true" />
                   Calendar
                 </p>
@@ -235,15 +235,15 @@ export default async function CalendarPage() {
               </div>
 
               <div className="grid gap-2 text-xs font-semibold sm:grid-cols-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-teal-300/30 bg-teal-400/10 px-3 py-2 text-teal-100">
+                <span className="inline-flex items-center gap-2 rounded-md border border-teal-300/30 bg-teal-400/10 px-3 py-2 text-teal-100">
                   <CheckCircle2 className="size-3.5" aria-hidden="true" />
                   Registered activities
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/15 px-3 py-2 text-blue-100">
+                <span className="inline-flex items-center gap-2 rounded-md border border-blue-300/30 bg-blue-500/15 px-3 py-2 text-blue-100">
                   <Circle className="size-3.5" aria-hidden="true" />
                   Not registered
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-2 text-violet-100">
+                <span className="inline-flex items-center gap-2 rounded-md border border-violet-300/30 bg-violet-400/10 px-3 py-2 text-violet-100">
                   <Megaphone className="size-3.5" aria-hidden="true" />
                   Announcements
                 </span>
@@ -299,7 +299,7 @@ export default async function CalendarPage() {
                             <Link
                               key={`${item.kind}-${item.id}`}
                               href={item.href}
-                              className={`block truncate rounded-lg border px-2.5 py-1.5 text-left text-xs font-semibold transition hover:-translate-y-0.5 ${getChipClasses(
+                              className={`block truncate rounded-md border px-2.5 py-1.5 text-left text-xs font-semibold transition ${getChipClasses(
                                 item,
                               )}`}
                             >
@@ -309,7 +309,7 @@ export default async function CalendarPage() {
                             <a
                               key={`${item.kind}-${item.id}`}
                               href={`#announcement-${item.id}`}
-                              className={`block truncate rounded-lg border px-2.5 py-1.5 text-left text-xs font-semibold transition hover:-translate-y-0.5 ${getChipClasses(
+                              className={`block truncate rounded-md border px-2.5 py-1.5 text-left text-xs font-semibold transition ${getChipClasses(
                                 item,
                               )}`}
                             >
@@ -318,7 +318,7 @@ export default async function CalendarPage() {
                           ),
                         )}
                         {dayItems.length > 4 ? (
-                          <p className="rounded-lg bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-slate-400">
+                          <p className="rounded-md bg-white/[0.04] px-2.5 py-1.5 text-xs font-semibold text-slate-400">
                             +{dayItems.length - 4} more
                           </p>
                         ) : null}
@@ -330,7 +330,7 @@ export default async function CalendarPage() {
             </>
           ) : (
             <div className="p-6">
-              <p className="rounded-3xl border border-dashed border-white/15 bg-white/[0.04] p-6 text-sm text-slate-300">
+              <p className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
                 No calendar events or announcements are available yet.
               </p>
             </div>
@@ -338,7 +338,7 @@ export default async function CalendarPage() {
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-black/20 ring-1 ring-white/5 backdrop-blur">
+          <article className="border-y border-white/10 bg-slate-950 p-5">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                 Agenda
@@ -353,13 +353,13 @@ export default async function CalendarPage() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`block rounded-2xl border p-4 transition hover:-translate-y-1 hover:border-blue-200/40 hover:shadow-lg hover:shadow-blue-950/30 ${getAgendaClasses(
+                      className={`block border-t p-4 transition hover:border-blue-200/40 ${getAgendaClasses(
                         item,
                       )}`}
                     >
                       <div className="flex gap-4">
                         {item.imageUrl ? (
-                          <div className="relative hidden aspect-video w-36 shrink-0 overflow-hidden rounded-xl sm:block">
+                          <div className="relative hidden aspect-video w-36 shrink-0 overflow-hidden rounded-md sm:block">
                             <Image
                               src={item.imageUrl}
                               alt={`${item.title} cover`}
@@ -384,7 +384,7 @@ export default async function CalendarPage() {
                             <MapPin className="size-4" aria-hidden="true" />
                             {item.location}
                           </p>
-                          <p className="mt-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                          <p className="mt-3 inline-flex rounded-md border border-white/10 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-slate-200">
                             {item.isRegistered
                               ? "Registered"
                               : "Not registered"}
@@ -394,14 +394,14 @@ export default async function CalendarPage() {
                     </Link>
                   ))
               ) : (
-                <p className="rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-4 text-sm text-slate-300">
+                <p className="border-y border-dashed border-white/15 bg-slate-950 p-4 text-sm text-slate-300">
                   No activities available yet.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-black/20 ring-1 ring-white/5 backdrop-blur">
+          <article className="border-y border-white/10 bg-slate-950 p-5">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-200">
                 Announcements
@@ -416,10 +416,10 @@ export default async function CalendarPage() {
                     <div
                       key={item.id}
                       id={`announcement-${item.id}`}
-                      className="scroll-mt-24 rounded-2xl border border-violet-300/20 bg-violet-400/10 p-4 transition target:ring-4 target:ring-violet-300/25"
+                      className="scroll-mt-24 border-t border-blue-300/20 bg-blue-500/10 p-4 transition target:ring-2 target:ring-blue-300/25"
                     >
                       {item.imageUrl ? (
-                        <div className="relative mb-4 aspect-video overflow-hidden rounded-xl">
+                        <div className="relative mb-4 aspect-video overflow-hidden rounded-md">
                           <Image
                             src={item.imageUrl}
                             alt={`${item.title} cover`}
@@ -429,7 +429,7 @@ export default async function CalendarPage() {
                           />
                         </div>
                       ) : null}
-                      <p className="flex items-center gap-2 text-sm font-semibold text-violet-200">
+                      <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                         <Megaphone className="size-4" aria-hidden="true" />
                         {item.endsAt
                           ? formatDateTimeRange(item.startsAt, item.endsAt)
@@ -450,7 +450,7 @@ export default async function CalendarPage() {
                     </div>
                   ))
               ) : (
-                <p className="rounded-2xl border border-dashed border-white/15 bg-white/[0.04] p-4 text-sm text-slate-300">
+                <p className="border-y border-dashed border-white/15 bg-slate-950 p-4 text-sm text-slate-300">
                   No announcements available yet.
                 </p>
               )}

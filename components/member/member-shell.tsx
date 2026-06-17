@@ -36,7 +36,6 @@ type MemberShellProps = {
 export function MemberShell({ children, role }: MemberShellProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
-  const isCinematicActivitiesRoute = pathname.startsWith("/member/activities");
   const navItems = canCreateEvents(role)
     ? [
         ...memberNav,
@@ -55,14 +54,10 @@ export function MemberShell({ children, role }: MemberShellProps) {
 
   return (
     <div
-      className={`min-h-screen ${
-        isCinematicActivitiesRoute
-          ? "bg-slate-950 text-white"
-          : "bg-slate-50 text-slate-950"
-      }`}
+      className="min-h-screen bg-slate-950 text-white"
     >
       <aside
-        className={`fixed inset-y-0 left-0 z-40 hidden border-r border-slate-200 bg-white/95 p-4 shadow-sm backdrop-blur transition-[width] xl:block ${
+        className={`fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-black p-4 transition-[width] xl:block ${
           collapsed ? "w-20" : "w-72"
         }`}
       >
@@ -82,7 +77,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
                 <span className="block truncate text-sm font-black">
                   BulSU MSC
                 </span>
-                <span className="block truncate text-xs text-slate-500">
+                <span className="block truncate text-xs text-slate-400">
                   Member Portal
                 </span>
               </span>
@@ -93,7 +88,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             <button
               type="button"
               onClick={() => setCollapsed(true)}
-              className="inline-flex size-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50"
+              className="inline-flex size-9 items-center justify-center rounded-md border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10"
               aria-label="Collapse sidebar"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
@@ -105,7 +100,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
           <button
             type="button"
             onClick={() => setCollapsed(false)}
-            className="mx-auto mt-4 inline-flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50"
+            className="mx-auto mt-4 inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10"
             aria-label="Expand sidebar"
           >
             <ChevronRight className="size-4" aria-hidden="true" />
@@ -127,8 +122,8 @@ export function MemberShell({ children, role }: MemberShellProps) {
                   collapsed ? "justify-center" : ""
                 } ${
                   isActive
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"
+                    ? "bg-blue-500/15 text-blue-100"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
                 <Icon className="size-4 shrink-0" aria-hidden="true" />
@@ -142,7 +137,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
           <button
             type="submit"
             title="Logout"
-            className={`flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 ${
+            className={`flex w-full items-center gap-3 rounded-md border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white ${
               collapsed ? "justify-center" : ""
             }`}
           >
@@ -153,18 +148,12 @@ export function MemberShell({ children, role }: MemberShellProps) {
       </aside>
 
       <header
-        className={`sticky top-0 z-30 border-b backdrop-blur xl:hidden ${
-          isCinematicActivitiesRoute
-            ? "border-white/10 bg-slate-950/90"
-            : "border-slate-200 bg-white/90"
-        }`}
+        className="sticky top-0 z-30 border-b border-white/10 bg-black xl:hidden"
       >
         <div className="flex items-center justify-between px-4 py-4">
           <Link
             href="/dashboard"
-            className={`font-black ${
-              isCinematicActivitiesRoute ? "text-white" : "text-slate-950"
-            }`}
+            className="font-black text-white"
           >
             BulSU MSC
           </Link>
@@ -172,11 +161,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             <button
               type="button"
               onClick={() => setCollapsed((value) => !value)}
-              className={`inline-flex size-10 items-center justify-center rounded-full border ${
-                isCinematicActivitiesRoute
-                  ? "border-white/10 bg-white/10 text-white"
-                  : "border-slate-200 bg-white text-slate-700"
-              }`}
+              className="inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white"
               aria-label={collapsed ? "Expand navigation labels" : "Collapse navigation labels"}
             >
               {collapsed ? (
@@ -187,11 +172,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             </button>
             <Link
               href="/"
-              className={`inline-flex size-10 items-center justify-center rounded-full border ${
-                isCinematicActivitiesRoute
-                  ? "border-white/10 bg-white/10 text-white"
-                  : "border-slate-200 bg-white text-slate-700"
-              }`}
+              className="inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white"
               aria-label="Go to public home"
             >
               <Home className="size-4" aria-hidden="true" />
@@ -214,12 +195,8 @@ export function MemberShell({ children, role }: MemberShellProps) {
                 title={item.label}
                 className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold ${
                   isActive
-                    ? isCinematicActivitiesRoute
-                      ? "border-blue-300/40 bg-blue-500/15 text-blue-100"
-                      : "border-blue-200 bg-blue-50 text-blue-700"
-                    : isCinematicActivitiesRoute
-                      ? "border-white/10 bg-white/5 text-slate-200"
-                      : "border-slate-200 bg-white text-slate-600"
+                    ? "border-blue-300/40 bg-blue-500/15 text-blue-100"
+                    : "border-white/10 bg-white/5 text-slate-200"
                 }`}
               >
                 <Icon className="size-4" aria-hidden="true" />

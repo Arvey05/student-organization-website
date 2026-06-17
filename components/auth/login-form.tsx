@@ -23,7 +23,7 @@ export function LoginForm() {
             autoComplete="email"
             required
             placeholder="member@example.edu"
-            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
           />
         </label>
 
@@ -35,7 +35,7 @@ export function LoginForm() {
             autoComplete="current-password"
             required
             placeholder="Enter your password"
-            className="mt-2 h-12 w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-slate-950 focus:ring-4 focus:ring-blue-500/15"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
           />
         </label>
       </div>
