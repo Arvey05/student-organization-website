@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Mail, ShieldCheck, UserRound } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 
+import { MemberAvatar } from "@/components/member/member-avatar";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { formatRole } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
@@ -31,9 +32,11 @@ export default async function ProfilePage() {
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="border-y border-white/10 bg-black/15 p-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex size-24 items-center justify-center border border-white/10 text-blue-100">
-                <UserRound className="size-10" aria-hidden="true" />
-              </div>
+              <MemberAvatar
+                displayName={displayName}
+                imageUrl={profile?.profile_picture_url}
+                size={96}
+              />
               <h2 className="mt-5 text-2xl font-black text-white">
                 {displayName}
               </h2>

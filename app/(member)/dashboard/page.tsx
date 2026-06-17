@@ -7,12 +7,12 @@ import {
   Clock,
   Megaphone,
   MapPin,
-  PlusCircle,
   ShieldCheck,
   Sparkles,
   UserRound,
 } from "lucide-react";
 
+import { MemberAvatar } from "@/components/member/member-avatar";
 import {
   getActivities,
   getAnnouncements,
@@ -25,7 +25,6 @@ import {
   getCalendarDateParts,
 } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
-import { canCreateEvents } from "@/lib/supabase/roles";
 
 function getAnnouncementDate(
   announcement: Awaited<ReturnType<typeof getAnnouncements>>[number],
@@ -44,7 +43,6 @@ export default async function DashboardPage() {
     getAnnouncements(),
     getRegisteredActivities(user.id),
   ]);
-  const isOfficerEventCreator = canCreateEvents(profile?.role);
   const preRegisteredCount = registeredActivities.filter(
     ({ registration }) => registration.status === "pre_registered",
   ).length;
@@ -152,9 +150,11 @@ export default async function DashboardPage() {
 
             <aside className="border-l border-white/10 bg-black/20 p-5">
               <div className="flex items-start gap-4">
-                <div className="flex size-14 shrink-0 items-center justify-center border border-white/10 text-blue-100">
-                  <UserRound className="size-6" aria-hidden="true" />
-                </div>
+                <MemberAvatar
+                  displayName={displayName}
+                  imageUrl={profile?.profile_picture_url}
+                  size={56}
+                />
                 <div className="min-w-0">
                   <h2 className="truncate text-xl font-bold">{displayName}</h2>
                   <p className="mt-1 truncate text-sm text-slate-300">
@@ -425,9 +425,11 @@ export default async function DashboardPage() {
                 <h2 className="mt-1 text-2xl font-black">{displayName}</h2>
                 <p className="mt-2 text-sm text-slate-300">{user.email}</p>
               </div>
-              <div className="flex size-16 shrink-0 items-center justify-center border border-white/10 text-blue-100">
-                <UserRound className="size-7" aria-hidden="true" />
-              </div>
+              <MemberAvatar
+                displayName={displayName}
+                imageUrl={profile?.profile_picture_url}
+                size={64}
+              />
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {[
@@ -465,39 +467,6 @@ export default async function DashboardPage() {
             </div>
           </article>
         </section>
-
-        {isOfficerEventCreator ? (
-          <section className="relative mt-6 grid gap-4 overflow-hidden border-y border-white/10 bg-black/20 p-6 text-white sm:grid-cols-2">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/35 to-transparent" />
-            <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-orange-100">
-                Officer access
-              </p>
-              <h2 className="mt-2 text-2xl font-black">
-                Publish organization updates
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-300">
-                Create official events and announcements from the officer tools.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-end gap-3 sm:justify-end">
-              <Link
-                href="/officer/events/new"
-                className="inline-flex h-11 items-center justify-center gap-2 bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
-              >
-                <PlusCircle className="size-4" aria-hidden="true" />
-                Add Event
-              </Link>
-              <Link
-                href="/officer/announcements/new"
-                className="inline-flex h-11 items-center justify-center gap-2 border border-white/30 px-5 text-sm font-semibold text-white transition hover:border-blue-300/50 hover:text-blue-100"
-              >
-                <Megaphone className="size-4" aria-hidden="true" />
-                Add Announcement
-              </Link>
-            </div>
-          </section>
-        ) : null}
       </div>
     </main>
   );

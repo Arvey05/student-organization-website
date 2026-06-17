@@ -9,7 +9,8 @@ import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { canCreateEvents } from "@/lib/supabase/roles";
 
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+const MAX_PUBLIC_IMAGE_SIZE = 10 * 1024 * 1024;
+const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
   "image/png",
@@ -67,7 +68,7 @@ async function uploadPublicImage(
     return { imageUrl: null, error: "type" };
   }
 
-  if (file.size > MAX_IMAGE_SIZE) {
+  if (file.size > MAX_PUBLIC_IMAGE_SIZE) {
     return { imageUrl: null, error: "size" };
   }
 
@@ -86,6 +87,42 @@ async function uploadPublicImage(
   }
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+
+  return { imageUrl: data.publicUrl, error: null };
+}
+
+async function uploadProfilePicture(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  userId: string,
+  file: File | null,
+): Promise<{ imageUrl: string | null; error: "type" | "size" | "upload" | null }> {
+  if (!file) {
+    return { imageUrl: null, error: null };
+  }
+
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    return { imageUrl: null, error: "type" };
+  }
+
+  if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+    return { imageUrl: null, error: "size" };
+  }
+
+  const extension = getImageExtension(file);
+  const path = `${userId}/profile-${randomUUID()}.${extension}`;
+  const { error } = await supabase.storage
+    .from("profile-pictures")
+    .upload(path, file, {
+      cacheControl: "3600",
+      contentType: file.type,
+      upsert: false,
+    });
+
+  if (error) {
+    return { imageUrl: null, error: "upload" };
+  }
+
+  const { data } = supabase.storage.from("profile-pictures").getPublicUrl(path);
 
   return { imageUrl: data.publicUrl, error: null };
 }
@@ -128,6 +165,17 @@ export async function updateProfile(formData: FormData) {
     redirect("/profile/edit?error=profile_setup_failed");
   }
 
+  const profilePictureFile = getOptionalFile(formData, "profile_picture");
+  const profilePictureUpload = await uploadProfilePicture(
+    supabase,
+    user.id,
+    profilePictureFile,
+  );
+
+  if (profilePictureUpload.error) {
+    redirect(`/profile/edit?error=profile_picture_${profilePictureUpload.error}`);
+  }
+
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -156,6 +204,9 @@ export async function updateProfile(formData: FormData) {
       ),
       guardian_phone: getOptionalString(formData, "guardian_phone"),
       guardian_address: getOptionalString(formData, "guardian_address"),
+      ...(profilePictureUpload.imageUrl
+        ? { profile_picture_url: profilePictureUpload.imageUrl }
+        : {}),
       updated_at: new Date().toISOString(),
     })
     .eq("id", user.id)

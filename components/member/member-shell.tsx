@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   CalendarDays,
   ClipboardList,
+  ChevronDown,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -20,13 +20,13 @@ import {
 import { logout } from "@/app/auth/actions";
 import type { UserRole } from "@/types/database";
 import { canCreateEvents } from "@/lib/supabase/roles";
+import { MemberAvatar } from "@/components/member/member-avatar";
 
 const memberNav = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Activities", href: "/member/activities", icon: ClipboardList },
   { label: "Calendar", href: "/calendar", icon: CalendarDays },
   { label: "My Activities", href: "/my-activities", icon: ClipboardList },
-  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 type MemberShellProps = {
@@ -37,14 +37,6 @@ type MemberShellProps = {
   role?: UserRole | null;
 };
 
-function getInitials(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const first = parts[0]?.[0] ?? "M";
-  const second = parts.length > 1 ? parts[parts.length - 1]?.[0] : "";
-
-  return `${first}${second}`.toUpperCase();
-}
-
 export function MemberShell({
   children,
   displayName,
@@ -54,21 +46,31 @@ export function MemberShell({
 }: MemberShellProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const navItems = canCreateEvents(role)
-    ? [
-        ...memberNav,
-        {
-          label: "Add Event",
-          href: "/officer/events/new",
-          icon: SquarePlus,
-        },
-        {
-          label: "Add Announcement",
-          href: "/officer/announcements/new",
-          icon: Megaphone,
-        },
-      ]
-    : memberNav;
+  const [profileOpen, setProfileOpen] = React.useState(false);
+  const [officerOpen, setOfficerOpen] = React.useState(false);
+  const profileMenuRef = React.useRef<HTMLDivElement>(null);
+  const officerMenuRef = React.useRef<HTMLDivElement>(null);
+  const isOfficerEventCreator = canCreateEvents(role);
+
+  React.useEffect(() => {
+    function handlePointerDown(event: PointerEvent) {
+      const target = event.target as Node;
+
+      if (!profileMenuRef.current?.contains(target)) {
+        setProfileOpen(false);
+      }
+
+      if (!officerMenuRef.current?.contains(target)) {
+        setOfficerOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#02040a] text-white">
@@ -94,10 +96,10 @@ export function MemberShell({
           </Link>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto lg:flex"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-6 overflow-x-auto lg:flex"
             aria-label="Member navigation"
           >
-          {navItems.map((item) => {
+          {memberNav.map((item) => {
             const Icon = item.icon;
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -107,10 +109,10 @@ export function MemberShell({
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 font-mono text-[0.72rem] uppercase tracking-[0.11em] transition ${
+                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 text-sm font-semibold transition ${
                   isActive
-                    ? "text-blue-100 after:absolute after:inset-x-1 after:-bottom-4 after:h-px after:bg-blue-300 before:absolute before:-bottom-[1.08rem] before:left-1/2 before:size-1 before:-translate-x-1/2 before:bg-orange-300"
-                    : "text-slate-500 hover:text-blue-200"
+                    ? "text-white after:absolute after:inset-x-2 after:-bottom-4 after:h-px after:bg-blue-300"
+                    : "text-slate-400 hover:text-blue-100"
                 }`}
               >
                 <Icon className="size-4 shrink-0" aria-hidden="true" />
@@ -120,50 +122,103 @@ export function MemberShell({
           })}
           </nav>
 
-          <div className="ml-auto hidden items-center gap-3 lg:flex">
-            <Link
-              href="/profile"
-              className="flex max-w-52 items-center gap-3 text-slate-300 transition hover:text-blue-200"
-            >
-              <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden border border-white/10 text-xs font-black text-blue-100">
-                {profilePictureUrl ? (
-                  <Image
-                    src={profilePictureUrl}
-                    alt={`${displayName} profile picture`}
-                    fill
-                    sizes="36px"
-                    className="object-cover"
-                  />
-                ) : (
-                  getInitials(displayName)
-                )}
-              </span>
-              <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-white">
-                  {displayName}
-                </span>
-                {email ? (
-                  <span className="block truncate text-xs text-slate-500">
-                    {email}
-                  </span>
+          <div className="ml-auto flex items-center gap-2 sm:gap-3">
+            {isOfficerEventCreator ? (
+              <div ref={officerMenuRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setOfficerOpen((value) => !value)}
+                  className="inline-flex size-10 items-center justify-center rounded-full border border-orange-300/25 bg-orange-300/10 text-orange-100 shadow-lg shadow-orange-950/20 transition hover:border-orange-200/50 hover:bg-orange-300/15"
+                  aria-expanded={officerOpen}
+                  aria-label="Open officer quick actions"
+                >
+                  <SquarePlus className="size-4" aria-hidden="true" />
+                </button>
+                {officerOpen ? (
+                  <div className="absolute right-0 top-12 w-56 border border-white/10 bg-[#05070d] p-2 shadow-2xl shadow-black/40">
+                    <Link
+                      href="/officer/events/new"
+                      onClick={() => setOfficerOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-orange-100"
+                    >
+                      <SquarePlus className="size-4" aria-hidden="true" />
+                      Add Event
+                    </Link>
+                    <Link
+                      href="/officer/announcements/new"
+                      onClick={() => setOfficerOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-orange-100"
+                    >
+                      <Megaphone className="size-4" aria-hidden="true" />
+                      Add Announcement
+                    </Link>
+                  </div>
                 ) : null}
-              </span>
-            </Link>
-            <form action={logout}>
+              </div>
+            ) : null}
+
+            <div ref={profileMenuRef} className="relative">
               <button
-                type="submit"
-                className="inline-flex items-center gap-2 px-2 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-slate-500 transition hover:text-blue-200"
+                type="button"
+                onClick={() => setProfileOpen((value) => !value)}
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] p-1 pr-2 text-slate-300 transition hover:border-blue-300/35 hover:text-blue-100"
+                aria-expanded={profileOpen}
+                aria-label="Open profile menu"
               >
-                <LogOut className="size-4" aria-hidden="true" />
-                Logout
+                <MemberAvatar
+                  displayName={displayName}
+                  imageUrl={profilePictureUrl}
+                  size={34}
+                  className="rounded-full"
+                />
+                <ChevronDown className="size-4" aria-hidden="true" />
               </button>
-            </form>
+              {profileOpen ? (
+                <div className="absolute right-0 top-12 w-64 border border-white/10 bg-[#05070d] p-2 shadow-2xl shadow-black/40">
+                  <div className="border-b border-white/10 px-3 py-3">
+                    <p className="truncate text-sm font-bold text-white">
+                      {displayName}
+                    </p>
+                    {email ? (
+                      <p className="mt-1 truncate text-xs text-slate-500">
+                        {email}
+                      </p>
+                    ) : null}
+                  </div>
+                  <Link
+                    href="/profile"
+                    onClick={() => setProfileOpen(false)}
+                    className="mt-2 flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-blue-100"
+                  >
+                    <UserRound className="size-4" aria-hidden="true" />
+                    Member Profile
+                  </Link>
+                  <Link
+                    href="/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-blue-100"
+                  >
+                    <Settings className="size-4" aria-hidden="true" />
+                    Settings
+                  </Link>
+                  <form action={logout} className="border-t border-white/10 pt-2">
+                    <button
+                      type="submit"
+                      className="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/[0.04] hover:text-blue-100"
+                    >
+                      <LogOut className="size-4" aria-hidden="true" />
+                      Logout
+                    </button>
+                  </form>
+                </div>
+              ) : null}
+            </div>
           </div>
 
           <button
             type="button"
             onClick={() => setMobileOpen((value) => !value)}
-            className="ml-auto inline-flex size-10 items-center justify-center border border-white/10 text-slate-200 transition hover:border-blue-300/40 hover:text-blue-200 lg:hidden"
+            className="inline-flex size-10 items-center justify-center border border-white/10 text-slate-200 transition hover:border-blue-300/40 hover:text-blue-200 lg:hidden"
             aria-expanded={mobileOpen}
             aria-controls="member-mobile-nav"
             aria-label="Toggle member navigation"
@@ -182,19 +237,11 @@ export function MemberShell({
             className="border-t border-white/10 px-4 py-4 sm:px-6 lg:hidden"
           >
             <div className="mb-4 flex items-center gap-3">
-              <span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden border border-white/10 text-xs font-black text-blue-100">
-                {profilePictureUrl ? (
-                  <Image
-                    src={profilePictureUrl}
-                    alt={`${displayName} profile picture`}
-                    fill
-                    sizes="40px"
-                    className="object-cover"
-                  />
-                ) : (
-                  getInitials(displayName)
-                )}
-              </span>
+              <MemberAvatar
+                displayName={displayName}
+                imageUrl={profilePictureUrl}
+                size={40}
+              />
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-white">
                   {displayName}
@@ -205,7 +252,7 @@ export function MemberShell({
               </div>
             </div>
             <nav className="grid gap-1 sm:grid-cols-2" aria-label="Member mobile navigation">
-              {navItems.map((item) => {
+              {memberNav.map((item) => {
                 const Icon = item.icon;
                 const isActive =
                   pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -234,6 +281,14 @@ export function MemberShell({
               >
                 <UserRound className="size-4" aria-hidden="true" />
                 Profile
+              </Link>
+              <Link
+                href="/settings"
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex items-center gap-3 border-l border-transparent px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-blue-200"
+              >
+                <Settings className="size-4" aria-hidden="true" />
+                Settings
               </Link>
             </nav>
             <form action={logout} className="mt-3 border-t border-white/10 pt-3">

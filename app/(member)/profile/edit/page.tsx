@@ -1,9 +1,24 @@
 import { MemberPageHeader } from "@/components/member/page-header";
+import { MemberAvatar } from "@/components/member/member-avatar";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 import { updateProfile } from "@/app/member/actions";
 
-export default async function EditProfilePage() {
-  const { profile, user } = await getCurrentMemberProfile();
+const errorMessages: Record<string, string> = {
+  profile_picture_type: "Upload a JPG, PNG, WebP, or GIF profile picture.",
+  profile_picture_size: "Profile picture must be 5 MB or smaller.",
+  profile_picture_upload: "Profile picture upload failed. Please try again.",
+};
+
+export default async function EditProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const [{ profile, user, displayName }, params] = await Promise.all([
+    getCurrentMemberProfile(),
+    searchParams,
+  ]);
+  const errorMessage = params.error ? errorMessages[params.error] : null;
   const fields: Array<{
     name: string;
     label: string;
@@ -67,13 +82,44 @@ export default async function EditProfilePage() {
         <MemberPageHeader
           eyebrow="Edit profile"
           title="Update your member information"
-          description="Modify your school, contact, personal, and guardian information. Profile picture upload will be connected with Supabase Storage in a later phase."
+          description="Modify your school, contact, personal, guardian, and profile picture information."
         />
 
         <form
           action={updateProfile}
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
+          <div className="mb-6 flex flex-col gap-5 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4">
+              <MemberAvatar
+                displayName={displayName}
+                imageUrl={profile?.profile_picture_url}
+                size={72}
+              />
+              <div>
+                <p className="text-sm font-bold text-white">Profile picture</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  JPG, PNG, WebP, or GIF. Maximum file size is 5 MB.
+                </p>
+              </div>
+            </div>
+            <label className="inline-flex h-11 cursor-pointer items-center justify-center border border-white/15 px-4 text-sm font-semibold text-white transition hover:border-blue-300/40 hover:text-blue-100">
+              Change Picture
+              <input
+                name="profile_picture"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="sr-only"
+              />
+            </label>
+          </div>
+
+          {errorMessage ? (
+            <p className="mb-5 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-100">
+              {errorMessage}
+            </p>
+          ) : null}
+
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {fields.map(({ name, label, value }) => (
               <label key={name} className="block">
