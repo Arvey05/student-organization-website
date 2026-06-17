@@ -74,7 +74,7 @@ export default async function DashboardPage() {
       title: announcement.title,
       date: getAnnouncementDate(announcement),
       href: "/announcements",
-      tone: "border-slate-700 bg-slate-950 text-white",
+      tone: "border-slate-700 bg-[#02040a] text-white",
     })),
   ]
     .sort(
@@ -89,14 +89,14 @@ export default async function DashboardPage() {
       value: String(registeredCount),
       description: "Active registrations",
       icon: ClipboardCheck,
-      tone: "bg-blue-600 text-white",
+      tone: "bg-blue-500 text-white",
     },
     {
       label: "Upcoming",
       value: String(upcomingActivities.length),
       description: "Published activities",
       icon: CalendarDays,
-      tone: "bg-slate-950 text-white",
+      tone: "bg-[#02040a] text-white",
     },
     {
       label: "Completed",
@@ -115,9 +115,9 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <main className="bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="relative overflow-hidden border-y border-white/10 bg-slate-950 p-6 text-white sm:p-8">
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(37,99,235,0.5),transparent_30%),radial-gradient(circle_at_85%_0%,rgba(59,130,246,0.28),transparent_25%)]" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-blue-950/60 to-transparent" />
           <div className="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
@@ -134,18 +134,18 @@ export default async function DashboardPage() {
                 registered activities, and upcoming organization dates.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold capitalize text-emerald-100">
+                <span className="inline-flex items-center gap-2  border border-emerald-300/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold capitalize text-emerald-100">
                   <ShieldCheck className="size-4" aria-hidden="true" />
                   {profile?.member_status ?? "active"}
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-100">
+                <span className="inline-flex items-center gap-2  border border-blue-300/30 bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-100">
                   <UserRound className="size-4" aria-hidden="true" />
                   {formatRole(profile?.role)}
                 </span>
               </div>
             </div>
 
-            <aside className="border-l border-white/10 bg-slate-950/80 p-5">
+            <aside className="border-l border-white/10 bg-[#02040a]/80 p-5">
               <div className="flex items-start gap-4">
                 <div className="flex size-14 shrink-0 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                   <UserRound className="size-6" aria-hidden="true" />
@@ -155,12 +155,12 @@ export default async function DashboardPage() {
                   <p className="mt-1 truncate text-sm text-slate-300">
                     {user.email}
                   </p>
-                  <p className="mt-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-blue-100 ring-1 ring-white/10">
+                  <p className="mt-3 inline-flex  bg-white/10 px-3 py-1 text-xs font-semibold text-blue-100 ring-1 ring-white/10">
                     {formatRole(profile?.role)}
                   </p>
                 </div>
               </div>
-              <div className="mt-5 grid gap-3 rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-sm text-slate-200">
+              <div className="mt-5 grid gap-3  border border-white/10 bg-[#02040a]/35 p-4 text-sm text-slate-200">
                 <p>
                   <span className="text-slate-400">Program:</span>{" "}
                   {profile?.program ?? "Not set"}
@@ -177,7 +177,7 @@ export default async function DashboardPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/profile"
-                  className="inline-flex h-10 items-center justify-center rounded-md bg-white px-4 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
+                  className="inline-flex h-10 items-center justify-center rounded-md bg-blue-500 px-4 text-sm font-semibold text-white transition hover:bg-blue-400"
                 >
                   View Profile
                 </Link>
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
             return (
               <article
                 key={stat.label}
-                className="border-t border-white/10 bg-slate-950/70 p-5 transition hover:border-blue-300/40"
+                className="border-t border-white/10 bg-[#02040a]/70 p-5 transition hover:border-blue-300/40"
               >
                 <div className={`flex size-11 items-center justify-center rounded-md ${stat.tone}`}>
                   <Icon className="size-5" aria-hidden="true" />
@@ -219,10 +219,10 @@ export default async function DashboardPage() {
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-          <article className="border-t border-white/10 bg-slate-950 p-6">
+          <article className="border-t border-white/10 bg-[#02040a] p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Updates
                 </p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-white">
@@ -243,10 +243,10 @@ export default async function DashboardPage() {
                   <Link
                     key={item.id}
                     href="/announcements"
-                    className="grid gap-4 border-t border-white/10 bg-slate-950/60 p-4 transition hover:border-blue-300/40 sm:grid-cols-[10rem_1fr]"
+                    className="grid gap-4 border-t border-white/10 bg-[#02040a]/60 p-4 transition hover:border-blue-300/40 sm:grid-cols-[10rem_1fr]"
                   >
                     {item.image_url ? (
-                      <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-200">
+                      <div className="relative aspect-video overflow-hidden  bg-slate-900">
                         <Image
                           src={item.image_url}
                           alt={`${item.title} cover`}
@@ -256,7 +256,7 @@ export default async function DashboardPage() {
                         />
                       </div>
                     ) : (
-                      <div className="flex aspect-video items-center justify-center rounded-xl bg-slate-950 text-blue-100">
+                      <div className="flex aspect-video items-center justify-center  bg-[#02040a] text-blue-100">
                         <Megaphone className="size-7" aria-hidden="true" />
                       </div>
                     )}
@@ -282,17 +282,17 @@ export default async function DashboardPage() {
                   </Link>
                 ))
               ) : (
-                <p className="border border-dashed border-white/15 bg-slate-950/60 p-5 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-5 text-sm text-slate-300">
                   No announcements yet.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="border-t border-white/10 bg-slate-950 p-6">
+          <article className="border-t border-white/10 bg-[#02040a] p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Activities
                 </p>
                 <h2 className="mt-1 text-2xl font-black text-white">
@@ -315,9 +315,9 @@ export default async function DashboardPage() {
                     <Link
                       key={registration.id}
                       href={`/member/activities/${activity.id}`}
-                      className="flex gap-4 border-t border-white/10 bg-slate-950/60 p-3 transition hover:border-blue-300/40"
+                      className="flex gap-4 border-t border-white/10 bg-[#02040a]/60 p-3 transition hover:border-blue-300/40"
                     >
-                      <div className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-xl bg-slate-200">
+                      <div className="relative aspect-video w-28 shrink-0 overflow-hidden  bg-slate-900">
                         {activity.image_url ? (
                           <Image
                             src={activity.image_url}
@@ -345,7 +345,7 @@ export default async function DashboardPage() {
                     </Link>
                   ))
               ) : (
-                <p className="border border-dashed border-white/15 bg-slate-950/60 p-4 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-4 text-sm text-slate-300">
                   You have not registered for any activities yet.
                 </p>
               )}
@@ -354,10 +354,10 @@ export default async function DashboardPage() {
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <article className="border-t border-white/10 bg-slate-950 p-6">
+          <article className="border-t border-white/10 bg-[#02040a] p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Calendar
                 </p>
                 <h2 className="mt-1 text-xl font-bold text-white">
@@ -381,7 +381,7 @@ export default async function DashboardPage() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className="flex items-center gap-4 border-t border-white/10 bg-slate-950/60 p-4 transition hover:border-blue-300/40"
+                      className="flex items-center gap-4 border-t border-white/10 bg-[#02040a]/60 p-4 transition hover:border-blue-300/40"
                     >
                       <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-md bg-black text-white">
                         <span className="text-xs font-bold uppercase text-blue-200">
@@ -390,7 +390,7 @@ export default async function DashboardPage() {
                         <span className="text-xl font-black">{date.day}</span>
                       </span>
                       <span className="min-w-0">
-                        <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${item.tone}`}>
+                        <span className={`inline-flex  border px-2.5 py-1 text-xs font-semibold ${item.tone}`}>
                           {item.type}
                         </span>
                         <span className="mt-2 block truncate text-sm font-bold text-white">
@@ -404,14 +404,14 @@ export default async function DashboardPage() {
                   );
                 })
               ) : (
-                <p className="border border-dashed border-white/15 bg-slate-950/60 p-4 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-4 text-sm text-slate-300">
                   No calendar events available yet.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="border-t border-white/10 bg-slate-950 p-6 text-white">
+          <article className="border-t border-white/10 bg-[#02040a] p-6 text-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
@@ -433,7 +433,7 @@ export default async function DashboardPage() {
               ].map(([label, value]) => (
                 <div
                   key={label}
-                  className="border-t border-white/10 bg-slate-950/70 p-4"
+                  className="border-t border-white/10 bg-[#02040a]/70 p-4"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
                     {label}
@@ -447,7 +447,7 @@ export default async function DashboardPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/profile"
-                className="inline-flex h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-blue-50"
+                className="inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
               >
                 View Profile
               </Link>
@@ -477,7 +477,7 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap items-end gap-3 sm:justify-end">
               <Link
                 href="/officer/events/new"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-blue-700"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-blue-500 px-5 text-sm font-semibold text-white"
               >
                 <PlusCircle className="size-4" aria-hidden="true" />
                 Add Event

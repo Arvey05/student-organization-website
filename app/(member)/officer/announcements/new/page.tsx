@@ -24,7 +24,7 @@ export default async function NewOfficerAnnouncementPage() {
         <form
           action={createOfficerAnnouncement}
           encType="multipart/form-data"
-          className="mt-8 border-y border-white/10 bg-slate-950 p-6"
+          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <label className="block">
             <span className="text-sm font-semibold text-slate-200">Title</span>
@@ -89,7 +89,7 @@ export default async function NewOfficerAnnouncementPage() {
               name="image"
               type="file"
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
+              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
             />
             <span className="mt-2 block text-xs text-slate-500">
               JPG, PNG, WebP, or GIF. Maximum file size is 10 MB.
@@ -107,7 +107,7 @@ export default async function NewOfficerAnnouncementPage() {
 
           <button
             type="submit"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
+            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
           >
             Create Announcement
           </button>

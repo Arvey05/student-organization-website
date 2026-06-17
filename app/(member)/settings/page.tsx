@@ -42,7 +42,7 @@ export default function SettingsPage() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="border-t border-white/10 bg-slate-950 p-6 transition hover:border-blue-300/40"
+                className="border-t border-white/10 bg-[#02040a] p-6 transition hover:border-blue-300/40"
               >
                 <div className="flex size-12 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
                   <Icon className="size-5" aria-hidden="true" />

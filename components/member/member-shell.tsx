@@ -53,11 +53,9 @@ export function MemberShell({ children, role }: MemberShellProps) {
     : memberNav;
 
   return (
-    <div
-      className="min-h-screen bg-slate-950 text-white"
-    >
+    <div className="min-h-screen bg-[#02040a] text-white">
       <aside
-        className={`fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-black p-4 transition-[width] xl:block ${
+        className={`fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-[#02040a]/95 p-4 backdrop-blur-md transition-[width] xl:block ${
           collapsed ? "w-20" : "w-72"
         }`}
       >
@@ -69,7 +67,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             }`}
             title="BulSU MSC"
           >
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-sm font-black text-white">
+            <span className="flex size-11 shrink-0 items-center justify-center border border-blue-300/25 bg-blue-500/15 text-sm font-black text-blue-100 shadow-[0_0_22px_rgba(37,99,235,0.25)]">
               MSC
             </span>
             {!collapsed ? (
@@ -88,7 +86,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             <button
               type="button"
               onClick={() => setCollapsed(true)}
-              className="inline-flex size-9 items-center justify-center rounded-md border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10"
+              className="inline-flex size-9 items-center justify-center border border-white/10 bg-white/[0.04] text-slate-300 transition hover:border-blue-300/40 hover:text-white"
               aria-label="Collapse sidebar"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
@@ -100,7 +98,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
           <button
             type="button"
             onClick={() => setCollapsed(false)}
-            className="mx-auto mt-4 inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10"
+            className="mx-auto mt-4 inline-flex size-10 items-center justify-center border border-white/10 bg-white/[0.04] text-slate-300 transition hover:border-blue-300/40 hover:text-white"
             aria-label="Expand sidebar"
           >
             <ChevronRight className="size-4" aria-hidden="true" />
@@ -118,12 +116,12 @@ export function MemberShell({ children, role }: MemberShellProps) {
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-semibold transition ${
+                className={`relative flex items-center gap-3 px-3 py-3 text-sm font-semibold transition ${
                   collapsed ? "justify-center" : ""
                 } ${
                   isActive
-                    ? "bg-blue-500/15 text-blue-100"
-                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                    ? "border-l border-blue-300 bg-blue-500/10 text-blue-100"
+                    : "text-slate-400 hover:bg-white/[0.04] hover:text-white"
                 }`}
               >
                 <Icon className="size-4 shrink-0" aria-hidden="true" />
@@ -137,7 +135,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
           <button
             type="submit"
             title="Logout"
-            className={`flex w-full items-center gap-3 rounded-md border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white ${
+            className={`flex w-full items-center gap-3 border border-white/10 bg-white/[0.04] px-3 py-3 text-sm font-semibold text-slate-300 transition hover:border-blue-300/40 hover:text-white ${
               collapsed ? "justify-center" : ""
             }`}
           >
@@ -148,7 +146,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
       </aside>
 
       <header
-        className="sticky top-0 z-30 border-b border-white/10 bg-black xl:hidden"
+        className="sticky top-0 z-30 border-b border-white/10 bg-[#02040a]/95 backdrop-blur-md xl:hidden"
       >
         <div className="flex items-center justify-between px-4 py-4">
           <Link
@@ -161,7 +159,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             <button
               type="button"
               onClick={() => setCollapsed((value) => !value)}
-              className="inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white"
+              className="inline-flex size-10 items-center justify-center border border-white/10 bg-white/[0.04] text-white"
               aria-label={collapsed ? "Expand navigation labels" : "Collapse navigation labels"}
             >
               {collapsed ? (
@@ -172,7 +170,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
             </button>
             <Link
               href="/"
-              className="inline-flex size-10 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white"
+              className="inline-flex size-10 items-center justify-center border border-white/10 bg-white/[0.04] text-white"
               aria-label="Go to public home"
             >
               <Home className="size-4" aria-hidden="true" />
@@ -193,7 +191,7 @@ export function MemberShell({ children, role }: MemberShellProps) {
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold ${
+                className={`inline-flex shrink-0 items-center gap-2 border px-3 py-2 text-sm font-semibold ${
                   isActive
                     ? "border-blue-300/40 bg-blue-500/15 text-blue-100"
                     : "border-white/10 bg-white/5 text-slate-200"

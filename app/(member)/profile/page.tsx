@@ -29,9 +29,9 @@ export default async function ProfilePage() {
         />
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="border-y border-white/10 bg-slate-950 p-6">
+          <div className="border-y border-white/10 bg-[#02040a] p-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex size-24 items-center justify-center rounded-md bg-blue-600 text-white">
+              <div className="flex size-24 items-center justify-center rounded-md bg-blue-500 text-white">
                 <UserRound className="size-10" aria-hidden="true" />
               </div>
               <h2 className="mt-5 text-2xl font-black text-white">
@@ -47,14 +47,14 @@ export default async function ProfilePage() {
               </p>
               <Link
                 href="/profile/edit"
-                className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
+                className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
               >
                 Edit Profile
               </Link>
             </div>
           </div>
 
-          <div className="border-y border-white/10 bg-slate-950 p-6">
+          <div className="border-y border-white/10 bg-[#02040a] p-6">
             <h2 className="text-xl font-bold text-white">
               Personal information
             </h2>

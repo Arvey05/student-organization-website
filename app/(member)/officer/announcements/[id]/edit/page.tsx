@@ -44,7 +44,7 @@ export default async function EditOfficerAnnouncementPage({
         <form
           action={updateOfficerAnnouncement}
           encType="multipart/form-data"
-          className="mt-8 border-y border-white/10 bg-slate-950 p-6"
+          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <input type="hidden" name="announcement_id" value={announcement.id} />
 
@@ -124,7 +124,7 @@ export default async function EditOfficerAnnouncementPage({
               name="image"
               type="file"
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
+              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
             />
             <span className="mt-2 block text-xs text-slate-500">
               Leave blank to keep the current cover. Maximum file size is 10 MB.
@@ -155,7 +155,7 @@ export default async function EditOfficerAnnouncementPage({
 
           <button
             type="submit"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
+            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
           >
             Save Announcement
           </button>
@@ -166,10 +166,10 @@ export default async function EditOfficerAnnouncementPage({
           className="mt-4 border-y border-red-300/30 bg-red-500/10 p-6"
         >
           <input type="hidden" name="announcement_id" value={announcement.id} />
-          <h2 className="text-lg font-bold text-red-950">
+          <h2 className="text-lg font-bold text-red-100">
             Delete announcement
           </h2>
-          <p className="mt-2 text-sm leading-6 text-red-800">
+          <p className="mt-2 text-sm leading-6 text-red-200">
             This archives the announcement so it no longer appears in member
             announcement, dashboard, or calendar views.
           </p>

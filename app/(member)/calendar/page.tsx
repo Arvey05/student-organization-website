@@ -149,7 +149,7 @@ function getChipClasses(item: CalendarItem) {
     return "border-teal-300/30 bg-teal-400/15 text-teal-100 hover:border-teal-200/60 hover:bg-teal-400/25";
   }
 
-  return "border-blue-300/30 bg-blue-500/15 text-blue-100 hover:border-blue-200/60 hover:bg-blue-500/25";
+  return "border-blue-300/30 bg-blue-500/15 text-blue-100 hover:border-blue-200/60 hover:bg-blue-400/25";
 }
 
 function getAgendaClasses(item: CalendarItem) {
@@ -214,10 +214,10 @@ export default async function CalendarPage() {
   });
 
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="overflow-hidden border-y border-white/10 bg-slate-950">
-          <div className="relative border-b border-white/10 bg-slate-950 p-6 text-white sm:p-8">
+        <section className="overflow-hidden border-y border-white/10 bg-[#02040a]">
+          <div className="relative border-b border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />
             <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
@@ -271,13 +271,13 @@ export default async function CalendarPage() {
                   return (
                     <div
                       key={key}
-                      className={`min-h-36 bg-slate-950/70 p-3 transition hover:bg-slate-900/90 ${
-                        isOutsideMonth ? "bg-slate-950/35" : ""
+                      className={`min-h-36 bg-[#02040a]/70 p-3 transition hover:bg-slate-900/90 ${
+                        isOutsideMonth ? "bg-[#02040a]/35" : ""
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <p
-                          className={`flex size-8 items-center justify-center rounded-full text-sm font-bold ${
+                          className={`flex size-8 items-center justify-center  text-sm font-bold ${
                             isToday
                               ? "bg-blue-500 text-white shadow-lg shadow-blue-950/40"
                               : isOutsideMonth
@@ -330,7 +330,7 @@ export default async function CalendarPage() {
             </>
           ) : (
             <div className="p-6">
-              <p className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
+              <p className="border-y border-dashed border-white/15 bg-[#02040a] p-6 text-sm text-slate-300">
                 No calendar events or announcements are available yet.
               </p>
             </div>
@@ -338,7 +338,7 @@ export default async function CalendarPage() {
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="border-y border-white/10 bg-slate-950 p-5">
+          <article className="border-y border-white/10 bg-[#02040a] p-5">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
                 Agenda
@@ -394,14 +394,14 @@ export default async function CalendarPage() {
                     </Link>
                   ))
               ) : (
-                <p className="border-y border-dashed border-white/15 bg-slate-950 p-4 text-sm text-slate-300">
+                <p className="border-y border-dashed border-white/15 bg-[#02040a] p-4 text-sm text-slate-300">
                   No activities available yet.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="border-y border-white/10 bg-slate-950 p-5">
+          <article className="border-y border-white/10 bg-[#02040a] p-5">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-200">
                 Announcements
@@ -450,7 +450,7 @@ export default async function CalendarPage() {
                     </div>
                   ))
               ) : (
-                <p className="border-y border-dashed border-white/15 bg-slate-950 p-4 text-sm text-slate-300">
+                <p className="border-y border-dashed border-white/15 bg-[#02040a] p-4 text-sm text-slate-300">
                   No announcements available yet.
                 </p>
               )}

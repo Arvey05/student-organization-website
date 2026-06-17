@@ -11,9 +11,9 @@ export default async function MyActivitiesPage() {
   const registeredActivities = await getRegisteredActivities(user.id);
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <section className="border-y border-white/10 bg-slate-950 p-6 sm:p-8">
+        <section className="border-y border-white/10 bg-[#02040a] p-6 sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
             My Activities
           </p>
@@ -32,7 +32,7 @@ export default async function MyActivitiesPage() {
               <Link
                 key={registration.id}
                 href={`/member/activities/${activity.id}`}
-                className="group overflow-hidden border-t border-white/10 bg-slate-950 p-5 transition hover:border-blue-300/40"
+                className="group overflow-hidden border-t border-white/10 bg-[#02040a] p-5 transition hover:border-blue-300/40"
               >
                 {activity.image_url ? (
                   <div className="relative mb-5 aspect-video overflow-hidden rounded-md bg-slate-900">
@@ -65,7 +65,7 @@ export default async function MyActivitiesPage() {
               </Link>
             ))
           ) : (
-            <article className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300 md:col-span-3">
+            <article className="border-y border-dashed border-white/15 bg-[#02040a] p-6 text-sm text-slate-300 md:col-span-3">
               You have not registered for any activities yet. Joined and
               completed activities will appear here.
             </article>

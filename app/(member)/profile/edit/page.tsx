@@ -72,7 +72,7 @@ export default async function EditProfilePage() {
 
         <form
           action={updateProfile}
-          className="mt-8 border-y border-white/10 bg-slate-950 p-6"
+          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {fields.map(({ name, label, value }) => (
@@ -92,7 +92,7 @@ export default async function EditProfilePage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
             >
               Save Profile
             </button>

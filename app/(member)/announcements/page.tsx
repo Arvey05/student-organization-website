@@ -16,9 +16,9 @@ export default async function AnnouncementsPage() {
   const isOfficerEventCreator = canCreateEvents(profile?.role);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <section className="relative overflow-hidden border-y border-white/10 bg-slate-950 p-6 sm:p-8">
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(37,99,235,0.35),transparent_28%),radial-gradient(circle_at_85%_0%,rgba(124,58,237,0.18),transparent_24%)]" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -47,7 +47,7 @@ export default async function AnnouncementsPage() {
           </div>
         </section>
 
-        <section className="mt-6 overflow-hidden border-y border-white/10 bg-slate-950">
+        <section className="mt-6 overflow-hidden border-y border-white/10 bg-[#02040a]">
           {announcements.length ? (
             announcements.map((announcement) => (
               <article
@@ -76,10 +76,10 @@ export default async function AnnouncementsPage() {
                             )}
                       </p>
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${
+                        className={`inline-flex items-center gap-1.5  border px-2.5 py-1 text-xs font-semibold ${
                           announcement.is_public
                             ? "border-teal-300/30 bg-teal-400/10 text-teal-100"
-                            : "border-slate-300/20 bg-white/5 text-slate-300"
+                            : "border-slate-300/20 bg-white/[0.04] text-slate-300"
                         }`}
                       >
                         {announcement.is_public ? (
@@ -148,7 +148,7 @@ export default async function AnnouncementsPage() {
             ))
           ) : (
             <article className="p-6">
-              <div className="border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
+              <div className="border-y border-dashed border-white/15 bg-[#02040a] p-6 text-sm text-slate-300">
                 No announcements yet.
               </div>
             </article>

@@ -36,10 +36,10 @@ function ActivityBackdrop({ activity }: { activity: ActivityRow }) {
   }
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-slate-950">
+    <div className="absolute inset-0 overflow-hidden bg-[#02040a]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(37,99,235,0.72),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(14,165,233,0.32),transparent_24%),linear-gradient(135deg,#020617,#0f172a_46%,#1d4ed8)]" />
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)] opacity-30" />
-      <div className="absolute bottom-8 left-8 right-8 h-24 rounded-full bg-blue-500/20 blur-3xl" />
+      <div className="absolute bottom-8 left-8 right-8 h-24  bg-blue-500/20 blur-3xl" />
     </div>
   );
 }
@@ -85,7 +85,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
   ];
 
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 pb-12 text-white">
+    <main className="min-h-screen overflow-hidden bg-[#02040a] pb-12 text-white">
       <section className="relative min-h-[38rem] overflow-hidden">
         <ActivityBackdrop activity={activity} />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/78 to-slate-950/20" />
@@ -125,9 +125,9 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
       </section>
 
       <section className="relative mx-auto -mt-8 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.25fr_0.75fr] lg:px-8">
-        <div className="absolute left-1/2 top-0 h-56 w-[42rem] -translate-x-1/2 rounded-full bg-blue-600/15 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-56 w-[42rem] -translate-x-1/2  bg-blue-500/15 blur-3xl" />
 
-        <article className="relative border-y border-white/10 bg-slate-950 p-6">
+        <article className="relative border-y border-white/10 bg-[#02040a] p-6">
           <div className="grid gap-4 sm:grid-cols-2">
             {detailItems.map((item) => {
               const Icon = item.icon;
@@ -135,7 +135,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
               return (
                 <div
                   key={item.label}
-                  className="border-t border-white/10 bg-slate-950 p-4"
+                  className="border-t border-white/10 bg-[#02040a] p-4"
                 >
                   <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                     <Icon className="size-4" aria-hidden="true" />
@@ -149,7 +149,7 @@ export default async function MemberActivityDetailsPage({ params }: PageProps) {
             })}
           </div>
 
-          <div className="mt-6 border-t border-white/10 bg-slate-950 p-5">
+          <div className="mt-6 border-t border-white/10 bg-[#02040a] p-5">
             <h2 className="text-lg font-bold text-white">Short Description</h2>
             <p className="mt-3 text-sm leading-7 text-slate-300">
               {activity.short_description || "No description available."}
