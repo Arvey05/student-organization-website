@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { archiveOfficerEvent, updateOfficerEvent } from "@/app/member/actions";
+import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getActivityById } from "@/lib/member/activity-data";
 import { formatDateTimeLocalInput } from "@/lib/member/display";
@@ -38,7 +38,6 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
 
         <form
           action={updateOfficerEvent}
-          encType="multipart/form-data"
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <input type="hidden" name="activity_id" value={activity.id} />
@@ -125,33 +124,11 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
             </select>
           </label>
 
-          <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-200">
-              Cover Image
-            </span>
-            <input
-              name="cover_image"
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-950 focus:border-blue-300/60"
-            />
-            <span className="mt-2 block text-xs text-slate-500">
-              JPG, PNG, WebP, or GIF. Maximum file size is 10 MB. Leave blank to
-              keep the current cover.
-            </span>
-          </label>
-
-          {activity.image_url ? (
-            <div className="relative mt-4 aspect-video overflow-hidden rounded-md border border-white/10 bg-black">
-              <Image
-                src={activity.image_url}
-                alt={`${activity.name} cover`}
-                fill
-                sizes="(min-width: 768px) 768px, 100vw"
-                className="object-cover"
-              />
-            </div>
-          ) : null}
+          <OfficerImageUpload
+            bucket="activity-images"
+            hiddenInputName="image_url"
+            currentImageUrl={activity.image_url}
+          />
 
           <button
             type="submit"

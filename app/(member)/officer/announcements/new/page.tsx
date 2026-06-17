@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { createOfficerAnnouncement } from "@/app/member/actions";
+import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 import { canCreateEvents } from "@/lib/supabase/roles";
@@ -23,7 +24,6 @@ export default async function NewOfficerAnnouncementPage() {
 
         <form
           action={createOfficerAnnouncement}
-          encType="multipart/form-data"
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <label className="block">
@@ -81,20 +81,10 @@ export default async function NewOfficerAnnouncementPage() {
             />
           </label>
 
-          <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-200">
-              Cover Image
-            </span>
-            <input
-              name="image"
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-950 focus:border-blue-300/60"
-            />
-            <span className="mt-2 block text-xs text-slate-500">
-              JPG, PNG, WebP, or GIF. Maximum file size is 10 MB.
-            </span>
-          </label>
+          <OfficerImageUpload
+            bucket="announcement-images"
+            hiddenInputName="image_url"
+          />
 
           <label className="mt-4 flex items-center gap-3 border border-white/10 bg-black p-4 text-sm font-semibold text-slate-200">
             <input

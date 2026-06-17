@@ -1,10 +1,10 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import {
   archiveOfficerAnnouncement,
   updateOfficerAnnouncement,
 } from "@/app/member/actions";
+import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getAnnouncementById } from "@/lib/member/activity-data";
 import { formatDateTimeLocalInput } from "@/lib/member/display";
@@ -43,7 +43,6 @@ export default async function EditOfficerAnnouncementPage({
 
         <form
           action={updateOfficerAnnouncement}
-          encType="multipart/form-data"
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
         >
           <input type="hidden" name="announcement_id" value={announcement.id} />
@@ -116,32 +115,11 @@ export default async function EditOfficerAnnouncementPage({
             />
           </label>
 
-          <label className="mt-4 block">
-            <span className="text-sm font-semibold text-slate-200">
-              Cover Image
-            </span>
-            <input
-              name="image"
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-950 focus:border-blue-300/60"
-            />
-            <span className="mt-2 block text-xs text-slate-500">
-              Leave blank to keep the current cover. Maximum file size is 10 MB.
-            </span>
-          </label>
-
-          {announcement.image_url ? (
-            <div className="relative mt-4 aspect-video overflow-hidden rounded-md border border-white/10 bg-black">
-              <Image
-                src={announcement.image_url}
-                alt={`${announcement.title} cover`}
-                fill
-                sizes="(min-width: 768px) 768px, 100vw"
-                className="object-cover"
-              />
-            </div>
-          ) : null}
+          <OfficerImageUpload
+            bucket="announcement-images"
+            hiddenInputName="image_url"
+            currentImageUrl={announcement.image_url}
+          />
 
           <label className="mt-4 flex items-center gap-3 border border-white/10 bg-black p-4 text-sm font-semibold text-slate-200">
             <input

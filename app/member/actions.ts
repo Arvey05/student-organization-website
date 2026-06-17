@@ -9,7 +9,6 @@ import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { canCreateEvents } from "@/lib/supabase/roles";
 
-const MAX_PUBLIC_IMAGE_SIZE = 10 * 1024 * 1024;
 const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -53,44 +52,6 @@ function getImageExtension(file: File): string {
   return file.type.split("/")[1] ?? "jpg";
 }
 
-async function uploadPublicImage(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
-  bucket: "activity-images" | "announcement-images",
-  userId: string,
-  folder: string,
-  file: File | null,
-): Promise<{ imageUrl: string | null; error: "type" | "size" | "upload" | null }> {
-  if (!file) {
-    return { imageUrl: null, error: null };
-  }
-
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { imageUrl: null, error: "type" };
-  }
-
-  if (file.size > MAX_PUBLIC_IMAGE_SIZE) {
-    return { imageUrl: null, error: "size" };
-  }
-
-  const extension = getImageExtension(file);
-  const path = `${userId}/${folder}/${randomUUID()}.${extension}`;
-  const { error } = await supabase.storage
-    .from(bucket)
-    .upload(path, file, {
-      cacheControl: "3600",
-      contentType: file.type,
-      upsert: false,
-    });
-
-  if (error) {
-    return { imageUrl: null, error: "upload" };
-  }
-
-  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-
-  return { imageUrl: data.publicUrl, error: null };
-}
-
 async function uploadProfilePicture(
   supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
   userId: string,
@@ -125,28 +86,6 @@ async function uploadProfilePicture(
   const { data } = supabase.storage.from("profile-pictures").getPublicUrl(path);
 
   return { imageUrl: data.publicUrl, error: null };
-}
-
-async function uploadEventCover(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
-  userId: string,
-  file: File | null,
-) {
-  return uploadPublicImage(supabase, "activity-images", userId, "events", file);
-}
-
-async function uploadAnnouncementImage(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
-  userId: string,
-  file: File | null,
-) {
-  return uploadPublicImage(
-    supabase,
-    "announcement-images",
-    userId,
-    "announcements",
-    file,
-  );
 }
 
 export async function updateProfile(formData: FormData) {
@@ -265,7 +204,7 @@ export async function createOfficerEvent(formData: FormData) {
   const endsAt = getOptionalString(formData, "ends_at");
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
-  const coverFile = getOptionalFile(formData, "cover_image");
+  const imageUrl = getOptionalString(formData, "image_url");
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect("/officer/events/new?error=missing_fields");
@@ -275,19 +214,13 @@ export async function createOfficerEvent(formData: FormData) {
     redirect("/officer/events/new?error=invalid_time_frame");
   }
 
-  const upload = await uploadEventCover(supabase, user.id, coverFile);
-
-  if (upload.error) {
-    redirect(`/officer/events/new?error=cover_${upload.error}`);
-  }
-
   const { error } = await supabase.from("activities").insert({
     name,
     starts_at: startsAt,
     ends_at: endsAt,
     short_description: shortDescription,
     location,
-    image_url: upload.imageUrl,
+    image_url: imageUrl,
     status: "upcoming",
     is_public: true,
     created_by: user.id,
@@ -411,7 +344,7 @@ export async function updateOfficerEvent(formData: FormData) {
   const shortDescription = getOptionalString(formData, "short_description");
   const location = getOptionalString(formData, "location");
   const status = getOptionalString(formData, "status");
-  const coverFile = getOptionalFile(formData, "cover_image");
+  const imageUrl = getOptionalString(formData, "image_url");
 
   if (!name || !startsAt || !shortDescription || !location) {
     redirect(`/officer/events/${activityId}/edit?error=missing_fields`);
@@ -425,12 +358,6 @@ export async function updateOfficerEvent(formData: FormData) {
     redirect(`/officer/events/${activityId}/edit?error=invalid_status`);
   }
 
-  const upload = await uploadEventCover(supabase, user.id, coverFile);
-
-  if (upload.error) {
-    redirect(`/officer/events/${activityId}/edit?error=cover_${upload.error}`);
-  }
-
   const { error } = await supabase
     .from("activities")
     .update({
@@ -440,7 +367,7 @@ export async function updateOfficerEvent(formData: FormData) {
       short_description: shortDescription,
       location,
       status,
-      ...(upload.imageUrl ? { image_url: upload.imageUrl } : {}),
+      ...(imageUrl ? { image_url: imageUrl } : {}),
       updated_at: new Date().toISOString(),
     })
     .eq("id", activityId)
@@ -536,7 +463,7 @@ export async function createOfficerAnnouncement(formData: FormData) {
   const startsAt = getOptionalString(formData, "starts_at");
   const endsAt = getOptionalString(formData, "ends_at");
   const location = getOptionalString(formData, "location");
-  const imageFile = getOptionalFile(formData, "image");
+  const imageUrl = getOptionalString(formData, "image_url");
   const isPublic = formData.get("is_public") === "on";
 
   if (!title || !content) {
@@ -547,19 +474,13 @@ export async function createOfficerAnnouncement(formData: FormData) {
     redirect("/officer/announcements/new?error=invalid_time_frame");
   }
 
-  const upload = await uploadAnnouncementImage(supabase, user.id, imageFile);
-
-  if (upload.error) {
-    redirect(`/officer/announcements/new?error=image_${upload.error}`);
-  }
-
   const { error } = await supabase.from("announcements").insert({
     title,
     content,
     starts_at: startsAt,
     ends_at: endsAt,
     location,
-    image_url: upload.imageUrl,
+    image_url: imageUrl,
     is_public: isPublic,
     published_at: startsAt ?? new Date().toISOString(),
     created_by: user.id,
@@ -606,7 +527,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
   const startsAt = getOptionalString(formData, "starts_at");
   const endsAt = getOptionalString(formData, "ends_at");
   const location = getOptionalString(formData, "location");
-  const imageFile = getOptionalFile(formData, "image");
+  const imageUrl = getOptionalString(formData, "image_url");
   const isPublic = formData.get("is_public") === "on";
 
   if (!title || !content) {
@@ -616,14 +537,6 @@ export async function updateOfficerAnnouncement(formData: FormData) {
   if (startsAt && isInvalidTimeFrame(startsAt, endsAt)) {
     redirect(
       `/officer/announcements/${announcementId}/edit?error=invalid_time_frame`,
-    );
-  }
-
-  const upload = await uploadAnnouncementImage(supabase, user.id, imageFile);
-
-  if (upload.error) {
-    redirect(
-      `/officer/announcements/${announcementId}/edit?error=image_${upload.error}`,
     );
   }
 
@@ -637,7 +550,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
       location,
       is_public: isPublic,
       published_at: startsAt ?? new Date().toISOString(),
-      ...(upload.imageUrl ? { image_url: upload.imageUrl } : {}),
+      ...(imageUrl ? { image_url: imageUrl } : {}),
       updated_at: new Date().toISOString(),
     })
     .eq("id", announcementId)
