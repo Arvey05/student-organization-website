@@ -72,7 +72,8 @@ export function MemberShell({
 
   return (
     <div className="min-h-screen bg-[#02040a] text-white">
-      <header className="sticky top-0 z-40 bg-[#02040a]/95">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#02040a]/95">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/25 to-transparent" />
         <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href="/dashboard"
@@ -93,7 +94,7 @@ export function MemberShell({
           </Link>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center gap-4 overflow-x-auto lg:flex"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto lg:flex"
             aria-label="Member navigation"
           >
           {navItems.map((item) => {
@@ -106,9 +107,9 @@ export function MemberShell({
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 font-mono text-xs uppercase tracking-[0.1em] transition ${
+                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 font-mono text-[0.72rem] uppercase tracking-[0.11em] transition ${
                   isActive
-                    ? "text-blue-100 after:absolute after:inset-x-1 after:-bottom-4 after:h-px after:bg-blue-300"
+                    ? "text-blue-100 after:absolute after:inset-x-1 after:-bottom-4 after:h-px after:bg-blue-300 before:absolute before:-bottom-[1.08rem] before:left-1/2 before:size-1 before:-translate-x-1/2 before:bg-orange-300"
                     : "text-slate-500 hover:text-blue-200"
                 }`}
               >
@@ -215,9 +216,9 @@ export function MemberShell({
                     href={item.href}
                     title={item.label}
                     onClick={() => setMobileOpen(false)}
-                    className={`inline-flex items-center gap-3 border-l px-3 py-3 text-sm font-semibold transition ${
+                    className={`inline-flex items-center gap-3 border-l px-3 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] transition ${
                       isActive
-                        ? "border-blue-300 bg-blue-500/10 text-blue-100"
+                        ? "border-blue-300 text-blue-100"
                         : "border-transparent text-slate-300 hover:text-blue-200"
                     }`}
                   >

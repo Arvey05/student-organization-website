@@ -92,13 +92,13 @@ export default async function EditProfilePage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+              className="inline-flex h-11 items-center justify-center bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
             >
               Save Profile
             </button>
             <button
               type="reset"
-              className="inline-flex h-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
+              className="inline-flex h-11 items-center justify-center border border-white/15 px-5 text-sm font-semibold text-white transition hover:border-blue-300/40 hover:text-blue-100"
             >
               Reset
             </button>

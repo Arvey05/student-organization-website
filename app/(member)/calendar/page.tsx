@@ -149,7 +149,7 @@ function getChipClasses(item: CalendarItem) {
     return "border-teal-300/30 bg-teal-400/15 text-teal-100 hover:border-teal-200/60 hover:bg-teal-400/25";
   }
 
-  return "border-blue-300/30 bg-blue-500/15 text-blue-100 hover:border-blue-200/60 hover:bg-blue-400/25";
+  return "border-blue-300/30 text-blue-100 hover:border-blue-200/60 hover:bg-blue-400/10";
 }
 
 function getAgendaClasses(item: CalendarItem) {
@@ -161,7 +161,7 @@ function getAgendaClasses(item: CalendarItem) {
     return "border-teal-300/20 bg-teal-400/10";
   }
 
-  return "border-blue-300/20 bg-blue-500/10";
+  return "border-blue-300/20 bg-black/15";
 }
 
 function isActivityItem(
@@ -214,14 +214,15 @@ export default async function CalendarPage() {
   });
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_18%_8%,rgba(37,99,235,0.18),transparent_30%),radial-gradient(circle_at_82%_0%,rgba(249,115,22,0.1),transparent_24%)]" />
       <div className="mx-auto max-w-[96rem]">
-        <section className="overflow-hidden border-y border-white/10 bg-[#02040a]">
-          <div className="relative border-b border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.22),transparent_24%)]" />
+        <section className="overflow-hidden border-y border-white/10 bg-black/15">
+          <div className="relative border-b border-white/10 bg-[#02040a]/90 p-6 text-white sm:p-8">
+            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
             <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
+                <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
                   <CalendarDays className="size-4" aria-hidden="true" />
                   Calendar
                 </p>
@@ -235,15 +236,15 @@ export default async function CalendarPage() {
               </div>
 
               <div className="grid gap-2 text-xs font-semibold sm:grid-cols-3">
-                <span className="inline-flex items-center gap-2 rounded-md border border-teal-300/30 bg-teal-400/10 px-3 py-2 text-teal-100">
+                <span className="inline-flex items-center gap-2 border border-teal-300/30 px-3 py-2 text-teal-100">
                   <CheckCircle2 className="size-3.5" aria-hidden="true" />
                   Registered activities
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-md border border-blue-300/30 bg-blue-500/15 px-3 py-2 text-blue-100">
+                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-3 py-2 text-blue-100">
                   <Circle className="size-3.5" aria-hidden="true" />
                   Not registered
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-md border border-violet-300/30 bg-violet-400/10 px-3 py-2 text-violet-100">
+                <span className="inline-flex items-center gap-2 border border-violet-300/30 px-3 py-2 text-violet-100">
                   <Megaphone className="size-3.5" aria-hidden="true" />
                   Announcements
                 </span>
@@ -279,7 +280,7 @@ export default async function CalendarPage() {
                         <p
                           className={`flex size-8 items-center justify-center  text-sm font-bold ${
                             isToday
-                              ? "bg-blue-500 text-white shadow-lg shadow-blue-950/40"
+                              ? "border border-blue-300 text-blue-100"
                               : isOutsideMonth
                                 ? "text-slate-600"
                                 : "text-slate-200"
@@ -338,9 +339,9 @@ export default async function CalendarPage() {
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="border-y border-white/10 bg-[#02040a] p-5">
+          <article className="border-y border-white/10 bg-black/15 p-5">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                 Agenda
               </p>
               <h2 className="mt-1 text-xl font-bold text-white">
@@ -401,9 +402,9 @@ export default async function CalendarPage() {
             </div>
           </article>
 
-          <article className="border-y border-white/10 bg-[#02040a] p-5">
+          <article className="border-y border-white/10 bg-black/15 p-5">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-200">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-violet-200">
                 Announcements
               </p>
               <h2 className="mt-1 text-xl font-bold text-white">
@@ -416,7 +417,7 @@ export default async function CalendarPage() {
                     <div
                       key={item.id}
                       id={`announcement-${item.id}`}
-                      className="scroll-mt-24 border-t border-blue-300/20 bg-blue-500/10 p-4 transition target:ring-2 target:ring-blue-300/25"
+                      className="scroll-mt-24 border-t border-blue-300/20 p-4 transition target:ring-2 target:ring-blue-300/25"
                     >
                       {item.imageUrl ? (
                         <div className="relative mb-4 aspect-video overflow-hidden rounded-md">

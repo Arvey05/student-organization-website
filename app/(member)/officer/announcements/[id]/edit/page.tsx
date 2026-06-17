@@ -124,7 +124,7 @@ export default async function EditOfficerAnnouncementPage({
               name="image"
               type="file"
               accept="image/jpeg,image/png,image/webp,image/gif"
-              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-blue-300/60"
+              className="mt-2 w-full rounded-md border border-white/10 bg-black px-4 py-3 text-sm text-slate-200 outline-none transition file:mr-4 file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-950 focus:border-blue-300/60"
             />
             <span className="mt-2 block text-xs text-slate-500">
               Leave blank to keep the current cover. Maximum file size is 10 MB.
@@ -143,7 +143,7 @@ export default async function EditOfficerAnnouncementPage({
             </div>
           ) : null}
 
-          <label className="mt-4 flex items-center gap-3 rounded-md border border-white/10 bg-black p-4 text-sm font-semibold text-slate-200">
+          <label className="mt-4 flex items-center gap-3 border border-white/10 bg-black p-4 text-sm font-semibold text-slate-200">
             <input
               name="is_public"
               type="checkbox"
@@ -155,7 +155,7 @@ export default async function EditOfficerAnnouncementPage({
 
           <button
             type="submit"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+            className="mt-6 inline-flex h-11 items-center justify-center bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
           >
             Save Announcement
           </button>

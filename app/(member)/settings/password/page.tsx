@@ -53,7 +53,7 @@ export default function ChangePasswordPage() {
           </label>
           <button
             type="submit"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+            className="mt-6 inline-flex h-11 items-center justify-center bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
           >
             Change Password
           </button>

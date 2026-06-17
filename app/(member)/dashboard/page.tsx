@@ -89,7 +89,7 @@ export default async function DashboardPage() {
       value: String(registeredCount),
       description: "Active registrations",
       icon: ClipboardCheck,
-      tone: "bg-blue-500 text-white",
+      tone: "border-blue-300/30 text-blue-100",
     },
     {
       label: "Upcoming",
@@ -115,39 +115,44 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <main className="bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="relative overflow-hidden bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_18%_8%,rgba(37,99,235,0.22),transparent_30%),radial-gradient(circle_at_80%_4%,rgba(249,115,22,0.12),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:linear-gradient(rgba(147,197,253,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(147,197,253,0.08)_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="mx-auto max-w-[96rem]">
-        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 text-white sm:p-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(37,99,235,0.5),transparent_30%),radial-gradient(circle_at_85%_0%,rgba(59,130,246,0.28),transparent_25%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-blue-950/60 to-transparent" />
-          <div className="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a]/90 p-6 text-white sm:p-8 lg:p-10">
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
+          <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-96 bg-orange-500/10 blur-3xl" />
+          <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="max-w-3xl">
-              <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
+              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
                 <Sparkles className="size-4" aria-hidden="true" />
-                Member dashboard
+                Member portal
               </p>
-              <h1 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">
-                Welcome, {displayName}
+              <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-tight sm:text-6xl">
+                Welcome,{" "}
+                <span className="bg-gradient-to-r from-blue-100 via-blue-300 to-violet-200 bg-clip-text text-transparent">
+                  {displayName}
+                </span>
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
                 Your central workspace for membership, announcements,
                 registered activities, and upcoming organization dates.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2  border border-emerald-300/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold capitalize text-emerald-100">
+                <span className="inline-flex items-center gap-2 border border-emerald-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-emerald-100">
                   <ShieldCheck className="size-4" aria-hidden="true" />
                   {profile?.member_status ?? "active"}
                 </span>
-                <span className="inline-flex items-center gap-2  border border-blue-300/30 bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-100">
+                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
                   <UserRound className="size-4" aria-hidden="true" />
                   {formatRole(profile?.role)}
                 </span>
               </div>
             </div>
 
-            <aside className="border-l border-white/10 bg-[#02040a]/80 p-5">
+            <aside className="border-l border-white/10 bg-black/20 p-5">
               <div className="flex items-start gap-4">
-                <div className="flex size-14 shrink-0 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
+                <div className="flex size-14 shrink-0 items-center justify-center border border-white/10 text-blue-100">
                   <UserRound className="size-6" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
@@ -155,12 +160,12 @@ export default async function DashboardPage() {
                   <p className="mt-1 truncate text-sm text-slate-300">
                     {user.email}
                   </p>
-                  <p className="mt-3 inline-flex  bg-white/10 px-3 py-1 text-xs font-semibold text-blue-100 ring-1 ring-white/10">
+                  <p className="mt-3 inline-flex border border-white/10 px-3 py-1 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-blue-100">
                     {formatRole(profile?.role)}
                   </p>
                 </div>
               </div>
-              <div className="mt-5 grid gap-3  border border-white/10 bg-[#02040a]/35 p-4 text-sm text-slate-200">
+              <div className="mt-5 grid gap-3 border-y border-white/10 py-4 text-sm text-slate-200">
                 <p>
                   <span className="text-slate-400">Program:</span>{" "}
                   {profile?.program ?? "Not set"}
@@ -177,13 +182,13 @@ export default async function DashboardPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/profile"
-                  className="inline-flex h-10 items-center justify-center rounded-md bg-blue-500 px-4 text-sm font-semibold text-white transition hover:bg-blue-400"
+                  className="inline-flex h-10 items-center justify-center bg-white px-4 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
                 >
                   View Profile
                 </Link>
                 <Link
                   href="/profile/edit"
-                  className="inline-flex h-10 items-center justify-center rounded-md border border-white/20 bg-white/[0.06] px-4 text-sm font-semibold text-white transition hover:border-blue-300/40"
+                  className="inline-flex h-10 items-center justify-center border border-white/15 px-4 text-sm font-semibold text-white transition hover:border-blue-300/50 hover:text-blue-100"
                 >
                   Edit Profile
                 </Link>
@@ -199,9 +204,9 @@ export default async function DashboardPage() {
             return (
               <article
                 key={stat.label}
-                className="border-t border-white/10 bg-[#02040a]/70 p-5 transition hover:border-blue-300/40"
+                className="border-t border-white/10 bg-black/15 p-5 transition hover:border-blue-300/40"
               >
-                <div className={`flex size-11 items-center justify-center rounded-md ${stat.tone}`}>
+                <div className={`flex size-11 items-center justify-center border ${stat.tone}`}>
                   <Icon className="size-5" aria-hidden="true" />
                 </div>
                 <p className="mt-5 text-sm font-semibold text-slate-400">
@@ -219,10 +224,10 @@ export default async function DashboardPage() {
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-          <article className="border-t border-white/10 bg-[#02040a] p-6">
+          <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Updates
                 </p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-white">
@@ -231,7 +236,7 @@ export default async function DashboardPage() {
               </div>
               <Link
                 href="/announcements"
-                className="inline-flex items-center gap-2 rounded-md border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-white"
+                className="inline-flex items-center gap-2 border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-blue-100"
               >
                 View all announcements
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -243,7 +248,7 @@ export default async function DashboardPage() {
                   <Link
                     key={item.id}
                     href="/announcements"
-                    className="grid gap-4 border-t border-white/10 bg-[#02040a]/60 p-4 transition hover:border-blue-300/40 sm:grid-cols-[10rem_1fr]"
+                    className="grid gap-4 border-t border-white/10 p-4 transition hover:border-blue-300/40 sm:grid-cols-[10rem_1fr]"
                   >
                     {item.image_url ? (
                       <div className="relative aspect-video overflow-hidden  bg-slate-900">
@@ -289,10 +294,10 @@ export default async function DashboardPage() {
             </div>
           </article>
 
-          <article className="border-t border-white/10 bg-[#02040a] p-6">
+          <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Activities
                 </p>
                 <h2 className="mt-1 text-2xl font-black text-white">
@@ -301,7 +306,7 @@ export default async function DashboardPage() {
               </div>
               <Link
                 href="/my-activities"
-                className="inline-flex items-center gap-2 rounded-md border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-white"
+                className="inline-flex items-center gap-2 border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-blue-100"
               >
                 View all
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -315,7 +320,7 @@ export default async function DashboardPage() {
                     <Link
                       key={registration.id}
                       href={`/member/activities/${activity.id}`}
-                      className="flex gap-4 border-t border-white/10 bg-[#02040a]/60 p-3 transition hover:border-blue-300/40"
+                      className="flex gap-4 border-t border-white/10 p-3 transition hover:border-blue-300/40"
                     >
                       <div className="relative aspect-video w-28 shrink-0 overflow-hidden  bg-slate-900">
                         {activity.image_url ? (
@@ -354,10 +359,10 @@ export default async function DashboardPage() {
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <article className="border-t border-white/10 bg-[#02040a] p-6">
+          <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Calendar
                 </p>
                 <h2 className="mt-1 text-xl font-bold text-white">
@@ -366,7 +371,7 @@ export default async function DashboardPage() {
               </div>
               <Link
                 href="/calendar"
-                className="inline-flex items-center gap-2 rounded-md border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-white"
+                className="inline-flex items-center gap-2 border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-300/40 hover:text-blue-100"
               >
                 Calendar
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -381,9 +386,9 @@ export default async function DashboardPage() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className="flex items-center gap-4 border-t border-white/10 bg-[#02040a]/60 p-4 transition hover:border-blue-300/40"
+                      className="flex items-center gap-4 border-t border-white/10 p-4 transition hover:border-blue-300/40"
                     >
-                      <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-md bg-black text-white">
+                      <span className="flex size-14 shrink-0 flex-col items-center justify-center border border-white/10 bg-black/40 text-white">
                         <span className="text-xs font-bold uppercase text-blue-200">
                           {date.month}
                         </span>
@@ -411,16 +416,16 @@ export default async function DashboardPage() {
             </div>
           </article>
 
-          <article className="border-t border-white/10 bg-[#02040a] p-6 text-white">
+          <article className="border-t border-white/10 bg-black/15 p-6 text-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Profile summary
                 </p>
                 <h2 className="mt-1 text-2xl font-black">{displayName}</h2>
                 <p className="mt-2 text-sm text-slate-300">{user.email}</p>
               </div>
-              <div className="flex size-16 shrink-0 items-center justify-center rounded-md bg-blue-500/15 text-blue-100">
+              <div className="flex size-16 shrink-0 items-center justify-center border border-white/10 text-blue-100">
                 <UserRound className="size-7" aria-hidden="true" />
               </div>
             </div>
@@ -433,7 +438,7 @@ export default async function DashboardPage() {
               ].map(([label, value]) => (
                 <div
                   key={label}
-                  className="border-t border-white/10 bg-[#02040a]/70 p-4"
+                  className="border-t border-white/10 p-4"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
                     {label}
@@ -447,13 +452,13 @@ export default async function DashboardPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/profile"
-                className="inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+                className="inline-flex h-11 items-center justify-center bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
               >
                 View Profile
               </Link>
               <Link
                 href="/profile/edit"
-                className="inline-flex h-11 items-center justify-center rounded-md border border-white/20 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:border-blue-300/40"
+                className="inline-flex h-11 items-center justify-center border border-white/20 px-5 text-sm font-semibold text-white transition hover:border-blue-300/40 hover:text-blue-100"
               >
                 Edit Profile
               </Link>
@@ -462,29 +467,30 @@ export default async function DashboardPage() {
         </section>
 
         {isOfficerEventCreator ? (
-          <section className="mt-6 grid gap-4 border-y border-blue-300/30 bg-gradient-to-r from-blue-950 via-blue-900/70 to-slate-950 p-6 text-white sm:grid-cols-2">
+          <section className="relative mt-6 grid gap-4 overflow-hidden border-y border-white/10 bg-black/20 p-6 text-white sm:grid-cols-2">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/35 to-transparent" />
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-100">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-orange-100">
                 Officer access
               </p>
               <h2 className="mt-2 text-2xl font-black">
                 Publish organization updates
               </h2>
-              <p className="mt-3 text-sm leading-7 text-blue-50">
+              <p className="mt-3 text-sm leading-7 text-slate-300">
                 Create official events and announcements from the officer tools.
               </p>
             </div>
             <div className="flex flex-wrap items-end gap-3 sm:justify-end">
               <Link
                 href="/officer/events/new"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-blue-500 px-5 text-sm font-semibold text-white"
+                className="inline-flex h-11 items-center justify-center gap-2 bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
               >
                 <PlusCircle className="size-4" aria-hidden="true" />
                 Add Event
               </Link>
               <Link
                 href="/officer/announcements/new"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/30 bg-white/[0.06] px-5 text-sm font-semibold text-white"
+                className="inline-flex h-11 items-center justify-center gap-2 border border-white/30 px-5 text-sm font-semibold text-white transition hover:border-blue-300/50 hover:text-blue-100"
               >
                 <Megaphone className="size-4" aria-hidden="true" />
                 Add Announcement

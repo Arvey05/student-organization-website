@@ -29,9 +29,9 @@ export default async function ProfilePage() {
         />
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="border-y border-white/10 bg-[#02040a] p-6">
+          <div className="border-y border-white/10 bg-black/15 p-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex size-24 items-center justify-center rounded-md bg-blue-500 text-white">
+              <div className="flex size-24 items-center justify-center border border-white/10 text-blue-100">
                 <UserRound className="size-10" aria-hidden="true" />
               </div>
               <h2 className="mt-5 text-2xl font-black text-white">
@@ -41,20 +41,20 @@ export default async function ProfilePage() {
                 <Mail className="size-4" aria-hidden="true" />
                 {email}
               </p>
-              <p className="mt-3 inline-flex items-center gap-2 rounded-md border border-blue-300/30 bg-blue-500/15 px-4 py-2 text-sm font-semibold text-blue-100">
+              <p className="mt-3 inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
                 <ShieldCheck className="size-4" aria-hidden="true" />
                 {formatRole(profile?.role)}
               </p>
               <Link
                 href="/profile/edit"
-                className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+                className="mt-6 inline-flex h-11 items-center justify-center bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
               >
                 Edit Profile
               </Link>
             </div>
           </div>
 
-          <div className="border-y border-white/10 bg-[#02040a] p-6">
+          <div className="border-y border-white/10 bg-black/15 p-6">
             <h2 className="text-xl font-bold text-white">
               Personal information
             </h2>

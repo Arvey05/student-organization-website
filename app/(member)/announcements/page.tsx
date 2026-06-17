@@ -16,13 +16,14 @@ export default async function AnnouncementsPage() {
   const isOfficerEventCreator = canCreateEvents(profile?.role);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#02040a] px-4 py-6 text-white sm:px-6 lg:px-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_16%_8%,rgba(37,99,235,0.2),transparent_30%),radial-gradient(circle_at_80%_2%,rgba(249,115,22,0.1),transparent_24%)]" />
       <div className="mx-auto max-w-[96rem]">
-        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a] p-6 sm:p-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(37,99,235,0.35),transparent_28%),radial-gradient(circle_at_85%_0%,rgba(124,58,237,0.18),transparent_24%)]" />
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a]/90 p-6 sm:p-8">
+          <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-blue-100">
+              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
                 <Megaphone className="size-4" aria-hidden="true" />
                 Announcements
               </p>
@@ -38,7 +39,7 @@ export default async function AnnouncementsPage() {
             {isOfficerEventCreator ? (
               <Link
                 href="/officer/announcements/new"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-blue-500 px-5 text-sm font-semibold text-white transition hover:bg-blue-400"
+                className="inline-flex h-11 items-center justify-center gap-2 bg-white px-5 text-sm font-bold text-slate-950 transition hover:bg-blue-100"
               >
                 <PlusCircle className="size-4" aria-hidden="true" />
                 Add Announcement
@@ -47,7 +48,7 @@ export default async function AnnouncementsPage() {
           </div>
         </section>
 
-        <section className="mt-6 overflow-hidden border-y border-white/10 bg-[#02040a]">
+        <section className="mt-6 overflow-hidden border-y border-white/10 bg-black/15">
           {announcements.length ? (
             announcements.map((announcement) => (
               <article
@@ -55,7 +56,7 @@ export default async function AnnouncementsPage() {
                 className="border-b border-white/10 p-5 transition hover:bg-white/[0.04] last:border-b-0 sm:p-6"
               >
                 <div className="flex gap-4">
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-md border border-blue-300/20 bg-blue-500/15 text-blue-100">
+                  <div className="flex size-11 shrink-0 items-center justify-center border border-blue-300/20 text-blue-100">
                     <Megaphone className="size-5" aria-hidden="true" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -78,8 +79,8 @@ export default async function AnnouncementsPage() {
                       <span
                         className={`inline-flex items-center gap-1.5  border px-2.5 py-1 text-xs font-semibold ${
                           announcement.is_public
-                            ? "border-teal-300/30 bg-teal-400/10 text-teal-100"
-                            : "border-slate-300/20 bg-white/[0.04] text-slate-300"
+                            ? "border-teal-300/30 text-teal-100"
+                            : "border-slate-300/20 text-slate-300"
                         }`}
                       >
                         {announcement.is_public ? (
@@ -122,7 +123,7 @@ export default async function AnnouncementsPage() {
                       <div className="mt-5 flex flex-wrap gap-3 border-t border-white/10 pt-4">
                         <Link
                           href={`/officer/announcements/${announcement.id}/edit`}
-                          className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.06] px-4 text-sm font-semibold text-white transition hover:border-blue-300/40"
+                          className="inline-flex h-10 items-center justify-center gap-2 border border-white/15 px-4 text-sm font-semibold text-white transition hover:border-blue-300/40 hover:text-blue-100"
                         >
                           <Pencil className="size-4" aria-hidden="true" />
                           Edit Announcement
