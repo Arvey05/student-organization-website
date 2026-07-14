@@ -1,6 +1,6 @@
 # Student Organization Website
 
-A modern student organization website built for managing public organization information, member accounts, announcements, activities, calendars, member profiles, and officer-only event creation.
+A website for BulSU MSC members to manage their profiles, read announcements, find activities, and keep track of organization events.
 
 This project is designed to run using a free-tier-friendly stack:
 
@@ -245,9 +245,9 @@ GitHub Repository → Vercel Project → Automatic Deployment
 
 Whenever changes are pushed to the main branch, Vercel should automatically rebuild and redeploy the website.
 
-## Notes for Developers and AI Assistants
+## Development guidelines
 
-When working on this project:
+When contributing to this project:
 
 * Follow the requirements in `WEBSITE_REQUIREMENTS.md`.
 * Use TypeScript for safer code.

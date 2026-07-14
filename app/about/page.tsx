@@ -12,7 +12,7 @@ const values = [
   {
     title: "Vision",
     description:
-      "A connected student body where members are empowered to lead responsibly and contribute with confidence.",
+      "A student body where members have the support and experience to lead responsibly.",
     icon: Eye,
   },
   {

@@ -1,5 +1,5 @@
--- Phase 9A foundation for event time frames, soft deletion, and richer announcements.
--- Keep this additive so existing auth, registration, and officer edit flows remain stable.
+-- Add event scheduling, announcement media, and archive fields without
+-- changing existing authentication or registration records.
 
 alter table public.activities
   add column if not exists ends_at timestamptz,

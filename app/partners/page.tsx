@@ -40,7 +40,7 @@ export default async function PartnersPage() {
                 Our partners
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">
-                Credibility, collaboration, and campus support.
+                Organizations that support our work on campus.
               </h2>
             </div>
             <Handshake className="hidden size-10 text-blue-200 sm:block" />

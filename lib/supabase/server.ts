@@ -19,8 +19,7 @@ export async function createSupabaseServerClient() {
             cookieStore.set(name, value, options);
           });
         } catch {
-          // Server Components can read cookies but cannot write them.
-          // Auth routes/actions will use this same helper where writes are allowed.
+          // Cookie writes are ignored during Server Component rendering.
         }
       },
     },

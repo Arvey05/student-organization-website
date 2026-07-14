@@ -39,22 +39,22 @@ type PartnerRow = Database["public"]["Tables"]["partners"]["Row"];
 const identityItems = [
   {
     title: "Leadership",
-    description: "Programs that sharpen initiative, accountability, and service.",
+    description: "Training and hands-on roles for students who want to lead well.",
     icon: ShieldCheck,
   },
   {
     title: "Service",
-    description: "Community-centered projects with clear coordination and follow-through.",
+    description: "Projects that give members practical ways to support the community.",
     icon: Handshake,
   },
   {
     title: "Community",
-    description: "A connected member base for updates, participation, and recognition.",
+    description: "One place for members to hear what is happening and take part.",
     icon: UsersRound,
   },
   {
     title: "Academic Technology",
-    description: "A digital operating layer for student organization work.",
+    description: "Simple online tools for the day-to-day work of the organization.",
     icon: CircuitBoard,
   },
 ];
@@ -354,20 +354,19 @@ export default async function Home() {
                 </div>
 
                 <h1 className="mt-7 max-w-5xl text-[clamp(3rem,8vw,6.7rem)] font-black leading-[0.92] tracking-tight text-white">
-                  Designing student{" "}
+                  Building student{" "}
                   <span className="bg-gradient-to-r from-blue-200 via-blue-400 to-violet-300 bg-clip-text text-transparent">
                     leadership
                   </span>{" "}
                   for a digital{" "}
                   <span className="font-serif italic font-medium text-orange-200">
-                    future
+                    campus
                   </span>
                 </h1>
 
                 <p className="mt-6 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-                  A modern digital home for members to discover activities,
-                  follow announcements, join programs, and stay connected with
-                  the organization.
+                  Check upcoming activities, read official announcements, join
+                  programs, and manage your membership in one place.
                 </p>
 
                 <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
@@ -402,19 +401,17 @@ export default async function Home() {
                 Who we are
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-                A student organization built for visible impact and disciplined
-                execution.
+                Student-led programs with room for members to do real work.
               </h2>
               <div className="mt-8 grid gap-6 text-sm leading-7 text-slate-300 sm:grid-cols-2">
                 <p>
-                  BulSU MSC serves as a leadership and service community for
-                  students who want to contribute to campus life through
-                  organized programs and collaborative initiatives.
+                  BulSU MSC gives students a place to lead projects, serve the
+                  community, and contribute to campus life.
                 </p>
                 <p>
-                  The platform gives that work a clear digital layer: public
-                  discovery, official announcements, member tools, calendars,
-                  and secure access for registered members.
+                  This site keeps the practical details together: official
+                  announcements, activity registration, calendars, and member
+                  profiles.
                 </p>
               </div>
             </div>
@@ -444,7 +441,7 @@ export default async function Home() {
                 Member benefits
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-                Everything members need to stay aligned.
+                The details members need, without chasing separate updates.
               </h2>
             </div>
 

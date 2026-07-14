@@ -57,11 +57,7 @@ label {
   color: #1e3a8a;
 }
 
-/*
-  Visual-system pass: streaming-service interface with retro-tech feel.
-  Reduced border radius, removed heavy glassmorphism/blur/shadows,
-  flatter dark surfaces, subtle dividers instead of boxed cards.
-*/
+/* Shared shape and surface rules for the dark interface. */
 
 .rounded-\[2rem\],
 .rounded-3xl {
@@ -99,7 +95,7 @@ label {
   --tw-ring-shadow: 0 0 #0000 !important;
 }
 
-/* Streaming-style utility classes */
+/* Reusable dark-surface utilities */
 .stream-section {
   background-color: #020617;
 }

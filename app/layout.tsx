@@ -21,7 +21,7 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "BulSU MSC Student Organization",
   description:
-    "A modern student organization platform for members, activities, announcements, calendars, and officer-led programs.",
+    "The BulSU MSC member portal for activities, announcements, calendars, and organization programs.",
 };
 
 export default function RootLayout({
