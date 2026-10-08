@@ -12,69 +12,108 @@ export type RegisteredActivity = {
   activity: ActivityRow;
 };
 
-export async function getActivities(): Promise<ActivityRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .is("archived_at", null)
-    .order("starts_at", { ascending: true });
-
-  if (error) {
-    throw new Error(`Unable to load activities: ${error.message}`);
+function rethrowIfDynamicError(error: unknown) {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "digest" in error &&
+    (error as { digest: string }).digest === "DYNAMIC_SERVER_USAGE"
+  ) {
+    throw error;
   }
+}
 
-  return data ?? [];
+export async function getActivities(): Promise<ActivityRow[]> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .is("archived_at", null)
+      .order("starts_at", { ascending: true });
+
+    if (error) {
+      console.warn(`Unable to load activities: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    rethrowIfDynamicError(error);
+    console.warn("Unable to load activities:", error);
+    return [];
+  }
 }
 
 export async function getActivityById(
   activityId: string,
 ): Promise<ActivityRow | null> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .eq("id", activityId)
-    .is("archived_at", null)
-    .maybeSingle();
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .eq("id", activityId)
+      .is("archived_at", null)
+      .maybeSingle();
 
-  if (error) {
-    throw new Error(`Unable to load activity: ${error.message}`);
+    if (error) {
+      console.warn(`Unable to load activity: ${error.message}`);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    rethrowIfDynamicError(error);
+    console.warn("Unable to load activity:", error);
+    return null;
   }
-
-  return data;
 }
 
 export async function getPublicActivities(): Promise<ActivityRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .eq("is_public", true)
-    .is("archived_at", null)
-    .order("starts_at", { ascending: true });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .eq("is_public", true)
+      .is("archived_at", null)
+      .order("starts_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load public activities: ${error.message}`);
+    if (error) {
+      console.warn(`Unable to load public activities: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    rethrowIfDynamicError(error);
+    console.warn("Unable to load public activities:", error);
+    return [];
   }
-
-  return data ?? [];
 }
 
 export async function getAnnouncements(): Promise<AnnouncementRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("announcements")
-    .select("*")
-    .is("archived_at", null)
-    .order("published_at", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("announcements")
+      .select("*")
+      .is("archived_at", null)
+      .order("published_at", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false });
 
-  if (error) {
-    throw new Error(`Unable to load announcements: ${error.message}`);
+    if (error) {
+      console.warn(`Unable to load announcements: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    rethrowIfDynamicError(error);
+    console.warn("Unable to load announcements:", error);
+    return [];
   }
-
-  return data ?? [];
 }
 
 export async function getAnnouncementById(

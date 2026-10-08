@@ -61,19 +61,20 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid gap-px bg-white/10 md:grid-cols-3">
-            {values.map((item) => {
+          <div className="grid gap-4 md:grid-cols-3">
+            {values.map((item, index) => {
               const Icon = item.icon;
+              const glowClass = index === 0 ? "msc-card-glow-blue" : index === 1 ? "msc-card-glow-lime" : "msc-card-glow-amber";
 
               return (
                 <article
                   key={item.title}
-                  className="bg-slate-950 p-6 transition hover:bg-slate-900/80"
+                  className={`msc-card-hover group border border-white/10 bg-[#001431]/80 p-6 backdrop-blur-md transition-all duration-300 hover:border-msc-blue/50 ${glowClass}`}
                 >
-                  <div className="flex size-12 items-center justify-center bg-blue-500/15 text-blue-100">
-                    <Icon className="size-5" aria-hidden="true" />
+                  <div className="flex size-12 items-center justify-center border border-msc-blue/30 bg-msc-blue/15 text-msc-blue transition-transform duration-300 group-hover:scale-110">
+                    <Icon className="msc-icon-spring size-5" aria-hidden="true" />
                   </div>
-                  <h2 className="mt-5 text-xl font-black text-white">
+                  <h2 className="mt-5 font-display text-xl font-bold text-white transition-colors duration-300 group-hover:text-msc-amber">
                     {item.title}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-slate-300">
@@ -86,12 +87,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#030814] py-20">
+      <section className="bg-[#000d20] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="border-y border-white/10 bg-slate-950 p-6">
+          <div className="border border-white/10 bg-[#001431]/70 p-6 backdrop-blur-md">
             <div className="flex items-center gap-3">
-              <UsersRound className="size-6 text-blue-200" aria-hidden="true" />
-              <h2 className="text-2xl font-black text-white">
+              <div className="flex size-10 items-center justify-center border border-msc-blue/30 bg-msc-blue/15 text-msc-blue">
+                <UsersRound className="size-5" aria-hidden="true" />
+              </div>
+              <h2 className="font-display text-2xl font-bold text-white">
                 Organization officers
               </h2>
             </div>
@@ -99,18 +102,21 @@ export default function AboutPage() {
               {officers.map((officer) => (
                 <div
                   key={officer}
-                  className="border-l border-blue-300/40 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="group flex items-center justify-between border-l-2 border-msc-blue bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300 transition-all duration-200 hover:translate-x-1.5 hover:border-msc-amber hover:bg-white/[0.08] hover:text-white"
                 >
-                  {officer}
+                  <span>{officer}</span>
+                  <span className="font-mono text-xs text-white/30 transition-colors duration-200 group-hover:text-msc-amber">MSC</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="border-y border-white/10 bg-slate-950 p-6">
+          <div className="border border-white/10 bg-[#001431]/70 p-6 backdrop-blur-md">
             <div className="flex items-center gap-3">
-              <Award className="size-6 text-blue-200" aria-hidden="true" />
-              <h2 className="text-2xl font-black text-white">
+              <div className="flex size-10 items-center justify-center border border-msc-lime/30 bg-msc-lime/15 text-msc-lime">
+                <Award className="size-5" aria-hidden="true" />
+              </div>
+              <h2 className="font-display text-2xl font-bold text-white">
                 Organization committees
               </h2>
             </div>
@@ -118,9 +124,10 @@ export default function AboutPage() {
               {committees.map((committee) => (
                 <div
                   key={committee}
-                  className="border-l border-violet-300/35 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
+                  className="group flex items-center justify-between border-l-2 border-msc-lime bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300 transition-all duration-200 hover:translate-x-1.5 hover:border-msc-lime hover:bg-white/[0.08] hover:text-white"
                 >
-                  {committee}
+                  <span>{committee}</span>
+                  <span className="font-mono text-xs text-white/30 transition-colors duration-200 group-hover:text-msc-lime">TEAM</span>
                 </div>
               ))}
             </div>

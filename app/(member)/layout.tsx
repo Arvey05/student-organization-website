@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { MemberShell } from "@/components/member/member-shell";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function MemberLayout({
   children,
 }: Readonly<{

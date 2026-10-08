@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BulSU MSC Brand Book</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Dela+Gothic+One&family=Montserrat:wght@300;400;500;900&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff;--fg:#02001F;--muted:#586079;--card:#f3f5fb;--line:#dfe4ef;--grid:rgba(2,0,31,.06);
+--amber:#FFB900;--lime:#7FBA00;--blue:#006CF9;--navy:#002453;--mid:#02001F;
+--fd:'Telegraf','Archivo',Arial,sans-serif;--fb:'Gotham','Montserrat',Arial,sans-serif;--fx:'Dela Gothic One','Archivo',Impact,sans-serif;
+--ease:cubic-bezier(.2,.7,.2,1);--orbit:cubic-bezier(.65,0,.35,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#02001F;--fg:#FDFBFB;--muted:#9aa6c4;--card:#0b0a38;--line:rgba(255,255,255,.12);--grid:rgba(255,255,255,.05)}}
+:root[data-theme="dark"]{--bg:#02001F;--fg:#FDFBFB;--muted:#9aa6c4;--card:#0b0a38;--line:rgba(255,255,255,.12);--grid:rgba(255,255,255,.05)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;color:var(--fg);font:300 15px/1.7 var(--fb);background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/64px 64px,var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.w{max-width:1120px;margin:auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .w{display:flex;align-items:center;gap:18px;height:56px}
+nav .lg{font:800 15px/.85 var(--fd);font-stretch:125%;letter-spacing:-.069em;white-space:nowrap}
+nav .ls{display:flex;gap:16px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav a{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .15s}
+nav a:hover{color:var(--blue)}
+#tg{border:1px solid var(--line);background:none;border-radius:99px;padding:5px 12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.hero{position:relative;overflow:hidden;color:#FDFBFB;min-height:620px;display:flex;align-items:center;background:radial-gradient(60% 80% at 0% 65%,#0aa0d8,transparent 60%),linear-gradient(135deg,#0a1f8f,#02001F 58%)}
+.hero:before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;background:rgba(255,255,255,.04);left:-320px;top:-380px;animation:drift 18s ease-in-out infinite alternate}
+.hero .w{position:relative;padding-top:60px;padding-bottom:90px}
+.k{font-size:12px;letter-spacing:.3em;text-transform:uppercase;font-weight:400}
+h1{font:800 clamp(30px,8.2vw,124px)/.95 var(--fd);font-stretch:118%;letter-spacing:.01em;margin:22px 0;max-width:100%}
+h1 span{white-space:nowrap}
+h1 .l1{display:block;font-size:1.25em}
+.ch{display:inline-block;opacity:0;transform:translateY(60%) rotate(5deg);animation:chIn .9s var(--ease) forwards;animation-delay:calc(var(--i)*45ms + 200ms)}
+.hero .bc{position:absolute;right:20px;bottom:28px;color:#fff;height:32px}
+.tag{margin-top:26px;max-width:46ch;opacity:.85}
+.bc{display:flex;align-items:stretch;height:34px}.bc i{display:block;background:currentColor}
+section{padding:96px 0 10px}
+.sh{margin-bottom:36px}
+.sh .n{font:800 clamp(56px,10vw,120px)/1 var(--fd);font-stretch:125%;letter-spacing:-.05em;display:block}
+.sh h2{font:800 clamp(34px,6vw,64px)/1 var(--fd);font-stretch:125%;letter-spacing:-.04em;margin:0 0 14px;position:relative;padding-bottom:16px}
+.sh h2:after{content:"";position:absolute;left:0;bottom:0;height:5px;width:120px;background:linear-gradient(90deg,var(--amber),var(--lime),var(--blue));transform-origin:left;transform:scaleX(0);transition:transform .9s var(--orbit)}
+.js .sh.in h2:after,.sh h2:after{transform:none}
+.js .sh:not(.in) h2:after{transform:scaleX(0)}
+.sh p{max-width:62ch;color:var(--muted);margin:0}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tile{border-radius:22px;min-height:280px;display:flex;align-items:center;justify-content:center;gap:28px;padding:24px;flex-wrap:wrap;border:1px solid var(--line)}
+.tile.d{background:#02001F;color:#fff}.tile.l{background:#fff;color:#02001F}
+.mark{width:92px;height:92px;border:1.5px dashed currentColor;opacity:.45;border-radius:50%;display:grid;place-items:center;font-size:9px;text-align:center;letter-spacing:.1em;text-transform:uppercase;padding:10px}
+.wm{font-family:var(--fd);font-stretch:125%;font-weight:800;line-height:.82;letter-spacing:-.069em}
+.wm b{display:block;font-weight:inherit;font-size:46px}.wm b+b{font-size:82px}
+.tile.l .wm b{background:linear-gradient(90deg,#006CF9,#1a22c8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.specs{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.specs span,.chip{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:12px;background:var(--card)}
+.sws{display:flex;border-radius:22px;overflow:hidden}
+.sw{flex:1;min-height:420px;border:0;background:var(--c);display:flex;flex-direction:column;justify-content:space-between;padding:20px;text-align:left;transition:flex .5s var(--ease);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.sw:hover,.sw:focus-visible{flex:2.4}
+.sw .nm{writing-mode:vertical-rl;font:800 30px/1 var(--fd);font-stretch:125%;letter-spacing:-.03em}
+.sw .v{font-size:13px;line-height:1.7;font-weight:400}.sw em{display:block;font-style:normal;font-size:11px;opacity:.75;margin-top:8px;max-width:22ch}
+.grs{display:grid;gap:16px}
+.gr{border:0;border-radius:22px;height:112px;padding:0 32px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:18px;background:var(--g);background-size:220% 220%;transition:background-position .9s var(--ease),transform .4s var(--spring)}
+.gr:hover,.gr:focus-visible{background-position:100% 100%;transform:translateY(-4px) scale(1.01)}
+.hint{font-size:12px;color:var(--muted);margin-top:14px}
+.tr{display:grid;grid-template-columns:200px 1fr 210px;gap:24px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 26px;margin-bottom:12px}
+.tr small{display:block;color:var(--blue);font-size:12px;font-weight:500}.tr b{display:block;font-weight:900}.tr em{font-style:normal;color:var(--muted);font-size:12px}
+.tm{font-size:12px;color:var(--muted);line-height:1.6}
+.f1{font:800 clamp(30px,5vw,54px)/1 var(--fd);font-stretch:125%;letter-spacing:.005em}
+.f2{font:900 clamp(24px,4vw,40px)/1 var(--fb);letter-spacing:.18em}
+.f3{font:400 clamp(26px,4vw,42px)/1 var(--fx)}
+.f4{font:400 11px/1.2 var(--fb);letter-spacing:.3em;text-transform:uppercase}
+.f5{font:300 14px/25px var(--fb);letter-spacing:.0023em;max-width:60ch}
+.am{color:var(--amber)}.li{color:var(--lime)}.bl{color:var(--blue)}
+.vd{position:relative;overflow:hidden;border-radius:26px;background:#02001F;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:24px;color:#fff}
+.vd:before{content:"";position:absolute;left:0;bottom:0;width:38%;height:34%;background:var(--lime);clip-path:polygon(0 100%,0 15%,100% 100%)}
+.vd:after{content:"";position:absolute;right:0;bottom:0;width:30%;height:75%;background:var(--amber);clip-path:polygon(100% 0,100% 100%,0 100%)}
+.mk{position:relative;z-index:1;border-radius:26px;padding:26px;min-height:340px}
+.mk.a{background:#fff;color:#02001F}.mk.b{background:linear-gradient(160deg,#060062,#02001F);box-shadow:0 0 0 1px rgba(255,255,255,.1)}
+.mn{display:flex;gap:18px;align-items:center;font-size:9px;letter-spacing:.3em;margin-bottom:26px}.mn .wm{margin-right:auto;font-size:14px}
+.mn .wm b,.mn .wm b+b{font-size:inherit}
+.mk h3{margin:0;font:800 clamp(38px,6vw,68px)/.95 var(--fd);font-stretch:125%;letter-spacing:-.04em}
+.mk h3 small{display:block;font-size:.4em;letter-spacing:0}
+.st{background:linear-gradient(90deg,#006CF9,#1a22c8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-block;background:var(--blue);color:#fff;border:0;border-radius:6px;padding:8px 16px;font-size:10px;font-weight:900;letter-spacing:.1em;margin:20px 0 14px}
+.mk p{font-size:11px;max-width:40ch;opacity:.8;margin:14px 0 0}
+.nums{display:flex;justify-content:space-between;margin-top:30px;text-align:center}.nums b{display:block;font:400 44px/1 var(--fx)}.nums span{font-size:9px;letter-spacing:.3em;text-transform:uppercase}
+.sub{font:800 22px/1.2 var(--fd);font-stretch:125%;letter-spacing:-.02em;margin:48px 0 14px}
+.tok{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.tok>div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.tok code,pre{font:12px/1.6 ui-monospace,Menlo,Consolas,monospace}
+.ez{height:14px;position:relative;margin-top:12px;border-bottom:1px solid var(--line)}
+.ez i{position:absolute;top:0;width:14px;height:14px;border-radius:50%;background:var(--blue);animation:ez 2.4s infinite alternate}
+.mts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.mt{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.mt h4{margin:6px 0 0;font:800 16px var(--fd);font-stretch:125%;letter-spacing:-.02em}.mt p{margin:0;font-size:12px;color:var(--muted)}
+.mt button,.pb button,.cp{align-self:flex-start;background:none;border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;transition:background .15s,color .15s}
+.mt button:hover,.pb button:hover,.cp:hover{background:var(--blue);color:#fff}
+.stage,.pt{height:130px;border-radius:12px;background:#02001F;color:#fff;display:grid;place-items:center;overflow:hidden;position:relative;font:800 24px/1.05 var(--fd);font-stretch:125%;text-align:center}
+.el{opacity:0}.go .el{animation-duration:.7s;animation-timing-function:var(--ease);animation-fill-mode:forwards;animation-delay:calc(var(--i,0)*90ms)}
+.go .fu{animation-name:fu}.go .si{animation-name:si}.go .sp{animation-name:sp;animation-timing-function:var(--spring)}
+.mkr{opacity:1;clip-path:inset(0 100% 0 0)}.go .mkr{animation:mkr .9s var(--orbit) forwards}
+.go .lt{animation-name:lt;animation-duration:.6s;animation-delay:calc(var(--i)*45ms)}
+.lt{display:inline-block}
+.gs{opacity:1;width:80%;height:40px;border-radius:12px;background:linear-gradient(90deg,#FFB900,#7FBA00,#006CF9,#FFB900) 100% 0/300% 100%}.go .gs{animation:sw 1.6s var(--orbit) forwards}
+.gp{opacity:1;width:52px;height:52px;border-radius:50%;background:var(--blue)}.go .gp{animation:gl 1.4s ease-out 3}
+.stage .bc{height:56px;color:#fff}.stage .bc i{transform:scaleY(0);transform-origin:bottom}.go .bc i{animation:bs .5s var(--ease) forwards;animation-delay:calc(var(--i)*18ms)}
+.scan{position:absolute;top:0;bottom:0;left:0;width:3px;background:var(--amber);opacity:0}.go .scan{animation:sc 1.6s linear .1s}
+.pb{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.pt{height:200px;font-size:clamp(28px,6vw,48px)}
+.pg{transition:opacity .3s var(--ease),transform .3s var(--ease),filter .3s}
+.pg.o-slide{opacity:0;transform:translateX(-50px)}.pg.o-zoom{opacity:0;transform:scale(1.25);filter:blur(8px)}
+.pg.i-slide{opacity:0;transform:translateX(50px);transition:none}.pg.i-zoom{opacity:0;transform:scale(.8);transition:none}
+.wp i{position:absolute;inset:0;transform:translateX(-101%);background:var(--k);z-index:calc(4 - var(--n))}
+.run .wp i{animation:swp .9s var(--orbit) both;animation-delay:calc(var(--n)*90ms)}
+pre{background:#02001F;color:#dfe8ff;border-radius:16px;padding:20px;overflow-x:auto;margin:0}
+.rules{columns:2;column-gap:32px;margin:18px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
+footer{padding:80px 0 48px;text-align:center}footer .bc{justify-content:center;margin:0 auto 14px}
+footer .k{color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--blue);color:#fff;border-radius:99px;padding:10px 20px;font-size:13px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:30}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.js .rv{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}.js .rv.in{opacity:1;transform:none}
+@keyframes chIn{to{opacity:1;transform:none}}@keyframes drift{to{transform:translate(120px,80px) scale(1.15)}}
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes si{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
+@keyframes sp{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+@keyframes mkr{to{clip-path:inset(0 0 0 0)}}
+@keyframes lt{from{opacity:0;transform:translateY(60%) rotate(8deg)}to{opacity:1;transform:none}}
+@keyframes sw{to{background-position:0 0}}
+@keyframes gl{0%{box-shadow:0 0 0 0 #006cf9aa}100%{box-shadow:0 0 0 26px #006cf900}}
+@keyframes bs{to{transform:scaleY(1)}}@keyframes sc{0%{left:0;opacity:1}100%{left:100%;opacity:1}}
+@keyframes swp{0%{transform:translateX(-101%)}45%,55%{transform:none}100%{transform:translateX(101%)}}
+@keyframes ez{to{left:calc(100% - 14px)}}
+@media (max-width:760px){.tiles,.vd,.rules{grid-template-columns:1fr;columns:1}.tr{grid-template-columns:1fr}.sws{flex-direction:column}.sw{min-height:130px}.sw:hover{flex:1}.sw .nm{writing-mode:horizontal-tb;font-size:24px}.vd{padding:22px}.gr{padding:0 20px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav><div class="w"><span class="lg">BULSU<br>MSC</span><div class="ls"><a href="#logo">Logo</a><a href="#colors">Colors</a><a href="#gradients">Gradients</a><a href="#type">Typefaces</a><a href="#visual">Visual</a><a href="#motion">Motion</a></div><button id="tg" aria-label="Toggle light or dark theme">Theme</button></div></nav>
+
+<header class="hero"><div class="w">
+<div class="k">BulSU MSC Website</div>
+<h1 aria-label="Brand Guidelines"><span class="l1" data-split>BRAND</span><span data-split>GUIDELINES</span></h1>
+<div class="k">Visual Identity</div>
+<p class="tag">Logo, color, gradient, type, and motion rules for the BulSU Microsoft Student Community.</p>
+</div><div class="bc" data-n="42" aria-hidden="true"></div></header>
+
+<main class="w">
+<section id="logo"><div class="sh rv"><span class="n">01.</span><h2>LOGO</h2><p>The MSC logo represents a modern, tech-driven, and student-focused identity. Telegraf is the primary typeface, giving the website a clean, bold, and contemporary look.</p></div>
+<div class="tiles rv">
+<div class="tile d"><div class="mark">Fox mark: add official SVG</div><div class="wm"><b>BULSU</b><b>MSC</b></div></div>
+<div class="tile l"><div class="mark">Fox mark: add official SVG</div><div class="wm"><b>BULSU</b><b>MSC</b></div></div>
+</div>
+<div class="specs"><span>Typeface: Telegraf</span><span>Letter spacing: -69 (about -0.069em)</span><span>Reversed on Midnight Navy</span><span>Full color on white</span></div></section>
+
+<section id="colors"><div class="sh rv"><span class="n">02.</span><h2>COLORS</h2><p>Vibrant accents on deep navy tones balance creativity with professionalism. Amber and Lime add energy, Electric Blue carries the Microsoft-inspired technology identity, and the two navies provide contrast and readability.</p></div>
+<div class="sws rv">
+<button class="sw" data-c="#FFB900" style="--c:#FFB900;color:#02001F"><span class="nm">Golden Amber</span><span class="v">#FFB900<br>RGB 255, 185, 0<br>CMYK 0, 27, 100, 0<em>Energy and visual emphasis</em></span></button>
+<button class="sw" data-c="#7FBA00" style="--c:#7FBA00;color:#02001F"><span class="nm">Lime Green</span><span class="v">#7FBA00<br>RGB 127, 186, 0<br>CMYK 32, 0, 100, 27<em>Energy and visual emphasis</em></span></button>
+<button class="sw" data-c="#006CF9" style="--c:#006CF9;color:#fff"><span class="nm">Electric Blue</span><span class="v">#006CF9<br>RGB 0, 108, 249<br>CMYK 100, 57, 0, 2<em>Technology and innovation</em></span></button>
+<button class="sw" data-c="#002453" style="--c:#002453;color:#fff"><span class="nm">Deep Navy Blue</span><span class="v">#002453<br>RGB 0, 36, 83<br>CMYK 100, 57, 0, 67<em>Backgrounds and text</em></span></button>
+<button class="sw" data-c="#02001F" style="--c:#02001F;color:#fff"><span class="nm">Midnight Navy</span><span class="v">#02001F<br>RGB 2, 0, 31<br>CMYK 94, 100, 0, 88<em>Backgrounds and strong contrast</em></span></button>
+</div><p class="hint">Click any swatch to copy its hex value.</p></section>
+
+<section id="gradients"><div class="sh rv"><span class="n">03.</span><h2>GRADIENTS</h2><p>A vibrant gradient system that adds depth, energy, and a modern tech-inspired feel.</p></div>
+<div class="grs rv">
+<button class="gr" data-c="linear-gradient(135deg,#060062,#02001f)" style="--g:linear-gradient(135deg,#060062,#02001f)"><span>#060062</span><span>#02001f</span></button>
+<button class="gr" data-c="linear-gradient(135deg,#7FBA00,#236400)" style="--g:linear-gradient(135deg,#7FBA00,#236400)"><span>#7FBA00</span><span>#236400</span></button>
+<button class="gr" data-c="linear-gradient(135deg,#FFB900,#C83C00)" style="--g:linear-gradient(135deg,#FFB900,#C83C00)"><span>#FFB900</span><span>#C83C00</span></button>
+</div><p class="hint">Click a gradient to copy its CSS. Angle 135deg is the working default.</p></section>
+
+<section id="type"><div class="sh rv"><span class="n">04.</span><h2>TYPEFACES</h2><p>Telegraf for display, Gotham for headings, labels and body, Dela Gothic One for data and impact.</p></div>
+<div class="tr rv"><div><small>Display Hero</small><b>Telegraf</b><em>Bold 300 / Italic</em></div><div class="f1">Microsoft<br><span class="li">Voyagers</span></div><div class="tm">Line-height 1.0<br>Tracking 5<br>Headlines only<br>Camel Case / UPPERCASE</div></div>
+<div class="tr rv"><div><small>Section Heading</small><b>Gotham Black</b></div><div class="f2"><span class="am">DYNAMIC</span><br><span class="bl">DYNAMIC</span></div><div class="tm">Line-height 1.0<br>Tracking 5<br>Sub-headings</div></div>
+<div class="tr rv"><div><small>Data</small><b>Dela Gothic One</b></div><div class="f3">11 PROJECTS</div><div class="tm">Line-height 1.0<br>Tracking 0<br>Data + impact</div></div>
+<div class="tr rv"><div><small>Labels / UI Caps</small><b>Gotham Regular</b><em>All caps</em></div><div class="f4">BulSU - Microsoft Student Community<br>Executive Board - V</div><div class="tm">Line-height 1.2<br>Tracking 300<br>Uppercase only</div></div>
+<div class="tr rv"><div><small>Body Copy</small><b>Gotham</b></div><div class="f5">The MSC logo is designed to reflect innovation, technology, and community through a clean and modern visual style. Paired with the Telegraf typeface, it creates a bold and recognizable identity for the website.</div><div class="tm">Line-height 25<br>Tracking 2.333<br>Body and descriptions only</div></div>
+<p class="hint">Tracking values are design-tool units (1000 = 1em). Live specimens use Archivo and Montserrat as stand-ins until Telegraf and Gotham webfonts are licensed and loaded.</p></section>
+
+<section id="visual"><div class="sh rv"><span class="n">05.</span><h2>VISUAL DIRECTION</h2><p>Clean, vibrant, tech-focused imagery that highlights student collaboration, innovation, technology, and the community. These samples show typography and tone, not the final UI or layout.</p></div>
+<div class="vd rv">
+<div class="mk a"><div class="mn"><span class="wm"><b>BULSU</b><b>MSC</b></span><span>HOME</span><span>ABOUT US</span><span>CONTACT</span></div><h3><span class="li"><small>A GROWTH</small></span><span class="st">STORY</span></h3><span class="btn">JOIN THE VOYAGE</span><p>A collection of clean, vibrant, and tech-focused imagery that highlights student collaboration and innovation.</p></div>
+<div class="mk b"><div class="mn"><span class="wm"><b>BULSU</b><b>MSC</b></span><span>DASHBOARD</span><span>CALENDAR</span><span>ACTIVITIES</span></div><h3><span class="li"><small>WELCOME,</small></span><span class="am">VOYAGERS!</span></h3><div class="nums"><div><b data-n="11">0</b><span>Registered</span></div><div><b data-n="9">0</b><span>Upcoming</span></div><div><b data-n="67">0</b><span>Completed</span></div></div></div>
+</div></section>
+
+<section id="motion"><div class="sh rv"><span class="n">06.</span><h2>MOTION</h2><p>A proposed extension to the guidelines, built from the brand's own traits: bold, fast, and confident. Every effect below uses shared tokens and can be replayed.</p></div>
+<div class="sub">Motion tokens</div>
+<div class="tok rv">
+<div><b>Durations</b><br><code>fast 150ms · base 300ms<br>slow 600ms · hero 900ms</code></div>
+<div><b>Voyage Out</b><br><code>cubic-bezier(.2,.7,.2,1)</code><div class="ez"><i style="animation-timing-function:var(--ease)"></i></div></div>
+<div><b>Orbit</b><br><code>cubic-bezier(.65,0,.35,1)</code><div class="ez"><i style="animation-timing-function:var(--orbit)"></i></div></div>
+<div><b>Spring</b><br><code>cubic-bezier(.34,1.56,.64,1)</code><div class="ez"><i style="animation-timing-function:var(--spring)"></i></div></div>
+</div>
+<div class="sub">Transition suite</div>
+<div class="mts">
+<div class="mt"><div class="stage"><div><span class="el fu" style="--i:0;display:block">Together,</span><span class="el fu" style="--i:1;display:block">we go further.</span></div></div><h4>Fade Up</h4><p>Default entrance. 600ms, Voyage Out, 90ms stagger.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><div style="display:grid;gap:8px;width:70%"><i class="el si" style="--i:0;height:14px;background:#FFB900;border-radius:8px"></i><i class="el si" style="--i:1;height:14px;background:#7FBA00;border-radius:8px"></i><i class="el si" style="--i:2;height:14px;background:#006CF9;border-radius:8px"></i></div></div><h4>Slide In</h4><p>Lists and stacked bars. 700ms, staggered.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><span class="el sp">MSC</span></div><h4>Scale Pop</h4><p>Badges and stats. Spring easing.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><span class="mkr st" style="background:linear-gradient(90deg,#7FBA00,#006CF9);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:40px">STORY</span></div><h4>Mask Reveal</h4><p>Hero words. 900ms, Orbit, left to right.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><span data-split="lt">VOYAGERS</span></div><h4>Letter Stagger</h4><p>Headlines only. 45ms per letter.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><div class="gs"></div></div><h4>Gradient Sweep</h4><p>Progress and emphasis. Amber, Lime, Blue.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><div class="gp"></div></div><h4>Glow Pulse</h4><p>One call to action at a time. Three pulses, then rest.</p><button data-r>Replay</button></div>
+<div class="mt"><div class="stage"><div class="bc" data-n="30"></div><u class="scan"></u></div><h4>Barcode Scan</h4><p>The brand's barcode motif for loading and reveals.</p><button data-r>Replay</button></div>
+</div>
+<div class="sub">Page transitions</div>
+<div class="pb"><button data-t="wipe">Voyage Wipe</button><button data-t="slide">Slide</button><button data-t="zoom">Zoom Blur</button></div>
+<div class="pt"><div class="pg">HOME</div><div class="wp" aria-hidden="true"><i style="--n:0;--k:#FFB900"></i><i style="--n:1;--k:#7FBA00"></i><i style="--n:2;--k:#006CF9"></i></div></div>
+<p class="hint">Wipe uses the three accent colors in order. Swap content while the screen is covered, at 50% of the 900ms sweep.</p>
+<div class="sub">Copy the tokens</div>
+<pre id="css">:root{
+  --dur-fast:150ms; --dur-base:300ms; --dur-slow:600ms; --dur-hero:900ms;
+  --ease-voyage:cubic-bezier(.2,.7,.2,1);
+  --ease-orbit:cubic-bezier(.65,0,.35,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --stagger:80ms;
+}
+@keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.enter{animation:fade-up var(--dur-slow) var(--ease-voyage) both}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}</pre>
+<button class="cp" style="margin-top:12px" data-cp>Copy CSS</button>
+<ul class="rules"><li>Animate transform, opacity, and clip-path only.</li><li>Hover and press feedback: 150ms. Entrances: 300 to 600ms. Hero moments: up to 900ms.</li><li>Stagger 40 to 90ms, never more than 8 items.</li><li>One highlight animation per view.</li><li>Always honor reduced motion.</li><li>Yellow, lime, and blue wipes are reserved for page changes.</li></ul></section>
+</main>
+
+<footer><div class="bc" data-n="42" aria-hidden="true"></div><div class="k">BulSU MSC · Together, we go further.</div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+document.documentElement.classList.add('js');
+function split(el,cls){const t=el.textContent;el.textContent='';[...t].forEach((c,i)=>{const s=document.createElement('span');s.className=cls;s.style.setProperty('--i',i);s.textContent=c;el.append(s)})}
+$$('[data-split]').forEach(e=>split(e,e.dataset.split==='lt'?'el lt':'ch'));
+$$('.bc').forEach(b=>{for(let k=0;k<(+b.dataset.n||40);k++){const i=document.createElement('i');i.style.cssText=`width:${1+(k*7+k*k)%4}px;margin-right:${1+k%3}px;--i:${k}`;b.append(i)}});
+function count(el){const n=+el.dataset.n,t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1200);el.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;if(t.matches('.stage'))t.classList.add('go');else if(t.matches('b[data-n]'))count(t);else t.classList.add('in');io.unobserve(t)}),{threshold:.25});
+$$('.rv,.sh,.stage,b[data-n]').forEach(e=>io.observe(e));
+$$('[data-r]').forEach(b=>b.onclick=()=>{const s=b.closest('.mt').querySelector('.stage');s.classList.remove('go');void s.offsetWidth;s.classList.add('go')});
+const toast=$('#toast');let tt;
+function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),1600)}
+async function copy(v){try{await navigator.clipboard.writeText(v)}catch(e){const a=document.createElement('textarea');a.value=v;document.body.append(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()}say('Copied '+(v.length>24?'CSS':v))}
+$$('[data-c]').forEach(e=>e.onclick=()=>copy(e.dataset.c));
+$('[data-cp]').onclick=()=>copy($('#css').textContent);
+$('#tg').onclick=()=>{const r=document.documentElement,c=r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.dataset.theme=c==='dark'?'light':'dark'};
+const P=['HOME','ABOUT US','CONTACT'];let pi=0,busy=false;const pt=$('.pt'),pg=$('.pg');
+$$('[data-t]').forEach(b=>b.onclick=()=>{if(busy)return;busy=true;const m=b.dataset.t;pi=(pi+1)%3;
+if(m==='wipe'){pt.classList.add('run');setTimeout(()=>pg.textContent=P[pi],450);setTimeout(()=>{pt.classList.remove('run');busy=false},1050)}
+else{pg.className='pg o-'+m;setTimeout(()=>{pg.textContent=P[pi];pg.className='pg i-'+m;void pg.offsetWidth;pg.className='pg';busy=false},320)}});
+</script>
+</body>
+</html>

@@ -23,10 +23,10 @@ import { canCreateEvents } from "@/lib/supabase/roles";
 import { MemberAvatar } from "@/components/member/member-avatar";
 
 const memberNav = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Activities", href: "/member/activities", icon: ClipboardList },
-  { label: "Calendar", href: "/calendar", icon: CalendarDays },
-  { label: "My Activities", href: "/my-activities", icon: ClipboardList },
+  { label: "Dashboard",    href: "/dashboard",         icon: LayoutDashboard },
+  { label: "Activities",   href: "/member/activities", icon: ClipboardList   },
+  { label: "Calendar",     href: "/calendar",          icon: CalendarDays    },
+  { label: "My Activities",href: "/my-activities",     icon: ClipboardList   },
 ];
 
 type MemberShellProps = {
@@ -55,101 +55,167 @@ export function MemberShell({
   React.useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target as Node;
-
-      if (!profileMenuRef.current?.contains(target)) {
-        setProfileOpen(false);
-      }
-
-      if (!officerMenuRef.current?.contains(target)) {
-        setOfficerOpen(false);
-      }
+      if (!profileMenuRef.current?.contains(target)) setProfileOpen(false);
+      if (!officerMenuRef.current?.contains(target)) setOfficerOpen(false);
     }
-
     document.addEventListener("pointerdown", handlePointerDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-    };
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#02040a] text-white">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#02040a]/95">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/25 to-transparent" />
-        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen" style={{ background: "var(--bg-base)", color: "var(--fg-primary)" }}>
+      {/* ── Member header ── */}
+      <header
+        className="sticky top-0 z-40"
+        style={{
+          background: "color-mix(in srgb, var(--bg-base) 92%, transparent)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderBottom: "1px solid var(--border-subtle)",
+        }}
+      >
+        {/* Brand gradient top accent bar */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px"
+          style={{ background: "var(--msc-grad-sweep)" }}
+        />
+
+        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          {/* Logo */}
           <Link
             href="/dashboard"
-            className="group flex shrink-0 items-center gap-3 text-white transition hover:text-blue-100"
+            className="group flex shrink-0 items-center gap-3"
+            style={{ color: "var(--fg-primary)" }}
           >
-            <span className="relative flex size-9 items-center justify-center border border-white/15 text-[0.62rem] font-black text-blue-100 transition group-hover:border-blue-300/50">
-              <span className="absolute -right-1 -top-1 size-1.5 bg-orange-400" />
-              MSC
+            <span
+              className="relative flex h-9 w-9 flex-col items-center justify-center leading-none"
+              style={{
+                background: "linear-gradient(135deg, var(--msc-navy), var(--msc-midnight))",
+                border: "1.5px solid rgba(0, 108, 249, 0.45)",
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontStretch: "125%",
+                letterSpacing: "-0.065em",
+                color: "#FDFBFB",
+              }}
+            >
+              <span
+                aria-hidden="true"
+                className="absolute -right-1 -top-1 h-1.5 w-1.5"
+                style={{ background: "var(--msc-amber)" }}
+              />
+              <span style={{ fontSize: "0.44rem", lineHeight: 1 }}>BULSU</span>
+              <span style={{ fontSize: "0.68rem", lineHeight: 1 }}>MSC</span>
             </span>
             <span className="hidden leading-none sm:block">
-              <span className="block text-sm font-black tracking-tight">
+              <span
+                className="block text-sm"
+                style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontStretch: "125%", letterSpacing: "-0.04em" }}
+              >
                 BulSU MSC
               </span>
-              <span className="mt-1 block font-mono text-[0.62rem] uppercase tracking-[0.18em] text-slate-500">
-                Member portal
+              <span
+                className="mt-0.5 block text-[0.6rem] uppercase"
+                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.24em", color: "var(--fg-muted)" }}
+              >
+                Member Portal
               </span>
             </span>
           </Link>
 
+          {/* Desktop nav */}
           <nav
             className="hidden min-w-0 flex-1 items-center justify-center gap-6 overflow-x-auto lg:flex"
             aria-label="Member navigation"
           >
-          {memberNav.map((item) => {
-            const Icon = item.icon;
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            {memberNav.map((item) => {
+              const Icon = item.icon;
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                title={item.label}
-                className={`relative inline-flex shrink-0 items-center gap-2 px-1 py-2 text-sm font-semibold transition ${
-                  isActive
-                    ? "text-white after:absolute after:inset-x-2 after:-bottom-4 after:h-px after:bg-blue-300"
-                    : "text-slate-400 hover:text-blue-100"
-                }`}
-              >
-                <Icon className="size-4 shrink-0" aria-hidden="true" />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  title={item.label}
+                  className="group relative inline-flex shrink-0 items-center gap-2 px-2.5 py-2 text-xs font-semibold uppercase transition-all duration-200 hover:text-[var(--fg-primary)]"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    letterSpacing: "0.14em",
+                    color: isActive ? "var(--fg-primary)" : "var(--fg-muted)",
+                  }}
+                >
+                  <Icon className="size-3.5 shrink-0 transition-transform duration-200 group-hover:scale-115" aria-hidden="true" />
+                  <span>{item.label}</span>
+                  {/* Active persistent indicator */}
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-1 bottom-0 h-0.5 rounded-full"
+                      style={{
+                        background: "var(--msc-grad-sweep)",
+                        boxShadow: "0 0 8px rgba(0, 108, 249, 0.5)",
+                      }}
+                    />
+                  )}
+                  {/* Inactive hover sweep indicator */}
+                  {!isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-1 bottom-0 h-0.5 origin-left scale-x-0 rounded-full transition-transform duration-300 ease-out group-hover:scale-x-100"
+                      style={{ background: "var(--msc-grad-sweep)" }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
+            {/* Officer quick-add */}
             {isOfficerEventCreator ? (
               <div ref={officerMenuRef} className="relative">
                 <button
                   type="button"
-                  onClick={() => setOfficerOpen((value) => !value)}
-                  className="inline-flex size-10 items-center justify-center rounded-full border border-orange-300/25 bg-orange-300/10 text-orange-100 shadow-lg shadow-orange-950/20 transition hover:border-orange-200/50 hover:bg-orange-300/15"
+                  onClick={() => setOfficerOpen((v) => !v)}
+                  className="inline-flex size-9 items-center justify-center transition-all duration-200 hover:scale-105 hover:border-[var(--msc-amber)] hover:shadow-[0_0_14px_rgba(255,185,0,0.4)] active:scale-95"
+                  style={{
+                    background: "rgba(255, 185, 0, 0.1)",
+                    border: "1px solid rgba(255, 185, 0, 0.35)",
+                    borderRadius: "50%",
+                    color: "var(--msc-amber)",
+                  }}
                   aria-expanded={officerOpen}
                   aria-label="Open officer quick actions"
                 >
                   <SquarePlus className="size-4" aria-hidden="true" />
                 </button>
                 {officerOpen ? (
-                  <div className="absolute right-0 top-12 w-56 border border-white/10 bg-[#05070d] p-2 shadow-2xl shadow-black/40">
+                  <div
+                    className="msc-card absolute right-0 top-11 w-56 p-2 rounded-xl"
+                    style={{
+                      background: "var(--bg-elevated)",
+                      border: "1px solid var(--border-subtle)",
+                      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
+                    }}
+                  >
                     <Link
                       href="/officer/events/new"
                       onClick={() => setOfficerOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-orange-100"
+                      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-white"
+                      style={{ color: "var(--fg-muted)" }}
                     >
-                      <SquarePlus className="size-4" aria-hidden="true" />
+                      <SquarePlus className="size-4" aria-hidden="true" style={{ color: "var(--msc-amber)" }} />
                       Add Event
                     </Link>
                     <Link
                       href="/officer/announcements/new"
                       onClick={() => setOfficerOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-orange-100"
+                      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-white"
+                      style={{ color: "var(--fg-muted)" }}
                     >
-                      <Megaphone className="size-4" aria-hidden="true" />
+                      <Megaphone className="size-4" aria-hidden="true" style={{ color: "var(--msc-amber)" }} />
                       Add Announcement
                     </Link>
                   </div>
@@ -157,30 +223,47 @@ export function MemberShell({
               </div>
             ) : null}
 
+            {/* Profile dropdown */}
             <div ref={profileMenuRef} className="relative">
               <button
                 type="button"
-                onClick={() => setProfileOpen((value) => !value)}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] p-1 pr-2 text-slate-300 transition hover:border-blue-300/35 hover:text-blue-100"
+                onClick={() => setProfileOpen((v) => !v)}
+                className="inline-flex items-center gap-2 p-1 pr-2.5 transition-all duration-200 hover:border-[var(--msc-blue)] hover:shadow-[0_0_12px_rgba(0,108,249,0.3)] active:scale-95"
+                style={{
+                  background: "var(--bg-elevated)",
+                  border: "1px solid var(--border-subtle)",
+                  borderRadius: "9999px",
+                  color: "var(--fg-muted)",
+                }}
                 aria-expanded={profileOpen}
                 aria-label="Open profile menu"
               >
                 <MemberAvatar
                   displayName={displayName}
                   imageUrl={profilePictureUrl}
-                  size={34}
+                  size={32}
                   className="rounded-full"
                 />
-                <ChevronDown className="size-4" aria-hidden="true" />
+                <ChevronDown className="size-3.5 transition-transform duration-200" style={{ transform: profileOpen ? "rotate(180deg)" : "none" }} aria-hidden="true" />
               </button>
               {profileOpen ? (
-                <div className="absolute right-0 top-12 w-64 border border-white/10 bg-[#05070d] p-2 shadow-2xl shadow-black/40">
-                  <div className="border-b border-white/10 px-3 py-3">
-                    <p className="truncate text-sm font-bold text-white">
+                <div
+                  className="msc-card absolute right-0 top-11 w-64 p-2 rounded-xl"
+                  style={{
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-subtle)",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  <div
+                    className="px-3 py-3"
+                    style={{ borderBottom: "1px solid var(--border-subtle)" }}
+                  >
+                    <p className="truncate text-sm font-bold" style={{ color: "var(--fg-primary)", fontFamily: "var(--font-display)" }}>
                       {displayName}
                     </p>
                     {email ? (
-                      <p className="mt-1 truncate text-xs text-slate-500">
+                      <p className="mt-1 truncate text-xs" style={{ color: "var(--fg-muted)", fontFamily: "var(--font-mono)" }}>
                         {email}
                       </p>
                     ) : null}
@@ -188,69 +271,84 @@ export function MemberShell({
                   <Link
                     href="/profile"
                     onClick={() => setProfileOpen(false)}
-                    className="mt-2 flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-blue-100"
+                    className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-white"
+                    style={{ color: "var(--fg-muted)" }}
                   >
-                    <UserRound className="size-4" aria-hidden="true" />
+                    <UserRound className="size-4" aria-hidden="true" style={{ color: "var(--msc-blue)" }} />
                     Member Profile
                   </Link>
                   <Link
                     href="/settings"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/[0.04] hover:text-blue-100"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-white"
+                    style={{ color: "var(--fg-muted)" }}
                   >
-                    <Settings className="size-4" aria-hidden="true" />
+                    <Settings className="size-4" aria-hidden="true" style={{ color: "var(--msc-blue)" }} />
                     Settings
                   </Link>
-                  <form action={logout} className="border-t border-white/10 pt-2">
+                  <form
+                    action={logout}
+                    style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "0.5rem", marginTop: "0.25rem" }}
+                  >
                     <button
                       type="submit"
-                      className="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/[0.04] hover:text-blue-100"
+                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold transition-all duration-200 hover:bg-red-500/10 hover:text-red-300"
+                      style={{ color: "var(--fg-muted)" }}
                     >
-                      <LogOut className="size-4" aria-hidden="true" />
+                      <LogOut className="size-4" aria-hidden="true" style={{ color: "var(--msc-amber)" }} />
                       Logout
                     </button>
                   </form>
                 </div>
               ) : null}
             </div>
-          </div>
 
-          <button
-            type="button"
-            onClick={() => setMobileOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center border border-white/10 text-slate-200 transition hover:border-blue-300/40 hover:text-blue-200 lg:hidden"
-            aria-expanded={mobileOpen}
-            aria-controls="member-mobile-nav"
-            aria-label="Toggle member navigation"
-          >
-            {mobileOpen ? (
-              <X className="size-5" aria-hidden="true" />
-            ) : (
-              <Menu className="size-5" aria-hidden="true" />
-            )}
-          </button>
+            {/* Mobile hamburger */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              className="inline-flex size-9 items-center justify-center transition lg:hidden"
+              style={{
+                border: "1px solid var(--border-subtle)",
+                color: "var(--fg-muted)",
+              }}
+              aria-expanded={mobileOpen}
+              aria-controls="member-mobile-nav"
+              aria-label="Toggle member navigation"
+            >
+              {mobileOpen ? (
+                <X className="size-4" aria-hidden="true" />
+              ) : (
+                <Menu className="size-4" aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
 
+        {/* Mobile nav panel */}
         {mobileOpen ? (
           <div
             id="member-mobile-nav"
-            className="border-t border-white/10 px-4 py-4 sm:px-6 lg:hidden"
+            className="px-4 py-4 sm:px-6 lg:hidden"
+            style={{ borderTop: "1px solid var(--border-subtle)" }}
           >
             <div className="mb-4 flex items-center gap-3">
-              <MemberAvatar
-                displayName={displayName}
-                imageUrl={profilePictureUrl}
-                size={40}
-              />
+              <MemberAvatar displayName={displayName} imageUrl={profilePictureUrl} size={38} />
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-white">
+                <p className="truncate text-sm font-semibold" style={{ color: "var(--fg-primary)", fontFamily: "var(--font-display)" }}>
                   {displayName}
                 </p>
                 {email ? (
-                  <p className="truncate text-xs text-slate-500">{email}</p>
+                  <p className="truncate text-xs" style={{ color: "var(--fg-muted)", fontFamily: "var(--font-mono)" }}>
+                    {email}
+                  </p>
                 ) : null}
               </div>
             </div>
+
+            {/* Brand accent bar */}
+            <div aria-hidden="true" className="msc-accent-bar-full mb-4 h-0.5" />
+
             <nav className="grid gap-1 sm:grid-cols-2" aria-label="Member mobile navigation">
               {memberNav.map((item) => {
                 const Icon = item.icon;
@@ -261,13 +359,14 @@ export function MemberShell({
                   <Link
                     key={item.href}
                     href={item.href}
-                    title={item.label}
                     onClick={() => setMobileOpen(false)}
-                    className={`inline-flex items-center gap-3 border-l px-3 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] transition ${
-                      isActive
-                        ? "border-blue-300 text-blue-100"
-                        : "border-transparent text-slate-300 hover:text-blue-200"
-                    }`}
+                    className="inline-flex items-center gap-3 border-l px-3 py-3 text-xs font-semibold uppercase transition"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      letterSpacing: "0.1em",
+                      borderColor: isActive ? "var(--msc-amber)" : "transparent",
+                      color: isActive ? "var(--msc-amber)" : "var(--fg-muted)",
+                    }}
                   >
                     <Icon className="size-4 shrink-0" aria-hidden="true" />
                     {item.label}
@@ -277,7 +376,8 @@ export function MemberShell({
               <Link
                 href="/profile"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center gap-3 border-l border-transparent px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-blue-200"
+                className="inline-flex items-center gap-3 border-l border-transparent px-3 py-3 text-xs font-semibold uppercase transition"
+                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.1em", color: "var(--fg-muted)" }}
               >
                 <UserRound className="size-4" aria-hidden="true" />
                 Profile
@@ -285,16 +385,21 @@ export function MemberShell({
               <Link
                 href="/settings"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center gap-3 border-l border-transparent px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-blue-200"
+                className="inline-flex items-center gap-3 border-l border-transparent px-3 py-3 text-xs font-semibold uppercase transition"
+                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.1em", color: "var(--fg-muted)" }}
               >
                 <Settings className="size-4" aria-hidden="true" />
                 Settings
               </Link>
             </nav>
-            <form action={logout} className="mt-3 border-t border-white/10 pt-3">
+            <form
+              action={logout}
+              style={{ marginTop: "0.75rem", borderTop: "1px solid var(--border-subtle)", paddingTop: "0.75rem" }}
+            >
               <button
                 type="submit"
-                className="inline-flex w-full items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-blue-200"
+                className="inline-flex w-full items-center gap-3 px-3 py-3 text-xs font-semibold uppercase transition"
+                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.1em", color: "var(--fg-muted)" }}
               >
                 <LogOut className="size-4" aria-hidden="true" />
                 Logout

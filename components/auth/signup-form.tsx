@@ -23,7 +23,7 @@ export function SignupForm() {
             autoComplete="given-name"
             required
             placeholder="First name"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
 
@@ -37,7 +37,7 @@ export function SignupForm() {
             autoComplete="family-name"
             required
             placeholder="Last name"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
 
@@ -51,7 +51,7 @@ export function SignupForm() {
             autoComplete="email"
             required
             placeholder="member@example.edu"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
 
@@ -63,7 +63,7 @@ export function SignupForm() {
             autoComplete="new-password"
             required
             placeholder="Create password"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
 
@@ -77,7 +77,7 @@ export function SignupForm() {
             autoComplete="new-password"
             required
             placeholder="Confirm password"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
       </div>
@@ -89,7 +89,7 @@ export function SignupForm() {
 
       <p className="mt-5 text-center text-sm text-slate-300">
         Already registered?{" "}
-        <Link href="/login" className="font-semibold text-blue-200">
+        <Link href="/login" className="font-semibold text-blue-300 transition-colors duration-200 hover:text-white hover:underline">
           Log in
         </Link>
       </p>

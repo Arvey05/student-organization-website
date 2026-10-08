@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
+import { Archivo, Montserrat, Space_Mono, Dela_Gothic_One } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+// Telegraf substitute → Archivo variable font (stretch + weight axes)
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  axes: ["wdth"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Gotham substitute → Montserrat
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
+// Dela Gothic One → data / impact numerals
+const delaGothic = Dela_Gothic_One({
+  variable: "--font-dela-gothic",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+// Monospace for code and caps labels
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   subsets: ["latin"],
@@ -19,9 +31,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BulSU MSC Student Organization",
+  title: "BulSU MSC — Microsoft Student Community",
   description:
-    "The BulSU MSC member portal for activities, announcements, calendars, and organization programs.",
+    "The official BulSU Microsoft Student Community member portal. Access activities, announcements, calendars, and organization programs.",
 };
 
 export default function RootLayout({
@@ -32,9 +44,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${montserrat.variable} ${delaGothic.variable} ${spaceMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-black text-white">
+      <body className="flex min-h-full flex-col bg-[#02001F] text-[#FDFBFB]">
         {children}
       </body>
     </html>
