@@ -1,6 +1,9 @@
 {
   "name": "student-org-website",
   "version": "0.1.0",
+  "overrides": {
+    "glob": "^10.4.6"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +19,7 @@
     "@supabase/supabase-js": "^2.108.2",
     "date-fns": "^4.4.0",
     "lucide-react": "^1.18.0",
-    "next": "16.2.9",
+    "next": "^16.4.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.79.0",
@@ -27,8 +30,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.9",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
