@@ -54,6 +54,7 @@ export type Database = {
           guardian_relationship: string | null;
           guardian_phone: string | null;
           guardian_address: string | null;
+          has_completed_profile: boolean;
           member_since: string | null;
           last_login_at: string | null;
           created_at: string;
@@ -87,6 +88,7 @@ export type Database = {
           guardian_relationship?: string | null;
           guardian_phone?: string | null;
           guardian_address?: string | null;
+          has_completed_profile?: boolean;
           member_since?: string | null;
           last_login_at?: string | null;
           created_at?: string;

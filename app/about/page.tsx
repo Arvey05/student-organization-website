@@ -1,64 +1,105 @@
+import type { Metadata } from "next";
 import { Award, Eye, HeartHandshake, Target, UsersRound } from "lucide-react";
 
 import { PublicPageShell } from "@/components/layout/public-page-shell";
+
+export const metadata: Metadata = {
+  title: "About – BulSU MSC",
+  description:
+    "Learn about the Bulacan State University Microsoft Student Community (BulSU MSC), our mission, vision, officers, and committees.",
+  openGraph: {
+    title: "About – BulSU MSC",
+    description:
+      "Learn about the Bulacan State University Microsoft Student Community (BulSU MSC), our mission, vision, officers, and committees.",
+  },
+};
 
 const values = [
   {
     title: "Mission",
     description:
-      "Create meaningful student experiences through leadership, service, academic support, and community-building programs.",
+      "Create meaningful student experiences through leadership, technology workshops, academic support, and community-building programs across Bulacan State University.",
     icon: Target,
   },
   {
     title: "Vision",
     description:
-      "A student body where members have the support and experience to lead responsibly.",
+      "A proactive student community where BulSU members develop technical excellence, professional skills, and collaborative leadership to thrive in the modern technology ecosystem.",
     icon: Eye,
   },
   {
-    title: "What we do",
+    title: "What We Do",
     description:
-      "Organize activities, coordinate partnerships, publish announcements, and support members throughout the academic year.",
+      "Organize tech bootcamps, community activities, collaborative hackathons, official university announcements, and member development throughout the academic year.",
     icon: HeartHandshake,
   },
 ];
 
 const officers = [
-  "President",
-  "Vice President for Internal Affairs",
-  "Vice President for External Affairs",
-  "Secretary",
-  "Treasurer",
+  { role: "President", name: "TODO: Add BulSU MSC President Name" },
+  {
+    role: "Vice President for Internal Affairs",
+    name: "TODO: Add BulSU MSC VP Internal Affairs Name",
+  },
+  {
+    role: "Vice President for External Affairs",
+    name: "TODO: Add BulSU MSC VP External Affairs Name",
+  },
+  { role: "Secretary", name: "TODO: Add BulSU MSC Secretary Name" },
+  { role: "Treasurer", name: "TODO: Add BulSU MSC Treasurer Name" },
+  { role: "Auditor", name: "TODO: Add BulSU MSC Auditor Name" },
+  {
+    role: "Public Relations Officer",
+    name: "TODO: Add BulSU MSC PRO Name",
+  },
 ];
 
 const committees = [
-  "Membership and Records",
-  "Programs and Events",
-  "Creatives and Documentation",
-  "Partnerships and External Relations",
+  {
+    name: "Membership and Records",
+    desc: "Oversees member onboarding, roster management, and student records.",
+  },
+  {
+    name: "Programs and Events",
+    desc: "Plans and executes workshops, technical seminars, and student gatherings.",
+  },
+  {
+    name: "Creatives and Documentation",
+    desc: "Produces branding, media coverage, photography, and publication materials.",
+  },
+  {
+    name: "Partnerships and External Relations",
+    desc: "Fosters connections with university departments, tech companies, and partner student orgs.",
+  },
 ];
 
 export default function AboutPage() {
   return (
     <PublicPageShell
-      eyebrow="About the organization"
-      title="A student organization built around leadership and service"
-      description="Learn who we are, what guides our work, and how officers and committees support members across the academic year."
+      eyebrow="About BulSU MSC"
+      title="Empowering BulSU students through technology and leadership"
+      description="Learn about the Bulacan State University Microsoft Student Community (BulSU MSC), our founding values, and how officers and committees support students."
     >
       <section className="border-b border-white/10 bg-[#02040a] py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
-              Who we are
+              Who We Are
             </p>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">
-              Organized, student-led, and community-focused
+              BulSU Microsoft Student Community
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-300">
-              The organization connects students with programs, announcements,
-              partners, and opportunities that support growth inside and
-              outside the university.
+              BulSU MSC is an officially recognized student organization at
+              Bulacan State University. We connect students across disciplines
+              with technology events, hands-on learning, leadership
+              opportunities, and peer networks.
             </p>
+            <div className="mt-6 border border-dashed border-white/15 bg-white/[0.02] p-4 text-xs text-slate-400">
+              <span className="font-semibold text-yellow-300">TODO:</span> Verify
+              BulSU MSC founding year, constitution details, and faculty
+              adviser info with org records.
+            </div>
           </div>
 
           <div className="grid gap-px bg-white/10 md:grid-cols-3">
@@ -73,9 +114,9 @@ export default function AboutPage() {
                   <div className="flex size-12 items-center justify-center bg-blue-500/15 text-blue-100">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
-                  <h2 className="mt-5 text-xl font-black text-white">
+                  <h3 className="mt-5 text-xl font-black text-white">
                     {item.title}
-                  </h2>
+                  </h3>
                   <p className="mt-3 text-sm leading-7 text-slate-300">
                     {item.description}
                   </p>
@@ -92,16 +133,24 @@ export default function AboutPage() {
             <div className="flex items-center gap-3">
               <UsersRound className="size-6 text-blue-200" aria-hidden="true" />
               <h2 className="text-2xl font-black text-white">
-                Organization officers
+                Executive Officers
               </h2>
             </div>
+            <p className="mt-2 text-xs text-slate-400">
+              BulSU MSC Executive Board
+            </p>
             <div className="mt-6 grid gap-3">
               {officers.map((officer) => (
                 <div
-                  key={officer}
-                  className="border-l border-blue-300/40 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
+                  key={officer.role}
+                  className="flex flex-col justify-between border-l border-blue-300/40 bg-white/[0.03] px-4 py-3 sm:flex-row sm:items-center"
                 >
-                  {officer}
+                  <span className="text-sm font-semibold text-white">
+                    {officer.role}
+                  </span>
+                  <span className="text-xs font-mono text-yellow-300/80">
+                    {officer.name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -111,16 +160,22 @@ export default function AboutPage() {
             <div className="flex items-center gap-3">
               <Award className="size-6 text-blue-200" aria-hidden="true" />
               <h2 className="text-2xl font-black text-white">
-                Organization committees
+                Organization Committees
               </h2>
             </div>
+            <p className="mt-2 text-xs text-slate-400">
+              Standing committees serving BulSU members
+            </p>
             <div className="mt-6 grid gap-3">
               {committees.map((committee) => (
                 <div
-                  key={committee}
-                  className="border-l border-violet-300/35 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-300"
+                  key={committee.name}
+                  className="border-l border-violet-300/35 bg-white/[0.03] px-4 py-3"
                 >
-                  {committee}
+                  <p className="text-sm font-semibold text-white">
+                    {committee.name}
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400">{committee.desc}</p>
                 </div>
               ))}
             </div>

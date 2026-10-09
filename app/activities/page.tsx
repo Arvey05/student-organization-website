@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { CalendarCheck, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,6 +6,17 @@ import Link from "next/link";
 import { PublicPageShell } from "@/components/layout/public-page-shell";
 import { getPublicActivities } from "@/lib/member/activity-data";
 import { formatDateTimeRange } from "@/lib/member/display";
+
+export const metadata: Metadata = {
+  title: "Activities & Programs – BulSU MSC",
+  description:
+    "Explore upcoming, completed, and past activities, workshops, and tech seminars hosted by BulSU MSC.",
+  openGraph: {
+    title: "Activities & Programs – BulSU MSC",
+    description:
+      "Explore upcoming, completed, and past activities, workshops, and tech seminars hosted by BulSU MSC.",
+  },
+};
 
 export default async function ActivitiesPage() {
   const activities = await getPublicActivities();
@@ -25,9 +37,9 @@ export default async function ActivitiesPage() {
 
   return (
     <PublicPageShell
-      eyebrow="Activities"
-      title="Programs and events for members and the campus community"
-      description="Browse public upcoming, completed, and past activities from the organization."
+      eyebrow="BulSU MSC Activities"
+      title="Programs, workshops, and events for BulSU members"
+      description="Browse upcoming, completed, and past events hosted by BulSU MSC for the university community."
     >
       <section className="bg-[#02040a] py-20">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">

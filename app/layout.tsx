@@ -19,9 +19,36 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BulSU MSC Student Organization",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: {
+    default: "BulSU MSC — Microsoft Student Community",
+    template: "%s | BulSU MSC",
+  },
   description:
-    "The BulSU MSC member portal for activities, announcements, calendars, and organization programs.",
+    "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community). Connect with student activities, announcements, calendars, and member programs.",
+  keywords: [
+    "BulSU",
+    "Bulacan State University",
+    "MSC",
+    "Microsoft Student Community",
+    "Student Organization",
+    "BulSU MSC",
+  ],
+  authors: [{ name: "BulSU MSC" }],
+  openGraph: {
+    type: "website",
+    locale: "en_PH",
+    url: "/",
+    siteName: "BulSU MSC",
+    title: "BulSU MSC — Microsoft Student Community",
+    description:
+      "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community).",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
