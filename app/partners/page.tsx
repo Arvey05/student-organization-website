@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Handshake } from "lucide-react";
@@ -5,6 +6,17 @@ import { ArrowUpRight, Handshake } from "lucide-react";
 import { PublicPageShell } from "@/components/layout/public-page-shell";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
+
+export const metadata: Metadata = {
+  title: "Partners – BulSU MSC",
+  description:
+    "Official partners and corporate collaborators supporting the Bulacan State University Microsoft Student Community (BulSU MSC).",
+  openGraph: {
+    title: "Partners – BulSU MSC",
+    description:
+      "Official partners and corporate collaborators supporting the Bulacan State University Microsoft Student Community (BulSU MSC).",
+  },
+};
 
 type PartnerRow = Database["public"]["Tables"]["partners"]["Row"];
 
@@ -28,19 +40,19 @@ export default async function PartnersPage() {
 
   return (
     <PublicPageShell
-      eyebrow="Partners"
-      title="Collaborators who help strengthen student programs"
-      description="Official partners and collaborators will appear here when they are published by the organization."
+      eyebrow="BulSU MSC Partners"
+      title="Collaborators and sponsors empowering BulSU students"
+      description="Official industry partners, university affiliates, and organizations that collaborate with BulSU MSC to deliver high-impact student programs."
     >
       <section className="bg-[#02040a] py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
-                Our partners
+                Our Collaborators
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">
-                Organizations that support our work on campus.
+                Organizations supporting BulSU MSC initiatives.
               </h2>
             </div>
             <Handshake className="hidden size-10 text-blue-200 sm:block" />
@@ -100,8 +112,12 @@ export default async function PartnersPage() {
               })}
             </div>
           ) : (
-            <div className="mt-10 border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
-              Partners will be displayed here soon.
+            <div className="mt-10 border border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
+              <p>Official BulSU MSC partners will be displayed here soon.</p>
+              <p className="mt-2 text-xs text-yellow-300/80 font-mono">
+                TODO: Add official year-long photography partner, university
+                colleges, and industry sponsors in the database partners table.
+              </p>
             </div>
           )}
         </div>

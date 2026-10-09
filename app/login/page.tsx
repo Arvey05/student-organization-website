@@ -1,12 +1,19 @@
+import type { Metadata } from "next";
 import { LogIn } from "lucide-react";
 
 import { LoginForm } from "@/components/auth/login-form";
 import { PublicPageShell } from "@/components/layout/public-page-shell";
 
+export const metadata: Metadata = {
+  title: "Log In – BulSU MSC",
+  description:
+    "Log in to your BulSU MSC member account to view announcements, participate in activities, and manage your profile.",
+};
+
 export default function LoginPage() {
   return (
     <PublicPageShell
-      eyebrow="Member access"
+      eyebrow="BulSU MSC Member Access"
       title="Log in to your member account"
       description="Use your registered email and password to access protected member pages."
     >
