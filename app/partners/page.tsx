@@ -18,12 +18,17 @@ async function getPublicPartners(): Promise<PartnerRow[]> {
       .order("created_at", { ascending: true });
 
     if (error) {
+<<<<<<< Updated upstream
       console.warn(`Unable to load public partners: ${error.message}`);
+=======
+      console.error(`Unable to load public partners: ${error.message}`);
+>>>>>>> Stashed changes
       return [];
     }
 
     return data ?? [];
   } catch (error) {
+<<<<<<< Updated upstream
     if (
       typeof error === "object" &&
       error !== null &&
@@ -33,6 +38,9 @@ async function getPublicPartners(): Promise<PartnerRow[]> {
       throw error;
     }
     console.warn("Unable to load public partners:", error);
+=======
+    console.error("Unable to load public partners:", error);
+>>>>>>> Stashed changes
     return [];
   }
 }
@@ -48,7 +56,7 @@ export default async function PartnersPage() {
       title="Collaborators who help strengthen student programs"
       description="Official partners and collaborators will appear here when they are published by the organization."
     >
-      <section className="bg-[#02040a] py-20">
+      <section className="bg-[#02001f] py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -116,8 +124,17 @@ export default async function PartnersPage() {
               })}
             </div>
           ) : (
+<<<<<<< Updated upstream
             <div className="mt-10 border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
               Partners will be displayed here soon.
+=======
+            <div className="mt-10 border border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
+              <p>Official BulSU MSC partners will be displayed here soon.</p>
+              <p className="mt-2 text-xs text-yellow-300/80 font-sans">
+                TODO: Add official year-long photography partner, university
+                colleges, and industry sponsors in the database partners table.
+              </p>
+>>>>>>> Stashed changes
             </div>
           )}
         </div>

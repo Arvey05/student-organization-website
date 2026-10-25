@@ -7,7 +7,16 @@ import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+<<<<<<< Updated upstream
 import { canCreateEvents } from "@/lib/supabase/roles";
+=======
+import { getEventCreatorAccess } from "@/lib/supabase/event-access";
+import {
+  validateCollegeProgramMajor,
+  VALID_YEAR_LEVEL_VALUES,
+  VALID_GENDER_VALUES,
+} from "@/lib/member/colleges";
+>>>>>>> Stashed changes
 
 const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set([
@@ -215,13 +224,7 @@ export async function createOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -358,13 +361,7 @@ export async function updateOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -436,13 +433,7 @@ export async function archiveOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -482,13 +473,7 @@ export async function createOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -550,13 +535,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -625,13 +604,7 @@ export async function archiveOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 

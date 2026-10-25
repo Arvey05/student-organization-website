@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+<<<<<<< Updated upstream
 import { Archivo, Montserrat, Space_Mono, Dela_Gothic_One } from "next/font/google";
 import "./globals.css";
 
@@ -30,10 +31,39 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
 });
 
+=======
+import "./globals.css";
+
+>>>>>>> Stashed changes
 export const metadata: Metadata = {
   title: "BulSU MSC — Microsoft Student Community",
   description:
+<<<<<<< Updated upstream
     "The official BulSU Microsoft Student Community member portal. Access activities, announcements, calendars, and organization programs.",
+=======
+    "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community). Connect with student activities, announcements, calendars, and member programs.",
+  keywords: [
+    "BulSU",
+    "Bulacan State University",
+    "MSC",
+    "Microsoft Student Community",
+    "Student Organization",
+    "BulSU MSC",
+  ],
+  authors: [{ name: "BulSU MSC" }],
+  openGraph: {
+    type: "website",
+    locale: "en_PH",
+    url: "/",
+    siteName: "BulSU MSC",
+    title: "BulSU MSC — Microsoft Student Community",
+    description:
+      "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community).",
+  },
+  icons: {
+    icon: "/brand/msc-stacked-color.png",
+  },
+>>>>>>> Stashed changes
 };
 
 export default function RootLayout({
@@ -42,11 +72,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+<<<<<<< Updated upstream
     <html
       lang="en"
       className={`${archivo.variable} ${montserrat.variable} ${delaGothic.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-[#02001F] text-[#FDFBFB]">
+=======
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
+>>>>>>> Stashed changes
         {children}
       </body>
     </html>

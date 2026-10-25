@@ -72,7 +72,7 @@ export default async function DashboardPage() {
       title: announcement.title,
       date: getAnnouncementDate(announcement),
       href: "/announcements",
-      tone: "border-slate-700 bg-[#02040a] text-white",
+      tone: "border-slate-700 bg-[#02001f] text-white",
     })),
   ]
     .sort(
@@ -94,7 +94,7 @@ export default async function DashboardPage() {
       value: String(upcomingActivities.length),
       description: "Published activities",
       icon: CalendarDays,
-      tone: "bg-[#02040a] text-white",
+      tone: "bg-[#02001f] text-white",
     },
     {
       label: "Completed",
@@ -113,16 +113,16 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <main className="relative overflow-hidden bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_18%_8%,rgba(37,99,235,0.22),transparent_30%),radial-gradient(circle_at_80%_4%,rgba(249,115,22,0.12),transparent_24%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:linear-gradient(rgba(147,197,253,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(147,197,253,0.08)_1px,transparent_1px)] [background-size:72px_72px]" />
+    <main className="relative overflow-hidden bg-[#02001f] px-4 py-8 text-white sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_18%_8%,rgba(0,108,249,0.22),transparent_30%),radial-gradient(circle_at_80%_4%,rgba(255,185,0,0.12),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:linear-gradient(rgba(0,108,249,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(0,108,249,0.08)_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="mx-auto max-w-[96rem]">
-        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a]/90 p-6 text-white sm:p-8 lg:p-10">
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02001f]/90 p-6 text-white sm:p-8 lg:p-10">
           <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
           <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-96 bg-orange-500/10 blur-3xl" />
           <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="max-w-3xl">
-              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
+              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
                 <Sparkles className="size-4" aria-hidden="true" />
                 Member portal
               </p>
@@ -137,11 +137,11 @@ export default async function DashboardPage() {
                 registered activities, and upcoming organization dates.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2 border border-emerald-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-emerald-100">
+                <span className="inline-flex items-center gap-2 border border-emerald-300/30 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-emerald-100">
                   <ShieldCheck className="size-4" aria-hidden="true" />
                   {profile?.member_status ?? "active"}
                 </span>
-                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
+                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
                   <UserRound className="size-4" aria-hidden="true" />
                   {formatRole(profile?.role)}
                 </span>
@@ -160,7 +160,7 @@ export default async function DashboardPage() {
                   <p className="mt-1 truncate text-sm text-slate-300">
                     {user.email}
                   </p>
-                  <p className="mt-3 inline-flex border border-white/10 px-3 py-1 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-blue-100">
+                  <p className="mt-3 inline-flex border border-white/10 px-3 py-1 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-blue-100">
                     {formatRole(profile?.role)}
                   </p>
                 </div>
@@ -227,7 +227,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Updates
                 </p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-white">
@@ -261,7 +261,7 @@ export default async function DashboardPage() {
                         />
                       </div>
                     ) : (
-                      <div className="flex aspect-video items-center justify-center  bg-[#02040a] text-blue-100">
+                      <div className="flex aspect-video items-center justify-center  bg-[#02001f] text-blue-100">
                         <Megaphone className="size-7" aria-hidden="true" />
                       </div>
                     )}
@@ -287,7 +287,7 @@ export default async function DashboardPage() {
                   </Link>
                 ))
               ) : (
-                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-5 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02001f]/60 p-5 text-sm text-slate-300">
                   No announcements yet.
                 </p>
               )}
@@ -297,7 +297,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Activities
                 </p>
                 <h2 className="mt-1 text-2xl font-black text-white">
@@ -350,7 +350,7 @@ export default async function DashboardPage() {
                     </Link>
                   ))
               ) : (
-                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-4 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02001f]/60 p-4 text-sm text-slate-300">
                   You have not registered for any activities yet.
                 </p>
               )}
@@ -362,7 +362,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Calendar
                 </p>
                 <h2 className="mt-1 text-xl font-bold text-white">
@@ -409,7 +409,7 @@ export default async function DashboardPage() {
                   );
                 })
               ) : (
-                <p className="border border-dashed border-white/15 bg-[#02040a]/60 p-4 text-sm text-slate-300">
+                <p className="border border-dashed border-white/15 bg-[#02001f]/60 p-4 text-sm text-slate-300">
                   No calendar events available yet.
                 </p>
               )}
@@ -419,7 +419,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6 text-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                   Profile summary
                 </p>
                 <h2 className="mt-1 text-2xl font-black">{displayName}</h2>

@@ -22,6 +22,7 @@ import {
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { PixelBackground } from "@/components/ui/pixel-background";
 import {
   getAnnouncements,
   getPublicActivities,
@@ -97,12 +98,17 @@ async function getPublicPartners(): Promise<PartnerRow[]> {
       .order("created_at", { ascending: true });
 
     if (error) {
+<<<<<<< Updated upstream
       console.warn(`Unable to load public partners: ${error.message}`);
+=======
+      console.error(`Unable to load public partners: ${error.message}`);
+>>>>>>> Stashed changes
       return [];
     }
 
     return data ?? [];
   } catch (error) {
+<<<<<<< Updated upstream
     if (
       typeof error === "object" &&
       error !== null &&
@@ -112,6 +118,9 @@ async function getPublicPartners(): Promise<PartnerRow[]> {
       throw error;
     }
     console.warn("Unable to load public partners:", error);
+=======
+    console.error("Unable to load public partners:", error);
+>>>>>>> Stashed changes
     return [];
   }
 }
@@ -137,6 +146,7 @@ function ActivityVisual({
   }
 
   return (
+<<<<<<< Updated upstream
     <div className="absolute inset-0 overflow-hidden" style={{ background: "var(--msc-midnight)" }}>
       <div
         className="absolute inset-0"
@@ -160,6 +170,12 @@ function ActivityVisual({
         className="absolute bottom-0 left-1/2 h-24 w-2/3 -translate-x-1/2 blur-3xl"
         style={{ background: "rgba(0, 108, 249, 0.3)" }}
       />
+=======
+    <div className="absolute inset-0 overflow-hidden bg-slate-950">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(0,108,249,0.62),transparent_32%),radial-gradient(circle_at_80%_8%,rgba(127,186,0,0.36),transparent_28%),linear-gradient(135deg,#02001f,#07111f_48%,#0f2a5f)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,108,249,0.12)_0_1px,transparent_1px_18px)] opacity-25" />
+      <div className="absolute bottom-0 left-1/2 h-24 w-2/3 -translate-x-1/2 bg-blue-500/25 blur-3xl" />
+>>>>>>> Stashed changes
     </div>
   );
 }
@@ -172,6 +188,7 @@ function PlatformPreview({
   featuredAnnouncement?: AnnouncementRow;
 }) {
   return (
+<<<<<<< Updated upstream
     <div className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:mt-14 lg:px-8">
       {/* Glow above preview */}
       <div
@@ -214,6 +231,15 @@ function PlatformPreview({
               style={{ background: "var(--msc-blue)", boxShadow: "0 0 8px var(--msc-blue-glow)" }}
             />
             Member Portal Preview
+=======
+    <div className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:mt-12 lg:px-8">
+      <div className="absolute inset-x-8 -top-10 h-32 bg-blue-500/25 blur-3xl" />
+      <div className="brand-card relative overflow-hidden bg-[#060b2b]">
+        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-blue-200">
+            <Orbit className="size-4" aria-hidden="true" />
+            Member portal preview
+>>>>>>> Stashed changes
           </div>
           <div
             className="hidden items-center gap-2 text-xs sm:flex"
@@ -452,6 +478,7 @@ export default async function Home() {
   const activitiesHref = user ? "/member/activities" : "/activities";
 
   return (
+<<<<<<< Updated upstream
     <div className="min-h-screen" style={{ background: "var(--bg-base)", color: "var(--fg-primary)" }}>
       <SiteHeader />
 
@@ -474,6 +501,19 @@ export default async function Home() {
               `,
             }}
           />
+=======
+    <div className="min-h-screen bg-[#02001f] text-white">
+      <SiteHeader />
+
+      <main>
+        <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#02001f]">
+          <div className="absolute inset-0 -z-30 bg-[linear-gradient(180deg,#02001f_0%,#060b2b_58%,#02001f_100%)]" />
+          <div className="absolute inset-x-0 top-0 -z-20 h-[34rem] bg-[radial-gradient(circle_at_25%_18%,rgba(0,108,249,0.28),transparent_28%),radial-gradient(circle_at_78%_28%,rgba(127,186,0,0.18),transparent_25%)]" />
+          <div className="absolute inset-x-[-8%] bottom-0 -z-20 h-64 bg-[radial-gradient(ellipse_at_center,rgba(255,185,0,0.22),transparent_62%)]" />
+          <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(0,108,249,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(0,108,249,0.12)_1px,transparent_1px)] [background-size:64px_64px]" />
+          <div className="absolute left-1/2 top-[57%] -z-10 h-px w-[78vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
+          <PixelBackground />
+>>>>>>> Stashed changes
 
           {/* Radial glow spots */}
           <div
@@ -538,6 +578,7 @@ export default async function Home() {
                 <span className="absolute -bottom-1 -right-1 size-2" style={{ background: "var(--msc-amber)" }} />
               </div>
 
+<<<<<<< Updated upstream
               <div className="relative z-10 flex w-full flex-col items-center">
                 {/* Badge */}
                 <div
@@ -618,6 +659,23 @@ export default async function Home() {
                   <span className="text-grad-lime-blue">leadership</span>
                   {" "}for a digital{" "}
                   <span style={{ color: "var(--msc-amber)" }}>campus.</span>
+=======
+              <div className="brand-hero-enter relative z-10 flex w-full flex-col items-center">
+                <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-xs font-semibold tracking-[0.03em] text-blue-100">
+                  <BadgeCheck className="size-4" aria-hidden="true" />
+                  Official Student Organization Platform
+                </div>
+
+                <h1 className="mt-7 max-w-5xl text-[clamp(3rem,8vw,6.7rem)] font-black leading-[0.92] tracking-tight text-white">
+                  Building student{" "}
+                  <span className="bg-gradient-to-r from-blue-200 via-blue-400 to-violet-300 bg-clip-text text-transparent">
+                    leadership
+                  </span>{" "}
+                  for a digital{" "}
+                  <span className="font-semibold text-orange-200">
+                    campus
+                  </span>
+>>>>>>> Stashed changes
                 </h1>
 
                 <p
@@ -628,15 +686,30 @@ export default async function Home() {
                   programs, and manage your membership — all in one place.
                 </p>
 
+<<<<<<< Updated upstream
                 {/* CTAs */}
                 <div
                   className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row msc-enter msc-enter-delay-3"
                 >
                   <Link href={joinHref} className="group msc-btn-primary" style={{ height: "2.875rem", padding: "0 1.75rem" }}>
+=======
+                <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+                  <Link
+                    href={joinHref}
+                    className="brand-interactive inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-500 px-6 text-sm font-bold text-white shadow-[0_12px_30px_rgba(0,108,249,0.22)] hover:bg-blue-400"
+                  >
+>>>>>>> Stashed changes
                     {user ? "Open Dashboard" : "Join Now"}
                     <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1.5" aria-hidden="true" />
                   </Link>
+<<<<<<< Updated upstream
                   <Link href={activitiesHref} className="msc-btn-outline" style={{ height: "2.875rem", padding: "0 1.75rem" }}>
+=======
+                  <Link
+                    href={activitiesHref}
+                    className="brand-interactive inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.04] px-6 text-sm font-bold text-white hover:border-blue-300/50 hover:text-blue-100"
+                  >
+>>>>>>> Stashed changes
                     View Activities
                   </Link>
                 </div>
@@ -659,6 +732,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 02 WHO WE ARE — Identity pillars
         ═══════════════════════════════════════ */}
@@ -667,6 +741,10 @@ export default async function Home() {
           style={{ borderBottom: "1px solid var(--border-subtle)", background: "var(--bg-surface)" }}
         >
           <div className="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+=======
+        <section className="border-b border-white/10 bg-[#02001f] py-20">
+          <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+>>>>>>> Stashed changes
             <div>
               <p className="msc-eyebrow">Who we are</p>
               <span className="msc-accent-bar mt-3 block" />
@@ -739,6 +817,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 03 BENEFITS — Member tools grid
         ═══════════════════════════════════════ */}
@@ -746,6 +825,9 @@ export default async function Home() {
           className="py-24"
           style={{ borderBottom: "1px solid var(--border-subtle)", background: "var(--bg-base)" }}
         >
+=======
+        <section className="border-b border-white/10 bg-[#060b2b] py-20">
+>>>>>>> Stashed changes
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="msc-eyebrow">Member benefits</p>
@@ -791,6 +873,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 04 FEATURED ACTIVITY
         ═══════════════════════════════════════ */}
@@ -798,6 +881,9 @@ export default async function Home() {
           className="py-24"
           style={{ background: "var(--bg-surface)" }}
         >
+=======
+        <section className="bg-[#02001f] py-20">
+>>>>>>> Stashed changes
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -912,6 +998,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 05 ANNOUNCEMENTS
         ═══════════════════════════════════════ */}
@@ -920,6 +1007,10 @@ export default async function Home() {
           style={{ borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)", background: "var(--bg-base)" }}
         >
           <div className="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+=======
+        <section className="border-y border-white/10 bg-[#060b2b] py-20">
+          <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+>>>>>>> Stashed changes
             <div>
               <p className="msc-eyebrow">Latest announcements</p>
               <span className="msc-accent-bar mt-3 block" />
@@ -956,6 +1047,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 06 PARTNERS
         ═══════════════════════════════════════ */}
@@ -963,6 +1055,9 @@ export default async function Home() {
           className="py-24"
           style={{ borderBottom: "1px solid var(--border-subtle)", background: "var(--bg-surface)" }}
         >
+=======
+        <section className="border-b border-white/10 bg-[#02001f] py-20">
+>>>>>>> Stashed changes
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -1024,6 +1119,7 @@ export default async function Home() {
           </div>
         </section>
 
+<<<<<<< Updated upstream
         {/* ═══════════════════════════════════════
             § 07 CTA SECTION
         ═══════════════════════════════════════ */}
@@ -1052,6 +1148,11 @@ export default async function Home() {
             style={{ background: "rgba(255, 185, 0, 0.14)" }}
           />
 
+=======
+        <section className="relative overflow-hidden bg-[#02001f] py-24 text-center">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/50 to-transparent" />
+          <div className="absolute left-1/2 top-1/2 h-64 w-2/3 -translate-x-1/2 -translate-y-1/2 bg-blue-500/20 blur-3xl" />
+>>>>>>> Stashed changes
           <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
             {/* Barcode motif above headline */}
             <div
@@ -1088,16 +1189,24 @@ export default async function Home() {
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href={user ? "/dashboard" : "/signup"}
+<<<<<<< Updated upstream
                 className="group msc-btn-primary"
                 style={{ height: "3rem", padding: "0 2rem", fontSize: "0.875rem" }}
+=======
+                className="brand-interactive inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-500 px-7 text-sm font-bold text-white hover:bg-blue-400"
+>>>>>>> Stashed changes
               >
                 {user ? "Open Dashboard" : "Sign Up Free"}
                 <Zap className="size-4 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" aria-hidden="true" />
               </Link>
               <Link
                 href={user ? "/dashboard" : "/login"}
+<<<<<<< Updated upstream
                 className="msc-btn-outline"
                 style={{ height: "3rem", padding: "0 2rem", fontSize: "0.875rem" }}
+=======
+                className="brand-interactive inline-flex h-12 items-center justify-center rounded-full border border-white/20 px-7 text-sm font-bold text-white hover:border-blue-300/50"
+>>>>>>> Stashed changes
               >
                 {user ? "Dashboard" : "Log In"}
               </Link>

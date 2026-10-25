@@ -6,24 +6,23 @@ import { archiveOfficerAnnouncement } from "@/app/member/actions";
 import { getAnnouncements } from "@/lib/member/activity-data";
 import { formatDateTime, formatDateTimeRange } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
-import { canCreateEvents } from "@/lib/supabase/roles";
 
 export default async function AnnouncementsPage() {
-  const [announcements, { profile }] = await Promise.all([
+  const [announcements, { isEventCreator }] = await Promise.all([
     getAnnouncements(),
     getCurrentMemberProfile(),
   ]);
-  const isOfficerEventCreator = canCreateEvents(profile?.role);
+  const isOfficerEventCreator = isEventCreator;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#02040a] px-4 py-8 text-white sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_16%_8%,rgba(37,99,235,0.2),transparent_30%),radial-gradient(circle_at_80%_2%,rgba(249,115,22,0.1),transparent_24%)]" />
+    <main className="relative min-h-screen overflow-hidden bg-[#02001f] px-4 py-8 text-white sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_16%_8%,rgba(0,108,249,0.2),transparent_30%),radial-gradient(circle_at_80%_2%,rgba(255,185,0,0.1),transparent_24%)]" />
       <div className="mx-auto max-w-[96rem]">
-        <section className="relative overflow-hidden border-y border-white/10 bg-[#02040a]/90 p-6 sm:p-8">
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#02001f]/90 p-6 sm:p-8">
           <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/30 to-transparent" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
+              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
                 <Megaphone className="size-4" aria-hidden="true" />
                 Announcements
               </p>
@@ -149,7 +148,7 @@ export default async function AnnouncementsPage() {
             ))
           ) : (
             <article className="p-6">
-              <div className="border-y border-dashed border-white/15 bg-[#02040a] p-6 text-sm text-slate-300">
+              <div className="border-y border-dashed border-white/15 bg-[#02001f] p-6 text-sm text-slate-300">
                 No announcements yet.
               </div>
             </article>

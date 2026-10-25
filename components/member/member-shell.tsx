@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   CalendarDays,
@@ -18,8 +19,6 @@ import {
 } from "lucide-react";
 
 import { logout } from "@/app/auth/actions";
-import type { UserRole } from "@/types/database";
-import { canCreateEvents } from "@/lib/supabase/roles";
 import { MemberAvatar } from "@/components/member/member-avatar";
 
 const memberNav = [
@@ -34,7 +33,7 @@ type MemberShellProps = {
   displayName: string;
   email?: string;
   profilePictureUrl?: string | null;
-  role?: UserRole | null;
+  isEventCreator?: boolean;
 };
 
 export function MemberShell({
@@ -42,7 +41,7 @@ export function MemberShell({
   displayName,
   email,
   profilePictureUrl,
-  role,
+  isEventCreator = false,
 }: MemberShellProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -50,7 +49,7 @@ export function MemberShell({
   const [officerOpen, setOfficerOpen] = React.useState(false);
   const profileMenuRef = React.useRef<HTMLDivElement>(null);
   const officerMenuRef = React.useRef<HTMLDivElement>(null);
-  const isOfficerEventCreator = canCreateEvents(role);
+  const isOfficerEventCreator = isEventCreator;
 
   React.useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -58,6 +57,7 @@ export function MemberShell({
       if (!profileMenuRef.current?.contains(target)) setProfileOpen(false);
       if (!officerMenuRef.current?.contains(target)) setOfficerOpen(false);
     }
+<<<<<<< Updated upstream
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, []);
@@ -122,6 +122,42 @@ export function MemberShell({
                 Member Portal
               </span>
             </span>
+=======
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setProfileOpen(false);
+        setOfficerOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#02001f] text-white">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#02001f]/90 backdrop-blur-xl">
+        <div className="brand-accent-line pointer-events-none absolute inset-x-0 top-0 h-px opacity-65" />
+        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link
+            href="/dashboard"
+            className="brand-interactive group flex shrink-0 items-center text-white hover:opacity-90"
+          >
+            <Image
+              src="/brand/msc-horizontal-reversed.png"
+              alt="BulSU Microsoft Student Community"
+              width={1400}
+              height={465}
+              priority
+              className="h-9 w-auto max-w-[112px] object-contain sm:h-11 sm:max-w-[150px]"
+            />
+>>>>>>> Stashed changes
           </Link>
 
           {/* Desktop nav */}
@@ -187,11 +223,13 @@ export function MemberShell({
                     color: "var(--msc-amber)",
                   }}
                   aria-expanded={officerOpen}
+                  aria-controls="officer-quick-actions"
                   aria-label="Open officer quick actions"
                 >
                   <SquarePlus className="size-4" aria-hidden="true" />
                 </button>
                 {officerOpen ? (
+<<<<<<< Updated upstream
                   <div
                     className="msc-card absolute right-0 top-11 w-56 p-2 rounded-xl"
                     style={{
@@ -200,6 +238,9 @@ export function MemberShell({
                       boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
                     }}
                   >
+=======
+                  <div id="officer-quick-actions" className="absolute right-0 top-12 w-56 rounded-xl border border-white/10 bg-[#060b2b] p-2 shadow-2xl shadow-black/40">
+>>>>>>> Stashed changes
                     <Link
                       href="/officer/events/new"
                       onClick={() => setOfficerOpen(false)}
@@ -236,6 +277,7 @@ export function MemberShell({
                   color: "var(--fg-muted)",
                 }}
                 aria-expanded={profileOpen}
+                aria-controls="member-profile-menu"
                 aria-label="Open profile menu"
               >
                 <MemberAvatar
@@ -247,6 +289,7 @@ export function MemberShell({
                 <ChevronDown className="size-3.5 transition-transform duration-200" style={{ transform: profileOpen ? "rotate(180deg)" : "none" }} aria-hidden="true" />
               </button>
               {profileOpen ? (
+<<<<<<< Updated upstream
                 <div
                   className="msc-card absolute right-0 top-11 w-64 p-2 rounded-xl"
                   style={{
@@ -260,6 +303,11 @@ export function MemberShell({
                     style={{ borderBottom: "1px solid var(--border-subtle)" }}
                   >
                     <p className="truncate text-sm font-bold" style={{ color: "var(--fg-primary)", fontFamily: "var(--font-display)" }}>
+=======
+                <div id="member-profile-menu" className="absolute right-0 top-12 w-64 rounded-xl border border-white/10 bg-[#060b2b] p-2 shadow-2xl shadow-black/40">
+                  <div className="border-b border-white/10 px-3 py-3">
+                    <p className="truncate text-sm font-bold text-white">
+>>>>>>> Stashed changes
                       {displayName}
                     </p>
                     {email ? (
@@ -360,6 +408,7 @@ export function MemberShell({
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
+<<<<<<< Updated upstream
                     className="inline-flex items-center gap-3 border-l px-3 py-3 text-xs font-semibold uppercase transition"
                     style={{
                       fontFamily: "var(--font-mono)",
@@ -367,6 +416,13 @@ export function MemberShell({
                       borderColor: isActive ? "var(--msc-amber)" : "transparent",
                       color: isActive ? "var(--msc-amber)" : "var(--fg-muted)",
                     }}
+=======
+                    className={`inline-flex items-center gap-3 border-l px-3 py-3 font-sans text-xs font-semibold uppercase tracking-[0.1em] transition ${
+                      isActive
+                        ? "border-blue-300 text-blue-100"
+                        : "border-transparent text-slate-300 hover:text-blue-200"
+                    }`}
+>>>>>>> Stashed changes
                   >
                     <Icon className="size-4 shrink-0" aria-hidden="true" />
                     {item.label}

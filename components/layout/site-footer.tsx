@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, Share2 } from "lucide-react";
 
 const footerLinks = [
@@ -12,6 +13,7 @@ const footerLinks = [
   { label: "Sign Up",       href: "/signup" },
 ];
 
+<<<<<<< Updated upstream
 export function SiteFooter() {
   return (
     <footer
@@ -53,6 +55,35 @@ export function SiteFooter() {
               <span style={{ fontSize: "0.5rem", lineHeight: 1 }}>BULSU</span>
               <span style={{ fontSize: "0.8rem", lineHeight: 1 }}>MSC</span>
             </div>
+=======
+const logoItems = [
+  {
+    label: "Bulacan State University seal",
+    src: "/brand/bulsu-seal.webp",
+    imageClassName: "",
+  },
+  {
+    label: "OSOA seal",
+    src: "/brand/osoa-seal.png",
+    imageClassName: "brightness-0 invert",
+  },
+];
+
+export function SiteFooter() {
+  return (
+    <footer className="relative border-t border-white/10 bg-[#02001f] text-white">
+      <div className="brand-accent-line absolute inset-x-0 top-0 h-px opacity-65" />
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+        <div>
+          <div className="flex flex-col items-start gap-3">
+            <Image
+              src="/brand/msc-horizontal-reversed.png"
+              alt="BulSU Microsoft Student Community"
+              width={1400}
+              height={465}
+              className="h-12 w-auto max-w-[166px] object-contain"
+            />
+>>>>>>> Stashed changes
             <div>
               <p
                 className="text-base font-bold transition-colors duration-200 group-hover:text-[#a5c8ff]"
@@ -69,6 +100,7 @@ export function SiteFooter() {
             </div>
           </div>
 
+<<<<<<< Updated upstream
           <p
             className="mt-5 max-w-xs text-sm leading-7"
             style={{ color: "var(--fg-muted)" }}
@@ -94,6 +126,22 @@ export function SiteFooter() {
                   transitionDelay: `${k * 15}ms`,
                 }}
               />
+=======
+          <div className="mt-6 grid max-w-xs grid-cols-2 gap-3">
+            {logoItems.map((item) => (
+              <div
+                key={item.label}
+                className="flex aspect-[4/3] items-center justify-center px-3"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.label}
+                  width={120}
+                  height={120}
+                  className={`h-20 w-20 object-contain sm:h-24 sm:w-24 ${item.imageClassName}`}
+                />
+              </div>
+>>>>>>> Stashed changes
             ))}
           </div>
         </div>
@@ -155,8 +203,12 @@ export function SiteFooter() {
             </a>
             <a
               href="mailto:bulsu.officialmsc@gmail.com"
+<<<<<<< Updated upstream
               className="group flex items-center gap-3 transition-colors duration-200 hover:text-white"
               style={{ fontFamily: "var(--font-body)" }}
+=======
+              className="flex items-center gap-3 transition hover:text-blue-200"
+>>>>>>> Stashed changes
             >
               <Mail className="size-4 shrink-0 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" aria-hidden="true" style={{ color: "var(--msc-blue)" }} />
               bulsu.officialmsc@gmail.com

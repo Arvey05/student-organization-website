@@ -87,7 +87,12 @@ export default async function EditProfilePage({
 
         <form
           action={updateProfile}
+<<<<<<< Updated upstream
           className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
+=======
+          encType="multipart/form-data"
+          className="mt-8 border-y border-white/10 bg-[#02001f] p-6"
+>>>>>>> Stashed changes
         >
           <div className="mb-6 flex flex-col gap-5 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">

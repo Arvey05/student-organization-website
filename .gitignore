@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Private executive roster, database seed, and account credentials
+/.private/
+
 # vercel
 .vercel
 

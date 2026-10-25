@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   CalendarDays,
   LayoutDashboard,
@@ -37,6 +38,7 @@ export async function SiteHeader() {
   const activeNavItems = user ? authenticatedNavItems : navItems;
 
   return (
+<<<<<<< Updated upstream
     <header
       className="sticky top-0 z-50"
       style={{
@@ -99,6 +101,22 @@ export async function SiteHeader() {
               Student Org
             </span>
           </span>
+=======
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#02001f]/90 text-white backdrop-blur-xl">
+      <div className="mx-auto flex max-w-[96rem] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="brand-interactive group flex shrink-0 items-center text-white hover:opacity-90"
+        >
+          <Image
+            src="/brand/msc-horizontal-reversed.png"
+            alt="BulSU Microsoft Student Community"
+            width={1400}
+            height={465}
+            priority
+            className="h-10 w-auto max-w-[138px] object-contain sm:h-11 sm:max-w-[154px]"
+          />
+>>>>>>> Stashed changes
         </Link>
 
         {/* ── Desktop nav ── */}
@@ -112,12 +130,16 @@ export async function SiteHeader() {
             <>
               <Link
                 href="/dashboard"
+<<<<<<< Updated upstream
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md px-3 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-[var(--fg-primary)] active:scale-95"
                 style={{
                   color: "var(--fg-muted)",
                   fontFamily: "var(--font-body)",
                   letterSpacing: "0.02em",
                 }}
+=======
+                className="brand-interactive inline-flex h-10 items-center justify-center gap-2 px-2 text-sm font-semibold text-slate-300 hover:text-blue-200"
+>>>>>>> Stashed changes
               >
                 <LayoutDashboard className="size-4 transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
                 Dashboard
@@ -125,12 +147,16 @@ export async function SiteHeader() {
               <form action={logout}>
                 <button
                   type="submit"
+<<<<<<< Updated upstream
                   className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md px-3 text-sm font-semibold transition-all duration-200 hover:bg-red-500/10 hover:text-red-300 active:scale-95"
                   style={{
                     color: "var(--fg-muted)",
                     fontFamily: "var(--font-body)",
                     letterSpacing: "0.02em",
                   }}
+=======
+                  className="brand-interactive inline-flex h-10 items-center justify-center gap-2 px-2 text-sm font-semibold text-slate-300 hover:text-blue-200"
+>>>>>>> Stashed changes
                 >
                   <LogOut className="size-4" aria-hidden="true" />
                   Logout
@@ -141,19 +167,27 @@ export async function SiteHeader() {
             <>
               <Link
                 href="/login"
+<<<<<<< Updated upstream
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md px-3 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-[var(--fg-primary)] active:scale-95"
                 style={{
                   color: "var(--fg-muted)",
                   fontFamily: "var(--font-body)",
                 }}
+=======
+                className="brand-interactive inline-flex h-10 items-center justify-center gap-2 px-2 text-sm font-semibold text-slate-300 hover:text-blue-200"
+>>>>>>> Stashed changes
               >
                 <LogIn className="size-4" aria-hidden="true" />
                 Log In
               </Link>
               <Link
                 href="/signup"
+<<<<<<< Updated upstream
                 className="msc-btn-primary"
                 style={{ height: "2.25rem" }}
+=======
+                className="brand-interactive inline-flex h-10 items-center justify-center gap-2 rounded-full bg-blue-500 px-5 text-sm font-bold text-white hover:bg-blue-400"
+>>>>>>> Stashed changes
               >
                 <UserPlus className="size-3.5" aria-hidden="true" />
                 Sign Up
@@ -165,8 +199,12 @@ export async function SiteHeader() {
         {/* ── Mobile icon ── */}
         <Link
           href={user ? "/dashboard" : "/calendar"}
+<<<<<<< Updated upstream
           className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md px-2 text-sm font-semibold transition-all duration-200 hover:bg-white/5 hover:text-[var(--fg-primary)] active:scale-95 sm:hidden"
           style={{ color: "var(--fg-muted)" }}
+=======
+          className="brand-interactive inline-flex h-10 items-center justify-center gap-2 px-2 text-sm font-semibold text-slate-200 hover:text-blue-200 sm:hidden"
+>>>>>>> Stashed changes
         >
           {user ? (
             <UserRound className="size-4" aria-hidden="true" />
@@ -180,11 +218,15 @@ export async function SiteHeader() {
       {/* ── Mobile scrollable nav row ── */}
       <nav
         aria-label="Mobile navigation"
+<<<<<<< Updated upstream
         className="flex gap-4 overflow-x-auto px-4 py-2 lg:hidden"
         style={{
           borderTop: "1px solid var(--border-subtle)",
           scrollbarWidth: "none",
         }}
+=======
+        className="no-scrollbar flex gap-4 overflow-x-auto border-t border-white/10 px-4 py-2 lg:hidden"
+>>>>>>> Stashed changes
       >
         <SiteNavLinks items={activeNavItems} mobile />
       </nav>
