@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
-<<<<<<< Updated upstream
 /* ─────────────────────────────────────────────────
    BulSU MSC Brand Design Tokens
    Brand Book Reference: BulSU-MSC-Brand-Book-1.html
@@ -53,91 +52,12 @@
   --ease-orbit:  cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --stagger:     80ms;
-=======
-/* BulSU MSC brand book: primitive, semantic, and component tokens. */
-:root {
-  --brand-amber: #ffb900;
-  --brand-lime: #7fba00;
-  --brand-blue: #006cf9;
-  --brand-navy: #002453;
-  --brand-midnight: #02001f;
-  --brand-ink: #fdfbfb;
-  --font-archivo: "Archivo", "Arial Narrow", Arial, sans-serif;
-  --font-montserrat: "Montserrat", Arial, sans-serif;
-  --background: var(--brand-midnight);
-  --foreground: var(--brand-ink);
-  --surface: #0b133c;
-  --surface-raised: #11204b;
-  --surface-line: rgb(190 218 255 / 16%);
-  --button-primary: var(--brand-blue);
-  --button-primary-hover: #3187ff;
-  --focus-ring: var(--brand-amber);
-  --dur-fast: 150ms;
-  --dur-base: 300ms;
-  --dur-slow: 600ms;
-  --ease-voyage: cubic-bezier(.2, .7, .2, 1);
-  --ease-orbit: cubic-bezier(.65, 0, .35, 1);
-  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
-  --default-transition-duration: var(--dur-fast);
-  --default-transition-timing-function: var(--ease-voyage);
-}
-
-@theme {
-  --animate-pixel-build: pixel-build 20s var(--ease-orbit) infinite both;
-
-  @keyframes pixel-build {
-    0%, 100% { opacity: 0; transform: translate(var(--pixel-x), var(--pixel-y)); }
-    12% { opacity: .35; transform: translate(var(--pixel-x), var(--pixel-y)); }
-    36% { opacity: .65; transform: translate(0, 0); }
-    48% { opacity: .65; transform: translate(0, -10px); }
-    60% { opacity: .55; transform: translate(4px, -18px); }
-    84% { opacity: .25; transform: translate(var(--pixel-exit-x), var(--pixel-exit-y)); }
-    94% { opacity: 0; transform: translate(var(--pixel-exit-x), var(--pixel-exit-y)); }
-  }
-
-  --color-blue-50: #f2f7ff;
-  --color-blue-100: #e5f0ff;
-  --color-blue-200: #bedaff;
-  --color-blue-300: #86beff;
-  --color-blue-400: #4091ff;
-  --color-blue-500: #006cf9;
-  --color-blue-600: #005cd3;
-  --color-blue-700: #004aab;
-  --color-blue-900: #002453;
-  --color-blue-950: #001338;
-  --color-violet-100: #e9f5d3;
-  --color-violet-200: #d2eba6;
-  --color-violet-300: #b9dc76;
-  --color-violet-400: #9bcd3d;
-  --color-violet-500: #7fba00;
-  --color-violet-600: #659500;
-  --color-orange-100: #fff3cc;
-  --color-orange-200: #ffe699;
-  --color-orange-300: #ffdc70;
-  --color-orange-400: #ffc73d;
-  --color-orange-500: #ffb900;
-  --color-orange-950: #3b2a00;
-  --color-yellow-100: #fff3cc;
-  --color-yellow-200: #ffe699;
-  --color-yellow-300: #ffdc70;
-  --color-emerald-100: #e9f5d3;
-  --color-emerald-200: #d2eba6;
-  --color-emerald-300: #b9dc76;
-  --color-emerald-400: #9bcd3d;
-  --color-emerald-500: #7fba00;
-  --color-rose-400: #ffb900;
-  --color-teal-100: #e9f5d3;
-  --color-teal-200: #d2eba6;
-  --color-teal-300: #b9dc76;
-  --color-teal-400: #7fba00;
->>>>>>> Stashed changes
 }
 
 /* ─────────────────────────────────────────────────
    Tailwind v4 theme bridge
 ───────────────────────────────────────────────── */
 @theme inline {
-<<<<<<< Updated upstream
   --color-background:   var(--bg-base);
   --color-foreground:   var(--fg-primary);
   --color-msc-amber:    var(--msc-amber);
@@ -183,50 +103,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-=======
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-montserrat), Arial, sans-serif;
-  --font-display: var(--font-archivo), Arial, sans-serif;
-  --font-impact: var(--font-dela), Impact, sans-serif;
-}
-
-html { scroll-behavior: smooth; scroll-padding-top: 96px; }
-body { background: var(--background); color: var(--foreground); font-family: var(--font-montserrat), Arial, sans-serif; }
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-archivo), Arial, sans-serif; }
-button, input, select, textarea, nav, label { font-family: var(--font-montserrat), Arial, sans-serif; }
-::selection { background: var(--brand-amber); color: var(--brand-midnight); }
-:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
-
-.brand-page-enter { animation: brand-page-enter var(--dur-base) var(--ease-voyage) both; }
-.brand-hero-enter { animation: brand-hero-enter var(--dur-slow) var(--ease-voyage) both; }
-.brand-interactive {
-  transition: color var(--dur-fast) var(--ease-voyage), background-color var(--dur-fast) var(--ease-voyage),
-    border-color var(--dur-fast) var(--ease-voyage), box-shadow var(--dur-fast) var(--ease-voyage),
-    transform var(--dur-fast) var(--ease-voyage);
-}
-.brand-interactive:hover { transform: translateY(-2px); }
-.brand-interactive:active { transform: translateY(0) scale(.98); }
-.brand-card {
-  border: 1px solid var(--surface-line);
-  border-radius: 1.25rem;
-  background: var(--surface);
-  box-shadow: 0 20px 54px rgb(0 0 0 / 14%);
-  transition: border-color var(--dur-base) var(--ease-voyage),
-    box-shadow var(--dur-base) var(--ease-voyage), transform var(--dur-base) var(--ease-voyage);
-}
-.brand-card:hover { border-color: rgb(134 190 255 / 36%); box-shadow: 0 24px 62px rgb(0 0 0 / 22%); }
-.brand-accent-line { background: linear-gradient(90deg, var(--brand-amber), var(--brand-lime), var(--brand-blue)); }
-.brand-grid {
-  background-image: linear-gradient(rgb(0 108 249 / 10%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(0 108 249 / 10%) 1px, transparent 1px);
-  background-size: 64px 64px;
->>>>>>> Stashed changes
 }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
-<<<<<<< Updated upstream
 code, kbd, samp, pre {
   font-family: var(--font-mono);
 }
@@ -800,23 +680,65 @@ button, input, select, textarea, nav, label {
     transform: none;
   }
 }
-=======
-.stream-section { background-color: var(--background); }
-.stream-surface, .stream-card { background-color: var(--surface); }
-.stream-surface-elevated { background-color: var(--surface-raised); }
-.stream-divider { border-color: var(--surface-line); }
-.stream-card { border: 1px solid var(--surface-line); border-radius: 1rem; }
-.stream-card-hover:hover { border-color: var(--brand-blue); background-color: var(--surface-raised); }
-.stream-input { background-color: var(--surface); border: 1px solid var(--surface-line); border-radius: .75rem; color: var(--foreground); }
-.stream-input:focus { border-color: var(--brand-blue); outline: none; box-shadow: 0 0 0 3px rgb(0 108 249 / 20%); }
-.stream-button-primary { background: linear-gradient(135deg, var(--brand-blue), var(--brand-navy)); border-radius: .75rem; color: white; }
-.stream-button-secondary { background-color: var(--surface-raised); border: 1px solid var(--surface-line); border-radius: .75rem; color: var(--foreground); }
-.stream-button-secondary:hover { border-color: var(--brand-blue); }
-.stream-badge { background-color: rgb(0 36 83 / 42%); border: 1px solid var(--surface-line); border-radius: 9999px; color: var(--color-blue-200); }
-.stream-badge-blue { background-color: rgb(0 108 249 / 16%); border: 1px solid rgb(0 108 249 / 38%); border-radius: 9999px; color: var(--color-blue-100); }
-.stream-badge-violet { background-color: rgb(0 36 83 / 42%); border: 1px solid rgb(134 190 255 / 28%); border-radius: 9999px; color: var(--color-blue-100); }
-.stream-badge-emerald { background-color: rgb(127 186 0 / 16%); border: 1px solid rgb(127 186 0 / 38%); border-radius: 9999px; color: var(--color-emerald-100); }
-.stream-badge-red { background-color: #7f1d1d; border: 1px solid #ef4444; border-radius: 9999px; color: #fecaca; }
+
+/* ── Brand utilities carried over from the previous design pass ── */
+:root {
+  --brand-amber: #ffb900;
+  --brand-lime: #7fba00;
+  --brand-blue: #006cf9;
+  --brand-navy: #002453;
+  --brand-midnight: #02001f;
+  --brand-ink: #fdfbfb;
+  --font-archivo: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-montserrat: "Montserrat", Arial, sans-serif;
+  --surface: #0b133c;
+  --surface-raised: #11204b;
+  --surface-line: rgb(190 218 255 / 16%);
+  --button-primary: var(--brand-blue);
+  --button-primary-hover: #3187ff;
+  --focus-ring: var(--brand-amber);
+}
+
+@theme {
+  --animate-pixel-build: pixel-build 20s var(--ease-orbit) infinite both;
+
+  @keyframes pixel-build {
+    0%, 100% { opacity: 0; transform: translate(var(--pixel-x), var(--pixel-y)); }
+    12% { opacity: .35; transform: translate(var(--pixel-x), var(--pixel-y)); }
+    36% { opacity: .65; transform: translate(0, 0); }
+    48% { opacity: .65; transform: translate(0, -10px); }
+    60% { opacity: .55; transform: translate(4px, -18px); }
+    84% { opacity: .25; transform: translate(var(--pixel-exit-x), var(--pixel-exit-y)); }
+    94% { opacity: 0; transform: translate(var(--pixel-exit-x), var(--pixel-exit-y)); }
+  }
+}
+
+.brand-page-enter { animation: brand-page-enter var(--dur-base) var(--ease-voyage) both; }
+.brand-hero-enter { animation: brand-hero-enter var(--dur-slow) var(--ease-voyage) both; }
+.brand-interactive {
+  transition: color var(--dur-fast) var(--ease-voyage), background-color var(--dur-fast) var(--ease-voyage),
+    border-color var(--dur-fast) var(--ease-voyage), box-shadow var(--dur-fast) var(--ease-voyage),
+    transform var(--dur-fast) var(--ease-voyage);
+}
+.brand-interactive:hover { transform: translateY(-2px); }
+.brand-interactive:active { transform: translateY(0) scale(.98); }
+.brand-card {
+  border: 1px solid var(--surface-line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 20px 54px rgb(0 0 0 / 14%);
+  transition: border-color var(--dur-base) var(--ease-voyage),
+    box-shadow var(--dur-base) var(--ease-voyage), transform var(--dur-base) var(--ease-voyage);
+}
+.brand-card:hover { border-color: rgb(134 190 255 / 36%); box-shadow: 0 24px 62px rgb(0 0 0 / 22%); }
+.brand-accent-line { background: linear-gradient(90deg, var(--brand-amber), var(--brand-lime), var(--brand-blue)); }
+.brand-grid {
+  background-image: linear-gradient(rgb(0 108 249 / 10%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 108 249 / 10%) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 @keyframes brand-page-enter {
   from { opacity: .72; transform: translateY(8px); }
@@ -830,8 +752,6 @@ button, input, select, textarea, nav, label {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
 }
->>>>>>> Stashed changes
