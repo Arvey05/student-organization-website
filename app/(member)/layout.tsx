@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 
 import { MemberShell } from "@/components/member/member-shell";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getEventCreatorAccess } from "@/lib/supabase/event-access";
+
+export const dynamic = "force-dynamic";
 
 export default async function MemberLayout({
   children,
@@ -34,7 +37,7 @@ export default async function MemberLayout({
       displayName={displayName}
       email={user.email}
       profilePictureUrl={profile?.profile_picture_url}
-      role={profile?.role}
+      isEventCreator={await getEventCreatorAccess(supabase, user.id)}
     >
       {children}
     </MemberShell>

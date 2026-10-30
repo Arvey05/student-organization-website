@@ -13,86 +13,116 @@ export type RegisteredActivity = {
 };
 
 export async function getActivities(): Promise<ActivityRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .is("archived_at", null)
-    .order("starts_at", { ascending: true });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .is("archived_at", null)
+      .order("starts_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load activities: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load activities: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    console.error("Unable to load activities:", error);
+    return [];
   }
-
-  return data ?? [];
 }
 
 export async function getActivityById(
   activityId: string,
 ): Promise<ActivityRow | null> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .eq("id", activityId)
-    .is("archived_at", null)
-    .maybeSingle();
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .eq("id", activityId)
+      .is("archived_at", null)
+      .maybeSingle();
 
-  if (error) {
-    throw new Error(`Unable to load activity: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load activity: ${error.message}`);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Unable to load activity:", error);
+    return null;
   }
-
-  return data;
 }
 
 export async function getPublicActivities(): Promise<ActivityRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .eq("is_public", true)
-    .is("archived_at", null)
-    .order("starts_at", { ascending: true });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("activities")
+      .select("*")
+      .eq("is_public", true)
+      .is("archived_at", null)
+      .order("starts_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load public activities: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load public activities: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    console.error("Unable to load public activities:", error);
+    return [];
   }
-
-  return data ?? [];
 }
 
 export async function getAnnouncements(): Promise<AnnouncementRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("announcements")
-    .select("*")
-    .is("archived_at", null)
-    .order("published_at", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("announcements")
+      .select("*")
+      .is("archived_at", null)
+      .order("published_at", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false });
 
-  if (error) {
-    throw new Error(`Unable to load announcements: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load announcements: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    console.error("Unable to load announcements:", error);
+    return [];
   }
-
-  return data ?? [];
 }
 
 export async function getAnnouncementById(
   announcementId: string,
 ): Promise<AnnouncementRow | null> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("announcements")
-    .select("*")
-    .eq("id", announcementId)
-    .is("archived_at", null)
-    .maybeSingle();
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("announcements")
+      .select("*")
+      .eq("id", announcementId)
+      .is("archived_at", null)
+      .maybeSingle();
 
-  if (error) {
-    throw new Error(`Unable to load announcement: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load announcement: ${error.message}`);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Unable to load announcement:", error);
+    return null;
   }
-
-  return data;
 }
 
 export async function getRegisteredActivities(

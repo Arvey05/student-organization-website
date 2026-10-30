@@ -8,6 +8,8 @@ export type Json =
 
 export type UserRole =
   | "member"
+  | "core_executive"
+  | "executive"
   | "officer"
   | "president"
   | "vp_internal_affairs"
@@ -56,6 +58,7 @@ export type Database = {
           guardian_address: string | null;
           member_since: string | null;
           last_login_at: string | null;
+          has_completed_profile: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -89,6 +92,7 @@ export type Database = {
           guardian_address?: string | null;
           member_since?: string | null;
           last_login_at?: string | null;
+          has_completed_profile?: boolean;
           created_at?: string;
           updated_at?: string;
         };
@@ -305,7 +309,16 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      is_event_creator: {
+        Args: { user_id: string };
+        Returns: boolean;
+      };
+      executive_signup_is_allowed: {
+        Args: { signup_email: string; requested_role: string };
+        Returns: boolean;
+      };
+    };
     Enums: {
       user_role: UserRole;
       member_status: MemberStatus;

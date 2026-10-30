@@ -1,13 +1,11 @@
-import type { UserRole } from "@/types/database";
+export const SIGNUP_ROLES = [
+  { value: "member", label: "Regular member" },
+  { value: "core_executive", label: "Core executive member" },
+  { value: "executive", label: "Executive member" },
+] as const;
 
-export const OFFICER_EVENT_ROLES = [
-  "president",
-  "vp_internal_affairs",
-  "vp_external_affairs",
-] as const satisfies readonly UserRole[];
+export type SignupRole = (typeof SIGNUP_ROLES)[number]["value"];
 
-export type OfficerEventRole = (typeof OFFICER_EVENT_ROLES)[number];
-
-export function canCreateEvents(role: UserRole | null | undefined): boolean {
-  return OFFICER_EVENT_ROLES.includes(role as OfficerEventRole);
+export function isSignupRole(value: string): value is SignupRole {
+  return SIGNUP_ROLES.some((role) => role.value === value);
 }

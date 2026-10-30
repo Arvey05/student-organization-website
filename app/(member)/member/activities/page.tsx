@@ -136,8 +136,8 @@ function ActivityCover({
   }
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[#02040a]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(37,99,235,0.72),transparent_28%),radial-gradient(circle_at_80%_12%,rgba(14,165,233,0.32),transparent_24%),linear-gradient(135deg,#020617,#0f172a_45%,#1d4ed8)]" />
+    <div className="absolute inset-0 overflow-hidden bg-[#02001f]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(0,108,249,0.72),transparent_28%),radial-gradient(circle_at_80%_12%,rgba(14,165,233,0.32),transparent_24%),linear-gradient(135deg,#02001f,#0b133c_45%,#006cf9)]" />
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_18px)] opacity-30" />
       <div className="absolute bottom-4 left-5 right-5 h-16  bg-blue-500/20 blur-2xl" />
     </div>
@@ -152,7 +152,7 @@ function ActivityLandscapeCard({
   registeredActivities: RegisteredActivity[];
 }) {
   return (
-    <article className="group relative aspect-video w-[min(86vw,28rem)] shrink-0 overflow-hidden rounded-md border border-white/10 bg-[#02040a] transition duration-300 hover:border-blue-300/50">
+    <article className="group relative aspect-video w-[min(86vw,28rem)] shrink-0 overflow-hidden rounded-md border border-white/10 bg-[#02001f] transition duration-300 hover:border-blue-300/50">
       <div className="absolute inset-0 bg-slate-900">
         <ActivityCover activity={activity} />
       </div>
@@ -227,7 +227,7 @@ function ActivityRowSection({
       </div>
 
       {activities.length ? (
-        <div className="mt-5 flex snap-x gap-4 overflow-x-auto pb-5 [scrollbar-color:rgba(96,165,250,0.45)_transparent]">
+        <div className="mt-5 flex snap-x gap-4 overflow-x-auto pb-5 [scrollbar-color:rgba(0,108,249,0.45)_transparent]">
           {activities.map((activity) => (
             <ActivityLandscapeCard
               key={activity.id}
@@ -237,7 +237,7 @@ function ActivityRowSection({
           ))}
         </div>
       ) : (
-        <p className="mt-5 border-y border-dashed border-white/15 bg-[#02040a] p-5 text-sm text-slate-300">
+        <p className="mt-5 border-y border-dashed border-white/15 bg-[#02001f] p-5 text-sm text-slate-300">
           No activities available in this section yet.
         </p>
       )}
@@ -262,7 +262,7 @@ export default async function MemberActivitiesPage() {
   );
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#02040a] pb-12 text-white">
+    <main className="min-h-screen overflow-hidden bg-[#02001f] pb-12 text-white">
       <section className="relative min-h-[36rem] overflow-hidden">
         {featuredActivity ? (
           <>
@@ -313,8 +313,8 @@ export default async function MemberActivitiesPage() {
           </>
         ) : (
           <div className="relative mx-auto flex min-h-[30rem] max-w-[96rem] flex-col justify-end px-4 py-12 sm:px-6 lg:px-8">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%)]" />
-            <div className="relative border-y border-white/10 bg-[#02040a] p-8">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,108,249,0.28),transparent_30%)]" />
+            <div className="relative border-y border-white/10 bg-[#02001f] p-8">
               <p className="flex items-center gap-2 text-sm font-semibold text-blue-200">
                 <TicketCheck className="size-4" aria-hidden="true" />
                 Activities

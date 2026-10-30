@@ -9,19 +9,27 @@ import type { Database } from "@/types/database";
 type PartnerRow = Database["public"]["Tables"]["partners"]["Row"];
 
 async function getPublicPartners(): Promise<PartnerRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("partners")
-    .select("*")
-    .eq("is_public", true)
-    .order("created_at", { ascending: true });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("partners")
+      .select("*")
+      .eq("is_public", true)
+      .order("created_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load public partners: ${error.message}`);
+    if (error) {
+      console.error(`Unable to load public partners: ${error.message}`);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (error) {
+    console.error("Unable to load public partners:", error);
+    return [];
   }
-
-  return data ?? [];
 }
+
+export const dynamic = "force-dynamic";
 
 export default async function PartnersPage() {
   const partners = await getPublicPartners();
@@ -32,7 +40,7 @@ export default async function PartnersPage() {
       title="Collaborators who help strengthen student programs"
       description="Official partners and collaborators will appear here when they are published by the organization."
     >
-      <section className="bg-[#02040a] py-20">
+      <section className="bg-[#02001f] py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -47,27 +55,27 @@ export default async function PartnersPage() {
           </div>
 
           {partners.length ? (
-            <div className="mt-10 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {partners.map((partner) => {
                 const content = (
-                  <article className="flex min-h-52 flex-col justify-between bg-slate-950 p-6 transition hover:bg-slate-900/80">
+                  <article className="msc-card-hover group flex min-h-52 flex-col justify-between border border-white/10 bg-[#001431]/80 p-6 backdrop-blur-md transition-all duration-300 hover:border-msc-blue/50 hover:shadow-[0_12px_28px_rgba(0,108,249,0.15)]">
                     <div>
-                      <div className="flex min-h-24 items-center justify-center border border-white/10 bg-black/40 p-4">
+                      <div className="flex min-h-24 items-center justify-center border border-white/10 bg-[#000918]/60 p-4 transition-transform duration-300 group-hover:scale-[1.02]">
                         {partner.logo_url ? (
                           <Image
                             src={partner.logo_url}
                             alt={`${partner.name} logo`}
                             width={180}
                             height={90}
-                            className="max-h-20 w-auto object-contain"
+                            className="msc-img-zoom max-h-20 w-auto object-contain"
                           />
                         ) : (
-                          <p className="text-center text-lg font-black text-white">
+                          <p className="font-display text-center text-lg font-bold text-white">
                             {partner.name}
                           </p>
                         )}
                       </div>
-                      <h3 className="mt-5 text-lg font-black text-white">
+                      <h3 className="mt-5 font-display text-lg font-bold text-white transition-colors duration-300 group-hover:text-msc-amber">
                         {partner.name}
                       </h3>
                       {partner.description ? (
@@ -77,9 +85,9 @@ export default async function PartnersPage() {
                       ) : null}
                     </div>
                     {partner.website_url ? (
-                      <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-200">
+                      <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-msc-blue transition-colors duration-200 group-hover:text-msc-lime">
                         Visit partner
-                        <ArrowUpRight className="size-4" aria-hidden="true" />
+                        <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
                       </p>
                     ) : null}
                   </article>
@@ -100,8 +108,12 @@ export default async function PartnersPage() {
               })}
             </div>
           ) : (
-            <div className="mt-10 border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
-              Partners will be displayed here soon.
+            <div className="mt-10 border border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
+              <p>Official BulSU MSC partners will be displayed here soon.</p>
+              <p className="mt-2 text-xs text-yellow-300/80 font-sans">
+                TODO: Add official year-long photography partner, university
+                colleges, and industry sponsors in the database partners table.
+              </p>
             </div>
           )}
         </div>

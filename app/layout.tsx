@@ -1,27 +1,31 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
-
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
 export const metadata: Metadata = {
-  title: "BulSU MSC Student Organization",
+  title: "BulSU MSC — Microsoft Student Community",
   description:
-    "The BulSU MSC member portal for activities, announcements, calendars, and organization programs.",
+    "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community). Connect with student activities, announcements, calendars, and member programs.",
+  keywords: [
+    "BulSU",
+    "Bulacan State University",
+    "MSC",
+    "Microsoft Student Community",
+    "Student Organization",
+    "BulSU MSC",
+  ],
+  authors: [{ name: "BulSU MSC" }],
+  openGraph: {
+    type: "website",
+    locale: "en_PH",
+    url: "/",
+    siteName: "BulSU MSC",
+    title: "BulSU MSC — Microsoft Student Community",
+    description:
+      "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community).",
+  },
+  icons: {
+    icon: "/brand/msc-stacked-color.png",
+  },
 };
 
 export default function RootLayout({
@@ -30,11 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col bg-black text-white">
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
         {children}
       </body>
     </html>

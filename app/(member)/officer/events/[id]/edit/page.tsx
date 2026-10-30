@@ -7,7 +7,6 @@ import { MemberPageHeader } from "@/components/member/page-header";
 import { getActivityById } from "@/lib/member/activity-data";
 import { formatDateTimeLocalInput } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
-import { canCreateEvents } from "@/lib/supabase/roles";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -15,12 +14,12 @@ type PageProps = {
 
 export default async function EditOfficerEventPage({ params }: PageProps) {
   const { id } = await params;
-  const [{ profile }, activity] = await Promise.all([
+  const [{ isEventCreator }, activity] = await Promise.all([
     getCurrentMemberProfile(),
     getActivityById(id),
   ]);
 
-  if (!canCreateEvents(profile?.role)) {
+  if (!isEventCreator) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -39,7 +38,7 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
 
         <OfficerForm
           action={updateOfficerEvent}
-          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
+          className="mt-8 border-y border-white/10 bg-[#02001f] p-6"
         >
           <input type="hidden" name="activity_id" value={activity.id} />
 

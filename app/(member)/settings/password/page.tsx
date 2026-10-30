@@ -13,7 +13,7 @@ export default function ChangePasswordPage() {
 
         <form
           action={changePassword}
-          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
+          className="mt-8 border-y border-white/10 bg-[#02001f] p-6"
         >
           <label className="block">
             <span className="text-sm font-semibold text-slate-200">
