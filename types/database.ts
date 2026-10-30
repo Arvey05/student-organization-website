@@ -58,6 +58,7 @@ export type Database = {
           guardian_address: string | null;
           member_since: string | null;
           last_login_at: string | null;
+          has_completed_profile: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -91,6 +92,7 @@ export type Database = {
           guardian_address?: string | null;
           member_since?: string | null;
           last_login_at?: string | null;
+          has_completed_profile?: boolean;
           created_at?: string;
           updated_at?: string;
         };
