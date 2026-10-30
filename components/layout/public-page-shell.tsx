@@ -18,52 +18,6 @@ export function PublicPageShell({
   children,
 }: PublicPageShellProps) {
   return (
-<<<<<<< Updated upstream
-    <div className="min-h-screen" style={{ background: "var(--bg-base)", color: "var(--fg-primary)" }}>
-      <SiteHeader />
-      <main>
-        {/* Hero section with brand gradient */}
-        <section
-          className="relative isolate overflow-hidden"
-          style={{ borderBottom: "1px solid var(--border-subtle)" }}
-        >
-          {/* Background gradient */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-30"
-            style={{
-              background: `
-                radial-gradient(60% 80% at 0% 65%, rgba(0, 108, 249, 0.18), transparent 60%),
-                linear-gradient(135deg, #060062, var(--msc-midnight) 58%)
-              `,
-            }}
-          />
-
-          {/* Grid overlay */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 opacity-15"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
-              backgroundSize: "64px 64px",
-            }}
-          />
-
-          {/* Bottom amber glow */}
-          <div
-            aria-hidden="true"
-            className="msc-pulse-slow absolute inset-x-[-8%] bottom-0 -z-20 h-32 blur-3xl"
-            style={{ background: "radial-gradient(ellipse at center, rgba(255, 185, 0, 0.14), transparent 62%)" }}
-          />
-
-          <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-            <div className="max-w-4xl">
-              {/* Eyebrow badge */}
-              <p
-                className="msc-badge msc-badge-blue msc-enter inline-flex"
-              >
-=======
     <div className="min-h-screen bg-[#02001f] text-white">
       <SiteHeader />
       <main>
@@ -76,7 +30,6 @@ export function PublicPageShell({
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <div className="brand-hero-enter max-w-4xl">
               <p className="inline-flex rounded-full border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-xs font-semibold tracking-[0.04em] text-blue-100">
->>>>>>> Stashed changes
                 {eyebrow}
               </p>
 
@@ -103,11 +56,7 @@ export function PublicPageShell({
             </div>
           </div>
         </section>
-<<<<<<< Updated upstream
-
-=======
         <div className="brand-accent-line h-1 w-full" />
->>>>>>> Stashed changes
         {children}
       </main>
       <SiteFooter />

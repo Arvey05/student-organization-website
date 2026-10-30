@@ -44,14 +44,6 @@ export function SiteNavLinks({ items, mobile = false }: SiteNavLinksProps) {
           <Link
             key={item.href}
             href={item.href}
-<<<<<<< Updated upstream
-            className="group relative px-2.5 py-2 text-xs font-semibold uppercase transition-all duration-200 hover:text-[var(--fg-primary)]"
-            style={{
-              fontFamily: "var(--font-mono)",
-              letterSpacing: "0.2em",
-              color: isActive ? "var(--fg-primary)" : "var(--fg-muted)",
-            }}
-=======
             className={
               mobile
                 ? `brand-interactive shrink-0 rounded-full px-3 py-2 text-sm font-semibold ${
@@ -65,7 +57,6 @@ export function SiteNavLinks({ items, mobile = false }: SiteNavLinksProps) {
                       : "text-slate-500 hover:text-blue-200 hover:after:scale-x-100"
                   }`
             }
->>>>>>> Stashed changes
           >
             {item.label}
             {/* Active persistent indicator */}

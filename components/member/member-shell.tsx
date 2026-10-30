@@ -57,72 +57,6 @@ export function MemberShell({
       if (!profileMenuRef.current?.contains(target)) setProfileOpen(false);
       if (!officerMenuRef.current?.contains(target)) setOfficerOpen(false);
     }
-<<<<<<< Updated upstream
-    document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
-  }, []);
-
-  return (
-    <div className="min-h-screen" style={{ background: "var(--bg-base)", color: "var(--fg-primary)" }}>
-      {/* ── Member header ── */}
-      <header
-        className="sticky top-0 z-40"
-        style={{
-          background: "color-mix(in srgb, var(--bg-base) 92%, transparent)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderBottom: "1px solid var(--border-subtle)",
-        }}
-      >
-        {/* Brand gradient top accent bar */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px"
-          style={{ background: "var(--msc-grad-sweep)" }}
-        />
-
-        <div className="mx-auto flex max-w-[96rem] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link
-            href="/dashboard"
-            className="group flex shrink-0 items-center gap-3"
-            style={{ color: "var(--fg-primary)" }}
-          >
-            <span
-              className="relative flex h-9 w-9 flex-col items-center justify-center leading-none"
-              style={{
-                background: "linear-gradient(135deg, var(--msc-navy), var(--msc-midnight))",
-                border: "1.5px solid rgba(0, 108, 249, 0.45)",
-                fontFamily: "var(--font-display)",
-                fontWeight: 800,
-                fontStretch: "125%",
-                letterSpacing: "-0.065em",
-                color: "#FDFBFB",
-              }}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute -right-1 -top-1 h-1.5 w-1.5"
-                style={{ background: "var(--msc-amber)" }}
-              />
-              <span style={{ fontSize: "0.44rem", lineHeight: 1 }}>BULSU</span>
-              <span style={{ fontSize: "0.68rem", lineHeight: 1 }}>MSC</span>
-            </span>
-            <span className="hidden leading-none sm:block">
-              <span
-                className="block text-sm"
-                style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontStretch: "125%", letterSpacing: "-0.04em" }}
-              >
-                BulSU MSC
-              </span>
-              <span
-                className="mt-0.5 block text-[0.6rem] uppercase"
-                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.24em", color: "var(--fg-muted)" }}
-              >
-                Member Portal
-              </span>
-            </span>
-=======
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -157,7 +91,6 @@ export function MemberShell({
               priority
               className="h-9 w-auto max-w-[112px] object-contain sm:h-11 sm:max-w-[150px]"
             />
->>>>>>> Stashed changes
           </Link>
 
           {/* Desktop nav */}
@@ -229,18 +162,7 @@ export function MemberShell({
                   <SquarePlus className="size-4" aria-hidden="true" />
                 </button>
                 {officerOpen ? (
-<<<<<<< Updated upstream
-                  <div
-                    className="msc-card absolute right-0 top-11 w-56 p-2 rounded-xl"
-                    style={{
-                      background: "var(--bg-elevated)",
-                      border: "1px solid var(--border-subtle)",
-                      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-=======
                   <div id="officer-quick-actions" className="absolute right-0 top-12 w-56 rounded-xl border border-white/10 bg-[#060b2b] p-2 shadow-2xl shadow-black/40">
->>>>>>> Stashed changes
                     <Link
                       href="/officer/events/new"
                       onClick={() => setOfficerOpen(false)}
@@ -289,25 +211,9 @@ export function MemberShell({
                 <ChevronDown className="size-3.5 transition-transform duration-200" style={{ transform: profileOpen ? "rotate(180deg)" : "none" }} aria-hidden="true" />
               </button>
               {profileOpen ? (
-<<<<<<< Updated upstream
-                <div
-                  className="msc-card absolute right-0 top-11 w-64 p-2 rounded-xl"
-                  style={{
-                    background: "var(--bg-elevated)",
-                    border: "1px solid var(--border-subtle)",
-                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div
-                    className="px-3 py-3"
-                    style={{ borderBottom: "1px solid var(--border-subtle)" }}
-                  >
-                    <p className="truncate text-sm font-bold" style={{ color: "var(--fg-primary)", fontFamily: "var(--font-display)" }}>
-=======
                 <div id="member-profile-menu" className="absolute right-0 top-12 w-64 rounded-xl border border-white/10 bg-[#060b2b] p-2 shadow-2xl shadow-black/40">
                   <div className="border-b border-white/10 px-3 py-3">
                     <p className="truncate text-sm font-bold text-white">
->>>>>>> Stashed changes
                       {displayName}
                     </p>
                     {email ? (
@@ -408,21 +314,11 @@ export function MemberShell({
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-<<<<<<< Updated upstream
-                    className="inline-flex items-center gap-3 border-l px-3 py-3 text-xs font-semibold uppercase transition"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      letterSpacing: "0.1em",
-                      borderColor: isActive ? "var(--msc-amber)" : "transparent",
-                      color: isActive ? "var(--msc-amber)" : "var(--fg-muted)",
-                    }}
-=======
                     className={`inline-flex items-center gap-3 border-l px-3 py-3 font-sans text-xs font-semibold uppercase tracking-[0.1em] transition ${
                       isActive
                         ? "border-blue-300 text-blue-100"
                         : "border-transparent text-slate-300 hover:text-blue-200"
                     }`}
->>>>>>> Stashed changes
                   >
                     <Icon className="size-4 shrink-0" aria-hidden="true" />
                     {item.label}
