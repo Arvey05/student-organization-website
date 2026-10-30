@@ -4,15 +4,12 @@ import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-<<<<<<< Updated upstream
-=======
 import { isSignupRole } from "@/lib/supabase/roles";
 import {
   validateCollegeProgramMajor,
   VALID_YEAR_LEVEL_VALUES,
   VALID_GENDER_VALUES,
 } from "@/lib/member/colleges";
->>>>>>> Stashed changes
 
 type AuthResult = {
   error?: string;
@@ -84,7 +81,31 @@ export async function signup(
     return { error: "Passwords do not match." };
   }
 
+  const college = getString(formData, "college");
+  const program = getString(formData, "program");
+  const major = getString(formData, "major");
+  const yearLevel = getString(formData, "year_level");
+  const gender = getString(formData, "gender");
+
+  const cpmError = validateCollegeProgramMajor(
+    college || null,
+    program || null,
+    major || null,
+  );
+  if (cpmError) {
+    return { error: cpmError };
+  }
+
+  if (yearLevel && !VALID_YEAR_LEVEL_VALUES.has(yearLevel)) {
+    return { error: "Invalid year level selected." };
+  }
+
+  if (gender && !VALID_GENDER_VALUES.has(gender)) {
+    return { error: "Invalid gender selected." };
+  }
+
   const supabase = await createSupabaseServerClient();
+
   if (membershipType !== "member") {
     const { data: approved, error: rosterError } = await supabase.rpc(
       "executive_signup_is_allowed",
@@ -107,15 +128,12 @@ export async function signup(
       data: {
         first_name: firstName,
         last_name: lastName,
-<<<<<<< Updated upstream
-=======
         college: college || null,
         program: program || null,
         major: major || null,
         year_level: yearLevel || null,
         gender: gender || null,
         requested_role: membershipType,
->>>>>>> Stashed changes
       },
     },
   });

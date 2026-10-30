@@ -7,16 +7,12 @@ import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-<<<<<<< Updated upstream
-import { canCreateEvents } from "@/lib/supabase/roles";
-=======
 import { getEventCreatorAccess } from "@/lib/supabase/event-access";
 import {
   validateCollegeProgramMajor,
   VALID_YEAR_LEVEL_VALUES,
   VALID_GENDER_VALUES,
 } from "@/lib/member/colleges";
->>>>>>> Stashed changes
 
 const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set([

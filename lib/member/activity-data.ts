@@ -12,39 +12,6 @@ export type RegisteredActivity = {
   activity: ActivityRow;
 };
 
-<<<<<<< Updated upstream
-function rethrowIfDynamicError(error: unknown) {
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "digest" in error &&
-    (error as { digest: string }).digest === "DYNAMIC_SERVER_USAGE"
-  ) {
-    throw error;
-  }
-}
-
-export async function getActivities(): Promise<ActivityRow[]> {
-  try {
-    const supabase = await createSupabaseServerClient();
-    const { data, error } = await supabase
-      .from("activities")
-      .select("*")
-      .is("archived_at", null)
-      .order("starts_at", { ascending: true });
-
-    if (error) {
-      console.warn(`Unable to load activities: ${error.message}`);
-      return [];
-    }
-
-    return data ?? [];
-  } catch (error) {
-    rethrowIfDynamicError(error);
-    console.warn("Unable to load activities:", error);
-    return [];
-  }
-=======
 export async function getActivities(): Promise<ActivityRow[]> {
   try {
     const supabase = await createSupabaseServerClient();
@@ -64,7 +31,6 @@ export async function getActivities(): Promise<ActivityRow[]> {
     console.error("Unable to load activities:", error);
     return [];
   }
->>>>>>> Stashed changes
 }
 
 export async function getActivityById(
@@ -80,22 +46,13 @@ export async function getActivityById(
       .maybeSingle();
 
     if (error) {
-<<<<<<< Updated upstream
-      console.warn(`Unable to load activity: ${error.message}`);
-=======
       console.error(`Unable to load activity: ${error.message}`);
->>>>>>> Stashed changes
       return null;
     }
 
     return data;
   } catch (error) {
-<<<<<<< Updated upstream
-    rethrowIfDynamicError(error);
-    console.warn("Unable to load activity:", error);
-=======
     console.error("Unable to load activity:", error);
->>>>>>> Stashed changes
     return null;
   }
 }
@@ -111,22 +68,13 @@ export async function getPublicActivities(): Promise<ActivityRow[]> {
       .order("starts_at", { ascending: true });
 
     if (error) {
-<<<<<<< Updated upstream
-      console.warn(`Unable to load public activities: ${error.message}`);
-=======
       console.error(`Unable to load public activities: ${error.message}`);
->>>>>>> Stashed changes
       return [];
     }
 
     return data ?? [];
   } catch (error) {
-<<<<<<< Updated upstream
-    rethrowIfDynamicError(error);
-    console.warn("Unable to load public activities:", error);
-=======
     console.error("Unable to load public activities:", error);
->>>>>>> Stashed changes
     return [];
   }
 }
@@ -142,22 +90,13 @@ export async function getAnnouncements(): Promise<AnnouncementRow[]> {
       .order("created_at", { ascending: false });
 
     if (error) {
-<<<<<<< Updated upstream
-      console.warn(`Unable to load announcements: ${error.message}`);
-=======
       console.error(`Unable to load announcements: ${error.message}`);
->>>>>>> Stashed changes
       return [];
     }
 
     return data ?? [];
   } catch (error) {
-<<<<<<< Updated upstream
-    rethrowIfDynamicError(error);
-    console.warn("Unable to load announcements:", error);
-=======
     console.error("Unable to load announcements:", error);
->>>>>>> Stashed changes
     return [];
   }
 }
