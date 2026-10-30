@@ -18,29 +18,13 @@ async function getPublicPartners(): Promise<PartnerRow[]> {
       .order("created_at", { ascending: true });
 
     if (error) {
-<<<<<<< Updated upstream
-      console.warn(`Unable to load public partners: ${error.message}`);
-=======
       console.error(`Unable to load public partners: ${error.message}`);
->>>>>>> Stashed changes
       return [];
     }
 
     return data ?? [];
   } catch (error) {
-<<<<<<< Updated upstream
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "digest" in error &&
-      (error as { digest: string }).digest === "DYNAMIC_SERVER_USAGE"
-    ) {
-      throw error;
-    }
-    console.warn("Unable to load public partners:", error);
-=======
     console.error("Unable to load public partners:", error);
->>>>>>> Stashed changes
     return [];
   }
 }
@@ -124,17 +108,12 @@ export default async function PartnersPage() {
               })}
             </div>
           ) : (
-<<<<<<< Updated upstream
-            <div className="mt-10 border-y border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
-              Partners will be displayed here soon.
-=======
             <div className="mt-10 border border-dashed border-white/15 bg-slate-950 p-6 text-sm text-slate-300">
               <p>Official BulSU MSC partners will be displayed here soon.</p>
               <p className="mt-2 text-xs text-yellow-300/80 font-sans">
                 TODO: Add official year-long photography partner, university
                 colleges, and industry sponsors in the database partners table.
               </p>
->>>>>>> Stashed changes
             </div>
           )}
         </div>

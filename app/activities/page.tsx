@@ -64,11 +64,7 @@ export default async function ActivitiesPage() {
                             className="msc-img-zoom object-cover"
                           />
                         ) : (
-<<<<<<< Updated upstream
-                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(0,108,249,0.5),transparent_40%),radial-gradient(circle_at_80%_8%,rgba(127,186,0,0.25),transparent_35%),linear-gradient(135deg,#001431,#002453_50%,#000918)]" />
-=======
                           <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(0,108,249,0.62),transparent_32%),radial-gradient(circle_at_80%_8%,rgba(127,186,0,0.3),transparent_28%),linear-gradient(135deg,#02001f,#07111f_48%,#0f2a5f)]" />
->>>>>>> Stashed changes
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#001431] via-[#001431]/40 to-transparent" />
                         <span className="msc-badge msc-badge-blue absolute left-4 top-4 transition-transform duration-300 group-hover:scale-105">
