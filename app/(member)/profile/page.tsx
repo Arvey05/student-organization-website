@@ -12,12 +12,17 @@ export default async function ProfilePage() {
   const profileItems = [
     ["MSC ID Code", profile?.msc_id_code ?? "Not set"],
     ["School ID Code", profile?.school_id_code ?? "Not set"],
-    ["Program", profile?.program ?? "Not set"],
     ["College", profile?.college ?? "Not set"],
+    ["Program", profile?.program ?? "Not set"],
+    ["Major", profile?.major ?? "Not set"],
     ["Year Level", profile?.year_level ?? "Not set"],
     ["Section", profile?.section ?? "Not set"],
-    ["Phone", profile?.phone ?? "Not set"],
+    [
+      "Birthdate",
+      profile?.date_of_birth ? profile.date_of_birth.split("T")[0] : "Not set",
+    ],
     ["Gender", profile?.gender ?? "Not set"],
+    ["Phone", profile?.phone ?? "Not set"],
   ];
 
   return (

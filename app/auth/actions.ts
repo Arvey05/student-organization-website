@@ -74,13 +74,14 @@ export async function signup(
   }
 
   if (!firstName || !lastName || !email || !password || !confirmPassword) {
-    return { error: "All fields are required." };
+    return { error: "First name, last name, email, and password are required." };
   }
 
   if (password !== confirmPassword) {
     return { error: "Passwords do not match." };
   }
 
+  // ─── Task 3: Server-side validation of registration dropdowns ──────────
   const college = getString(formData, "college");
   const program = getString(formData, "program");
   const major = getString(formData, "major");
@@ -135,6 +136,8 @@ export async function signup(
         gender: gender || null,
         requested_role: membershipType,
       },
+      // Redirect to the email-confirmed page after the user clicks the link
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/email-confirmed`,
     },
   });
 
@@ -146,7 +149,16 @@ export async function signup(
     const { error: profileError } = await ensureMemberProfile(
       supabase,
       data.user,
-      { firstName, lastName, email },
+      {
+        firstName,
+        lastName,
+        email,
+        college: college || null,
+        program: program || null,
+        major: major || null,
+        yearLevel: yearLevel || null,
+        gender: gender || null,
+      },
     );
 
     if (profileError) {
@@ -154,9 +166,15 @@ export async function signup(
         error: `Account created, but profile setup failed: ${profileError.message}`,
       };
     }
+
+    // Session exists = email confirmation is disabled in Supabase;
+    // redirect straight to dashboard.
+    redirect("/dashboard");
   }
 
-  redirect("/dashboard");
+  // No session = email confirmation is required.
+  // Redirect to signup page with a confirmation message.
+  redirect("/signup?email_sent=1");
 }
 
 export async function logout() {

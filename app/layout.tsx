@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BulSU MSC — Microsoft Student Community",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: {
+    default: "BulSU MSC — Microsoft Student Community",
+    template: "%s | BulSU MSC",
+  },
   description:
     "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community). Connect with student activities, announcements, calendars, and member programs.",
   keywords: [
