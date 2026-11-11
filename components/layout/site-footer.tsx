@@ -51,7 +51,13 @@ export function SiteFooter() {
                 className="mt-0.5 text-xs"
                 style={{ color: "var(--fg-muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.12em" }}
               >
-                Microsoft Student Community
+                Bulacan State University &ndash; Microsoft Student Community
+              </p>
+              <p
+                className="mt-1 text-xs font-semibold"
+                style={{ color: "var(--msc-amber)", fontFamily: "var(--font-mono)", letterSpacing: "0.14em" }}
+              >
+                Inspire. Teach. Promote.
               </p>
             </div>
           </div>
@@ -144,7 +150,7 @@ export function SiteFooter() {
                 rel="noreferrer"
                 className="transition-colors duration-200 hover:text-white"
               >
-                Bulacan State University
+                Bulacan State University &ndash; Main Campus (OSOA)
               </a>
             </p>
           </div>
@@ -161,7 +167,7 @@ export function SiteFooter() {
           letterSpacing: "0.1em",
         }}
       >
-        &copy; 2026 BulSU MSC &mdash; Together, we go further.
+        &copy; 2026 BulSU Microsoft Student Community &mdash; Inspire. Teach. Promote.
       </div>
     </footer>
   );

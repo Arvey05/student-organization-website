@@ -2,21 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Award,
   BadgeCheck,
-  Bell,
-  CalendarDays,
+  BookOpen,
   CircuitBoard,
   Clock,
+  GraduationCap,
   Handshake,
-  IdCard,
   Layers3,
   MapPin,
   Megaphone,
   Orbit,
-  Radio,
   ShieldCheck,
   Sparkles,
-  UserRoundCheck,
   UsersRound,
   Zap,
 } from "lucide-react";
@@ -40,32 +38,33 @@ type PartnerRow = Database["public"]["Tables"]["partners"]["Row"];
 
 const identityItems = [
   {
-    title: "Leadership",
+    title: "Inspire",
     description:
-      "Training and hands-on roles for students who want to lead well.",
-    icon: ShieldCheck,
+      "Fostering an inclusive, welcoming home for technology enthusiasts, aspiring developers, and future leaders across BulSU.",
+    icon: Sparkles,
     color: "var(--msc-blue)",
     accent: "var(--msc-blue-dim)",
   },
   {
-    title: "Service",
+    title: "Teach",
     description:
-      "Projects that give members practical ways to support the community.",
-    icon: Handshake,
+      "Organizing technical workshops, study groups, and hands-on training sessions around Microsoft technologies and modern tools.",
+    icon: BookOpen,
     color: "var(--msc-lime)",
     accent: "rgba(127, 186, 0, 0.12)",
   },
   {
-    title: "Community",
-    description: "One place for members to hear what is happening and take part.",
+    title: "Promote",
+    description:
+      "Extending Bulacan State University's resources to the wider community to advance technology education and collaborative camaraderie.",
     icon: UsersRound,
     color: "var(--msc-amber)",
     accent: "rgba(255, 185, 0, 0.12)",
   },
   {
-    title: "Academic Technology",
+    title: "MLSA Chapter & Force for Good",
     description:
-      "Simple online tools for the day-to-day work of the organization.",
+      "Representing the Microsoft Learn Student Ambassador program at BulSU while leveraging innovation and ethics for lasting societal impact.",
     icon: CircuitBoard,
     color: "var(--msc-blue)",
     accent: "var(--msc-blue-dim)",
@@ -73,12 +72,42 @@ const identityItems = [
 ];
 
 const benefits = [
-  { title: "Access official announcements",          icon: Bell,           color: "var(--msc-amber)" },
-  { title: "Join organization activities",           icon: Sparkles,       color: "var(--msc-lime)"  },
-  { title: "Track registered events",                icon: UserRoundCheck, color: "var(--msc-blue)"  },
-  { title: "View calendar updates",                  icon: CalendarDays,   color: "var(--msc-amber)" },
-  { title: "Manage member profile",                  icon: IdCard,         color: "var(--msc-lime)"  },
-  { title: "Stay connected with officers & partners",icon: Radio,          color: "var(--msc-blue)"  },
+  {
+    title: "Microsoft & Learning Resources",
+    description: "Software, training materials, mentorship, and technology platforms (Art. III & IV).",
+    icon: BookOpen,
+    color: "var(--msc-amber)",
+  },
+  {
+    title: "Real-Time Skill Development",
+    description: "Hands-on technical workshops, study groups, and projects aligned with industry trends.",
+    icon: Sparkles,
+    color: "var(--msc-lime)",
+  },
+  {
+    title: "Industry & Peer Networking",
+    description: "Collaborate with fellow developers, guest speakers, and Microsoft representatives.",
+    icon: UsersRound,
+    color: "var(--msc-blue)",
+  },
+  {
+    title: "MLSA Pathway & Competitions",
+    description: "Represent the Microsoft Learn Student Ambassador program and join exclusive events.",
+    icon: GraduationCap,
+    color: "var(--msc-amber)",
+  },
+  {
+    title: "Leadership & Committee Roles",
+    description: "Grow across Student Development, Relations, Finance, and Media Creatives committees.",
+    icon: ShieldCheck,
+    color: "var(--msc-lime)",
+  },
+  {
+    title: "Recognition & Certifications",
+    description: "Earn official certificates and MLSA milestones that highlight your contributions.",
+    icon: Award,
+    color: "var(--msc-blue)",
+  },
 ];
 
 function getAnnouncementDate(announcement: AnnouncementRow) {
@@ -153,7 +182,7 @@ function PlatformPreview({
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-blue-200">
             <Orbit className="size-4" aria-hidden="true" />
-            Member portal preview
+            BulSU MSC Member Portal
           </div>
           <div
             className="hidden items-center gap-2 text-xs sm:flex"
@@ -163,7 +192,7 @@ function PlatformPreview({
               className="msc-radar-ring relative h-1.5 w-1.5 rounded-full"
               style={{ background: "var(--msc-lime)" }}
             />
-            Live public data
+            Inspire &bull; Teach &bull; Promote
           </div>
         </div>
 
@@ -178,10 +207,10 @@ function PlatformPreview({
               className="text-xs font-semibold uppercase"
               style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.2em", color: "var(--fg-muted)" }}
             >
-              Dashboard
+              Member Hub
             </p>
             <div className="mt-5 space-y-2.5">
-              {["Profile status", "Activities joined", "Calendar sync"].map(
+              {["MSC Member Profile", "Workshops & Assemblies", "Event Calendar"].map(
                 (item, index) => (
                   <div
                     key={item}
@@ -196,7 +225,7 @@ function PlatformPreview({
                       className="text-xs font-semibold transition-transform duration-200 group-hover:scale-105"
                       style={{ color: index === 0 ? "var(--msc-lime)" : "var(--msc-blue)" }}
                     >
-                      {index === 0 ? "Ready" : "Portal"}
+                      {index === 0 ? "Active" : "Portal"}
                     </span>
                   </div>
                 ),
@@ -210,7 +239,7 @@ function PlatformPreview({
               className="text-xs font-semibold uppercase"
               style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.2em", color: "var(--msc-blue)" }}
             >
-              Upcoming activity
+              Featured program
             </p>
             {featuredActivity ? (
               <div className="group mt-4 grid gap-4 sm:grid-cols-[0.9fr_1.1fr] cursor-pointer">
@@ -238,7 +267,7 @@ function PlatformPreview({
                 className="mt-4 border border-dashed p-6 text-sm"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)" }}
               >
-                No public activity available for the preview yet.
+                Upcoming workshops, study groups, and General Assembly schedules will appear here.
               </div>
             )}
           </div>
@@ -249,7 +278,7 @@ function PlatformPreview({
               className="text-xs font-semibold uppercase"
               style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.2em", color: "var(--msc-lime)" }}
             >
-              Announcement feed
+              Community notices
             </p>
             {featuredAnnouncement ? (
               <div
@@ -268,7 +297,7 @@ function PlatformPreview({
                 className="mt-4 border border-dashed p-5 text-sm"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)" }}
               >
-                No public announcements yet.
+                Official notices from the Executive Board will be posted here.
               </div>
             )}
           </div>
@@ -470,17 +499,17 @@ export default async function Home() {
               <div className="brand-hero-enter relative z-10 flex w-full flex-col items-center">
                 <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-xs font-semibold tracking-[0.03em] text-blue-100">
                   <BadgeCheck className="size-4" aria-hidden="true" />
-                  Official Student Organization Platform
+                  BulSU OSOA-Recognized &bull; Microsoft Learn Student Ambassador Chapter
                 </div>
 
-                <h1 className="mt-7 max-w-5xl text-[clamp(3rem,8vw,6.7rem)] font-black leading-[0.92] tracking-tight text-white">
-                  Building student{" "}
+                <h1 className="mt-7 max-w-5xl text-[clamp(2.8rem,7.5vw,6.4rem)] font-black leading-[0.94] tracking-tight text-white">
+                  Inspire.{" "}
                   <span className="bg-gradient-to-r from-blue-200 via-blue-400 to-violet-300 bg-clip-text text-transparent">
-                    leadership
+                    Teach.
                   </span>{" "}
-                  for a digital{" "}
+                  Promote.{" "}
                   <span className="font-semibold text-orange-200">
-                    campus
+                    A force for good.
                   </span>
                 </h1>
 
@@ -488,8 +517,10 @@ export default async function Home() {
                   className="mt-7 max-w-2xl text-sm leading-7 msc-enter msc-enter-delay-2"
                   style={{ color: "var(--fg-muted)", fontFamily: "var(--font-body)" }}
                 >
-                  Check upcoming activities, read official announcements, join
-                  programs, and manage your membership — all in one place.
+                  We, the Bulacan State University &ndash; Microsoft Student
+                  Community (BulSU MSC), foster an inclusive community of
+                  technology enthusiasts, aspiring developers, and future leaders
+                  through learning, collaboration, and innovation.
                 </p>
 
                 <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
@@ -497,14 +528,14 @@ export default async function Home() {
                     href={joinHref}
                     className="brand-interactive inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-500 px-6 text-sm font-bold text-white shadow-[0_12px_30px_rgba(0,108,249,0.22)] hover:bg-blue-400"
                   >
-                    {user ? "Open Dashboard" : "Join Now"}
+                    {user ? "Open Dashboard" : "Join BulSU MSC"}
                     <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1.5" aria-hidden="true" />
                   </Link>
                   <Link
                     href={activitiesHref}
                     className="brand-interactive inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.04] px-6 text-sm font-bold text-white hover:border-blue-300/50 hover:text-blue-100"
                   >
-                    View Activities
+                    Explore Programs &amp; Events
                   </Link>
                 </div>
 
@@ -529,28 +560,30 @@ export default async function Home() {
         <section className="border-b border-white/10 bg-[#02001f] py-20">
           <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
             <div>
-              <p className="msc-eyebrow">Who we are</p>
+              <p className="msc-eyebrow">Preamble &amp; Purpose</p>
               <span className="msc-accent-bar mt-3 block" />
               <h2
                 className="mt-5 text-3xl tracking-tight sm:text-5xl"
                 style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
               >
-                Student-led programs with room for members to do{" "}
-                <span style={{ color: "var(--msc-lime)" }}>real work.</span>
+                A catalyst for positive change and a{" "}
+                <span style={{ color: "var(--msc-lime)" }}>community of excellence.</span>
               </h2>
               <div
                 className="mt-8 grid gap-6 text-sm leading-7 sm:grid-cols-2"
                 style={{ color: "var(--fg-muted)" }}
               >
                 <p>
-                  BulSU MSC gives students a place to lead projects, serve the
-                  community, and contribute to campus life through Microsoft
-                  technologies.
+                  We empower BulSU students with the knowledge and skills needed
+                  to excel in the ever-changing field of technology through
+                  engaging activities, educational initiatives, and industry
+                  partnerships.
                 </p>
                 <p>
-                  This site keeps the practical details together: official
-                  announcements, activity registration, calendars, and member
-                  profiles.
+                  Proudly affiliated with Microsoft and operating as a Microsoft
+                  Learn Student Ambassador (MLSA) chapter at BulSU Main Campus,
+                  we promote inclusivity, diversity, and a vibrant camaraderie
+                  built to make a lasting impact on society.
                 </p>
               </div>
             </div>
@@ -603,14 +636,14 @@ export default async function Home() {
         <section className="border-b border-white/10 bg-[#060b2b] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <p className="msc-eyebrow">Member benefits</p>
+              <p className="msc-eyebrow">Article IV &bull; Privileges of Membership</p>
               <span className="msc-accent-bar mt-3 block" />
               <h2
                 className="mt-5 text-3xl tracking-tight sm:text-5xl"
                 style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
               >
-                The details members need, without chasing{" "}
-                <span style={{ color: "var(--msc-amber)" }}>separate updates.</span>
+                Open to all bona fide BulSU students ready to{" "}
+                <span style={{ color: "var(--msc-amber)" }}>thrive in the digital age.</span>
               </h2>
             </div>
 
@@ -624,7 +657,7 @@ export default async function Home() {
                 return (
                   <div
                     key={benefit.title}
-                    className="group flex items-center gap-4 p-5 transition-all duration-300 hover:bg-[#0c0944] hover:translate-x-1 hover:border-[var(--msc-blue)] cursor-pointer"
+                    className="group flex items-start gap-4 p-6 transition-all duration-300 hover:bg-[#0c0944] hover:translate-x-1 hover:border-[var(--msc-blue)] cursor-pointer"
                     style={{ background: "var(--bg-surface)" }}
                   >
                     <div
@@ -633,12 +666,17 @@ export default async function Home() {
                     >
                       <Icon className="size-5" aria-hidden="true" style={{ color: benefit.color }} />
                     </div>
-                    <p
-                      className="font-semibold transition-colors duration-200 group-hover:text-white"
-                      style={{ color: "var(--fg-primary)", fontFamily: "var(--font-body)" }}
-                    >
-                      {benefit.title}
-                    </p>
+                    <div>
+                      <p
+                        className="font-semibold transition-colors duration-200 group-hover:text-white"
+                        style={{ color: "var(--fg-primary)", fontFamily: "var(--font-body)" }}
+                      >
+                        {benefit.title}
+                      </p>
+                      <p className="mt-1 text-xs leading-5" style={{ color: "var(--fg-muted)" }}>
+                        {benefit.description}
+                      </p>
+                    </div>
                   </div>
                 );
               })}
@@ -650,21 +688,21 @@ export default async function Home() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="msc-eyebrow">Featured public activity</p>
+                <p className="msc-eyebrow">Workshops, Study Groups &amp; Assemblies</p>
                 <span className="msc-accent-bar mt-3 block" />
                 <h2
                   className="mt-5 text-3xl tracking-tight sm:text-5xl"
                   style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                 >
-                  The next public signal from the{" "}
-                  <span style={{ color: "var(--msc-blue)" }}>organization.</span>
+                  Hands-on learning &amp; events across the{" "}
+                  <span style={{ color: "var(--msc-blue)" }}>BulSU community.</span>
                 </h2>
               </div>
               <Link
                 href="/activities"
                 className="msc-btn-outline shrink-0"
               >
-                Browse public activities
+                Browse all activities
               </Link>
             </div>
 
@@ -730,7 +768,7 @@ export default async function Home() {
                 className="mt-12 border border-dashed p-8"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)", background: "var(--bg-elevated)" }}
               >
-                No public activities available yet.
+                No public activities scheduled yet. Check back for our First-Semester General Assembly and technical workshops.
               </div>
             )}
 
@@ -741,7 +779,7 @@ export default async function Home() {
                 style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.18em", color: "var(--fg-muted)" }}
               >
                 <Layers3 className="size-4" aria-hidden="true" />
-                Public activities row
+                More BulSU MSC programs &amp; events
               </div>
               {activityTiles.length ? (
                 <div className="flex gap-4 overflow-x-auto pb-4">
@@ -754,7 +792,7 @@ export default async function Home() {
                   className="border-y border-dashed p-6 text-sm"
                   style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)", background: "var(--bg-elevated)" }}
                 >
-                  No additional public activities available yet.
+                  Additional workshops, seminars, and study groups will be posted here throughout the academic year.
                 </div>
               )}
             </div>
@@ -764,18 +802,19 @@ export default async function Home() {
         <section className="border-y border-white/10 bg-[#060b2b] py-20">
           <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
-              <p className="msc-eyebrow">Latest announcements</p>
+              <p className="msc-eyebrow">Official Notices &amp; Resolutions</p>
               <span className="msc-accent-bar mt-3 block" />
               <h2
                 className="mt-5 text-3xl tracking-tight sm:text-5xl"
                 style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
               >
-                Official public updates,{" "}
-                <span style={{ color: "var(--msc-lime)" }}>kept clean</span> and current.
+                Updates from the{" "}
+                <span style={{ color: "var(--msc-lime)" }}>Executive Board</span> &amp; committees.
               </h2>
               <p className="mt-5 text-base leading-8" style={{ color: "var(--fg-muted)" }}>
-                Public visitors see only announcements marked public. Member-only
-                updates remain behind authenticated access.
+                Stay informed on Membership Drive schedules, General Assembly
+                notices, Executive Board Hunt applications, and official
+                university announcements.
               </p>
             </div>
 
@@ -792,7 +831,7 @@ export default async function Home() {
                   className="border-y border-dashed p-6 text-sm"
                   style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)", background: "var(--bg-elevated)" }}
                 >
-                  No public announcements yet.
+                  No public announcements posted yet.
                 </div>
               )}
             </div>
@@ -803,14 +842,14 @@ export default async function Home() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="msc-eyebrow">Partners and credibility</p>
+                <p className="msc-eyebrow">Article III &bull; Affiliation &amp; Alliances</p>
                 <span className="msc-accent-bar mt-3 block" />
                 <h2
                   className="mt-5 text-3xl tracking-tight sm:text-5xl"
                   style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                 >
-                  Connected to campus and{" "}
-                  <span style={{ color: "var(--msc-amber)" }}>community work.</span>
+                  Collaborating with industry &amp;{" "}
+                  <span style={{ color: "var(--msc-amber)" }}>student communities.</span>
                 </h2>
               </div>
               <Handshake className="hidden size-10 sm:block" style={{ color: "var(--msc-blue)" }} />
@@ -855,7 +894,7 @@ export default async function Home() {
                 className="mt-12 border-y border-dashed p-6 text-sm"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--fg-muted)", background: "var(--bg-elevated)" }}
               >
-                Partners will be displayed here soon.
+                Official Microsoft-affiliated student organizations, university colleges, and industry partners will be featured here.
               </div>
             )}
           </div>
@@ -888,13 +927,15 @@ export default async function Home() {
               className="text-4xl tracking-tight sm:text-6xl"
               style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontStretch: "118%", color: "var(--fg-primary)" }}
             >
-              Ready to be part of the{" "}
-              <span className="text-grad-brand">organization?</span>
+              Be a{" "}
+              <span className="text-grad-brand">force for good</span>{" "}
+              with BulSU MSC.
             </h2>
 
             <p className="mt-5 text-base leading-8" style={{ color: "var(--fg-muted)" }}>
-              Create your account to access member tools, register for activities,
-              and stay updated with everything BulSU MSC.
+              Open to all bona fide Bulacan State University students. Join our
+              annual Membership Drive, attend the General Assembly, and grow
+              with fellow developers and student leaders.
             </p>
 
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
@@ -902,14 +943,14 @@ export default async function Home() {
                 href={user ? "/dashboard" : "/signup"}
                 className="brand-interactive inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-500 px-7 text-sm font-bold text-white hover:bg-blue-400"
               >
-                {user ? "Open Dashboard" : "Sign Up Free"}
+                {user ? "Open Dashboard" : "Create Member Account"}
                 <Zap className="size-4 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" aria-hidden="true" />
               </Link>
               <Link
                 href={user ? "/dashboard" : "/login"}
                 className="brand-interactive inline-flex h-12 items-center justify-center rounded-full border border-white/20 px-7 text-sm font-bold text-white hover:border-blue-300/50"
               >
-                {user ? "Dashboard" : "Log In"}
+                {user ? "Dashboard" : "Member Log In"}
               </Link>
             </div>
 
@@ -918,7 +959,7 @@ export default async function Home() {
               className="mt-10 text-xs uppercase"
               style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.3em", color: "var(--fg-muted)" }}
             >
-              BulSU MSC &mdash; Together, we go further.
+              BulSU Microsoft Student Community &mdash; Inspire. Teach. Promote.
             </p>
           </div>
         </section>
