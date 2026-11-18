@@ -17,7 +17,7 @@ export function AuthSubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className="msc-btn-primary mt-6 w-full h-12 text-sm tracking-wider uppercase transition-all duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+      className="msc-btn-primary mt-6 w-full h-12 text-sm disabled:cursor-not-allowed disabled:opacity-70"
     >
       {pending ? pendingText : children}
     </button>
