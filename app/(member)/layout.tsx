@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { MemberShell } from "@/components/member/member-shell";
 import { FirstLoginModal } from "@/components/member/first-login-modal";
+import { getSiteAdminAccess } from "@/lib/admin/access";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getEventCreatorAccess } from "@/lib/supabase/event-access";
 
@@ -29,6 +30,12 @@ export default async function MemberLayout({
     .eq("id", user.id)
     .maybeSingle();
 
+  // The nav link is a convenience only; every admin page and action re-checks.
+  const [isEventCreator, isSiteAdmin] = await Promise.all([
+    getEventCreatorAccess(supabase, user.id),
+    getSiteAdminAccess(supabase),
+  ]);
+
   const displayName =
     [profile?.first_name, profile?.last_name].filter(Boolean).join(" ") ||
     profile?.username ||
@@ -46,7 +53,8 @@ export default async function MemberLayout({
       displayName={displayName}
       email={user.email}
       profilePictureUrl={profile?.profile_picture_url}
-      isEventCreator={await getEventCreatorAccess(supabase, user.id)}
+      isEventCreator={isEventCreator}
+      isSiteAdmin={isSiteAdmin}
     >
       {children}
       {showFirstLoginModal && profile && (

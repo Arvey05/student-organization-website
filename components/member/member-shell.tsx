@@ -13,6 +13,7 @@ import {
   Menu,
   Megaphone,
   Settings,
+  ShieldCheck,
   SquarePlus,
   UserRound,
   X,
@@ -28,12 +29,15 @@ const memberNav = [
   { label: "My Activities",href: "/my-activities",     icon: ClipboardList   },
 ];
 
+const adminNavItem = { label: "Admin", href: "/admin", icon: ShieldCheck };
+
 type MemberShellProps = {
   children: React.ReactNode;
   displayName: string;
   email?: string;
   profilePictureUrl?: string | null;
   isEventCreator?: boolean;
+  isSiteAdmin?: boolean;
 };
 
 export function MemberShell({
@@ -42,8 +46,10 @@ export function MemberShell({
   email,
   profilePictureUrl,
   isEventCreator = false,
+  isSiteAdmin = false,
 }: MemberShellProps) {
   const pathname = usePathname();
+  const navItems = isSiteAdmin ? [...memberNav, adminNavItem] : memberNav;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [profileOpen, setProfileOpen] = React.useState(false);
   const [officerOpen, setOfficerOpen] = React.useState(false);
@@ -98,7 +104,7 @@ export function MemberShell({
             className="hidden min-w-0 flex-1 items-center justify-center gap-6 overflow-x-auto lg:flex"
             aria-label="Member navigation"
           >
-            {memberNav.map((item) => {
+            {navItems.map((item) => {
               const Icon = item.icon;
               const isActive =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -304,7 +310,7 @@ export function MemberShell({
             <div aria-hidden="true" className="msc-accent-bar-full mb-4 h-0.5" />
 
             <nav className="grid gap-1 sm:grid-cols-2" aria-label="Member mobile navigation">
-              {memberNav.map((item) => {
+              {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive =
                   pathname === item.href || pathname.startsWith(`${item.href}/`);

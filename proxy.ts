@@ -5,6 +5,7 @@ import { getPublicEnv } from "@/lib/env";
 import type { Database } from "@/types/database";
 
 const memberRoutes = [
+  "/admin",
   "/dashboard",
   "/profile",
   "/announcements",
@@ -72,6 +73,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/admin/:path*",
     "/dashboard/:path*",
     "/profile/:path*",
     "/announcements/:path*",

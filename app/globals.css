@@ -175,8 +175,6 @@ button, input, select, textarea, nav, label {
 
 .msc-card-hover:hover {
   border-color: var(--border-accent);
-  transform: translateY(-4px) scale(1.008);
-  box-shadow: 0 16px 36px -12px rgba(0, 108, 249, 0.25);
 }
 
 .msc-card-glow-blue {
@@ -188,8 +186,6 @@ button, input, select, textarea, nav, label {
 
 .msc-card-glow-blue:hover {
   border-color: rgba(0, 108, 249, 0.6);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -12px rgba(0, 108, 249, 0.35);
 }
 
 .msc-card-glow-lime {
@@ -201,8 +197,6 @@ button, input, select, textarea, nav, label {
 
 .msc-card-glow-lime:hover {
   border-color: rgba(127, 186, 0, 0.6);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -12px rgba(127, 186, 0, 0.3);
 }
 
 .msc-card-glow-amber {
@@ -214,8 +208,6 @@ button, input, select, textarea, nav, label {
 
 .msc-card-glow-amber:hover {
   border-color: rgba(255, 185, 0, 0.6);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -12px rgba(255, 185, 0, 0.3);
 }
 
 .msc-glass {
@@ -252,46 +244,18 @@ button, input, select, textarea, nav, label {
   font-family: var(--font-body);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition:
-    background  var(--dur-fast) var(--ease-voyage),
-    transform   var(--dur-base) var(--ease-spring),
-    box-shadow  var(--dur-base) var(--ease-voyage);
-}
-
-.msc-btn-primary::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 35%;
-  height: 200%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transform: skewX(-20deg);
-  transition: transform 0.75s var(--ease-voyage);
-}
-
-.msc-btn-primary:hover::after {
-  transform: translateX(480%) skewX(-20deg);
+  transition: background var(--dur-fast) var(--ease-voyage);
 }
 
 .msc-btn-primary:hover {
   background: #1a7fff;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px -4px rgba(0, 108, 249, 0.55);
 }
 
 .msc-btn-primary:active {
-  transform: translateY(0) scale(0.97);
+  background: #0059d1;
 }
 
 .msc-btn-outline {
@@ -399,7 +363,7 @@ button, input, select, textarea, nav, label {
 }
 
 .group:hover .msc-icon-spring {
-  transform: scale(1.15) rotate(4deg);
+  transform: none;
 }
 
 .msc-img-zoom {

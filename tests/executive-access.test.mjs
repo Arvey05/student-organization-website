@@ -1,8 +1,14 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { PGlite } from "@electric-sql/pglite";
+import {
+  VERIFIED_AT,
+  applyMigration,
+  createSessionHelpers,
+  createSupabaseFixtureDatabase,
+  migrations,
+  readMigration,
+} from "./helpers/database.mjs";
 
 const ids = {
   core: "00000000-0000-0000-0000-000000000001",
@@ -13,77 +19,21 @@ const ids = {
   legacy: "00000000-0000-0000-0000-000000000006",
 };
 
-async function migration(name) {
-  return readFile(new URL(`../supabase/migrations/${name}`, import.meta.url), "utf8");
-}
-
 test("executive access is enforced by PostgreSQL triggers and RLS", async (suite) => {
-  const db = new PGlite();
+  const db = await createSupabaseFixtureDatabase();
   suite.after(() => db.close());
+  const { asUser, createUser } = createSessionHelpers(db);
 
-  // Supabase-owned Auth/Storage fixtures; application schema, policies, and
-  // migrations below are the actual production SQL, not rewritten test logic.
-  await db.exec(`
-    create role anon;
-    create role authenticated;
-    create role service_role bypassrls;
-    create schema auth;
-    create table auth.users (
-      id uuid primary key,
-      email text unique,
-      raw_user_meta_data jsonb default '{}',
-      email_confirmed_at timestamptz,
-      confirmation_sent_at timestamptz
-    );
-    create function auth.uid() returns uuid language sql stable as $$
-      select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
-    $$;
-    create function auth.role() returns text language sql stable as $$
-      select current_setting('request.jwt.claim.role', true)
-    $$;
-    grant usage on schema auth to anon, authenticated;
-    create schema storage;
-    create table storage.buckets (id text primary key, name text, public boolean);
-    create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text);
-    alter table storage.objects enable row level security;
-    grant usage on schema storage to anon, authenticated;
-    grant select, insert, update on storage.objects to authenticated;
-    create function storage.foldername(name text) returns text[] language sql immutable as $$
-      select string_to_array(name, '/')
-    $$;
-  `);
-  // PGlite has core gen_random_uuid(); pgcrypto is a Supabase extension.
-  await db.exec((await migration("20260616000000_initial_schema_and_rls.sql"))
-    .replace("create extension if not exists pgcrypto;", ""));
-  await db.exec(await migration("20260616090000_phase_9_event_announcement_upgrades.sql"));
-  await db.exec(await migration("20261009000000_add_has_completed_profile.sql"));
+  await applyMigration(db, migrations.initialSchema);
+  await applyMigration(db, migrations.eventUpgrades);
+  await applyMigration(db, migrations.profileCompletion);
   await db.query("insert into auth.users (id, email) values ($1, 'legacy@example.test')", [ids.legacy]);
   await db.query("update public.profiles set role = 'president' where id = $1", [ids.legacy]);
-  await db.exec(await migration("20261025000000_add_executive_roles.sql"));
-  const rosterMigration = await migration("20261025000100_executive_roster_access.sql");
-  await db.exec(rosterMigration);
-
-  async function asUser(id, action, role = "authenticated") {
-    await db.query("select set_config('request.jwt.claim.sub', $1, false)", [id ?? ""]);
-    await db.query("select set_config('request.jwt.claim.role', $1, false)", [role]);
-    await db.exec(`set role ${role}`);
-    try {
-      return await action();
-    } finally {
-      await db.exec("reset role");
-      await db.query("select set_config('request.jwt.claim.sub', '', false)");
-      await db.query("select set_config('request.jwt.claim.role', '', false)");
-    }
-  }
-
-  async function createUser(id, email, requestedRole, verified = true, sent = true) {
-    await db.query(`
-      insert into auth.users (id, email, raw_user_meta_data, email_confirmed_at, confirmation_sent_at)
-      values ($1, $2, $3::jsonb, $4::timestamptz, $5::timestamptz)
-    `, [id, email, JSON.stringify({ requested_role: requestedRole }),
-      verified ? "2026-10-25T02:00:00Z" : null,
-      sent ? "2026-10-25T01:00:00Z" : null]);
-  }
+  await applyMigration(db, migrations.executiveRoles);
+  await applyMigration(db, migrations.rosterAccess);
+  // The administrator migration redefines the shared role function, so every
+  // access rule below is verified against the final production schema.
+  await applyMigration(db, migrations.adminProvisioning);
 
   async function access(id) {
     return asUser(id, async () => {
@@ -115,24 +65,27 @@ test("executive access is enforced by PostgreSQL triggers and RLS", async (suite
       public.executive_signup_is_allowed('outsider@example.test', 'core_executive') as outsider`);
     assert.deepEqual(rows[0], { approved: true, wrong_tier: false, outsider: false });
     await assert.rejects(
-      createUser("00000000-0000-0000-0000-000000000099", "outsider@example.test", "core_executive"),
+      createUser("00000000-0000-0000-0000-000000000099", "outsider@example.test", { requestedRole: "core_executive" }),
       /not approved/,
     );
     await assert.rejects(
-      createUser("00000000-0000-0000-0000-000000000098", "core@example.test", "executive"),
+      createUser("00000000-0000-0000-0000-000000000098", "core@example.test", { requestedRole: "executive" }),
       /not approved/,
     );
     await assert.rejects(
-      createUser("00000000-0000-0000-0000-000000000097", "outsider@example.test", "president"),
+      createUser("00000000-0000-0000-0000-000000000097", "outsider@example.test", { requestedRole: "president" }),
       /Invalid membership/,
     );
   });
 
-  await createUser(ids.core, "core@example.test", "core_executive");
-  await createUser(ids.executive, "executive@example.test", "executive");
-  await createUser(ids.member, "member@example.test", "member");
-  await createUser(ids.unverified, "unverified@example.test", "core_executive", false);
-  await createUser(ids.autoconfirmed, "autoconfirmed@example.test", "executive", true, false);
+  await createUser(ids.core, "core@example.test", { requestedRole: "core_executive" });
+  await createUser(ids.executive, "executive@example.test", { requestedRole: "executive" });
+  await createUser(ids.member, "member@example.test", { requestedRole: "member" });
+  await createUser(ids.unverified, "unverified@example.test", { requestedRole: "core_executive", verified: false });
+  await createUser(ids.autoconfirmed, "autoconfirmed@example.test", {
+    requestedRole: "executive",
+    confirmationSent: false,
+  });
 
   await suite.test("both verified EB tiers can create events; other accounts cannot", async () => {
     for (const id of [ids.core, ids.executive]) {
@@ -178,7 +131,7 @@ test("executive access is enforced by PostgreSQL triggers and RLS", async (suite
   });
 
   await suite.test("email verification activates an approved account", async () => {
-    await db.query("update auth.users set email_confirmed_at = '2026-10-25T02:00:00Z' where id = $1", [ids.unverified]);
+    await db.query("update auth.users set email_confirmed_at = $2 where id = $1", [ids.unverified, VERIFIED_AT]);
     assert.equal(await access(ids.unverified), true);
     const { rows } = await db.query("select role from public.profiles where id = $1", [ids.unverified]);
     assert.equal(rows[0].role, "core_executive");
@@ -216,8 +169,9 @@ test("executive access is enforced by PostgreSQL triggers and RLS", async (suite
     });
   });
 
-  await suite.test("reapplying the roster migration is safe", async () => {
-    await db.exec(rosterMigration);
+  await suite.test("reapplying the roster and administrator migrations is safe", async () => {
+    await db.exec(await readMigration(migrations.rosterAccess));
+    await db.exec(await readMigration(migrations.adminProvisioning));
     assert.equal(await access(ids.core), true);
     assert.equal(await access(ids.member), false);
   });

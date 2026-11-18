@@ -8,7 +8,6 @@ import {
   Megaphone,
   MapPin,
   ShieldCheck,
-  Sparkles,
   UserRound,
 } from "lucide-react";
 
@@ -122,9 +121,8 @@ export default async function DashboardPage() {
           <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-96 bg-orange-500/10 blur-3xl" />
           <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="max-w-3xl">
-              <p className="inline-flex items-center gap-2 border border-blue-300/25 px-4 py-2 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
-                <Sparkles className="size-4" aria-hidden="true" />
-                Member portal
+              <p className="text-sm font-semibold text-blue-200">
+                BulSU MSC member
               </p>
               <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-tight sm:text-6xl">
                 Welcome,{" "}
@@ -133,15 +131,15 @@ export default async function DashboardPage() {
                 </span>
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-                Your central workspace for membership, announcements,
-                registered activities, and upcoming organization dates.
+                Your registrations, announcements, and upcoming events in one
+                place.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2 border border-emerald-300/30 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-emerald-100">
+                <span className="inline-flex items-center gap-2 border border-emerald-300/30 px-4 py-2 text-sm font-semibold text-emerald-100">
                   <ShieldCheck className="size-4" aria-hidden="true" />
                   {profile?.member_status ?? "active"}
                 </span>
-                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
+                <span className="inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 text-sm font-semibold text-blue-100">
                   <UserRound className="size-4" aria-hidden="true" />
                   {formatRole(profile?.role)}
                 </span>
@@ -227,7 +225,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="text-sm font-semibold text-blue-200">
                   Updates
                 </p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-white">
@@ -297,7 +295,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="text-sm font-semibold text-blue-200">
                   Activities
                 </p>
                 <h2 className="mt-1 text-2xl font-black text-white">
@@ -351,7 +349,10 @@ export default async function DashboardPage() {
                   ))
               ) : (
                 <p className="border border-dashed border-white/15 bg-[#02001f]/60 p-4 text-sm text-slate-300">
-                  You have not registered for any activities yet.
+                  You have not registered for any activities yet.{" "}
+                  <Link href="/member/activities" className="font-semibold text-blue-200 underline underline-offset-4 hover:text-white">
+                    Browse activities
+                  </Link>
                 </p>
               )}
             </div>
@@ -362,7 +363,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="text-sm font-semibold text-blue-200">
                   Calendar
                 </p>
                 <h2 className="mt-1 text-xl font-bold text-white">
@@ -419,7 +420,7 @@ export default async function DashboardPage() {
           <article className="border-t border-white/10 bg-black/15 p-6 text-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
+                <p className="text-sm font-semibold text-blue-200">
                   Profile summary
                 </p>
                 <h2 className="mt-1 text-2xl font-black">{displayName}</h2>
