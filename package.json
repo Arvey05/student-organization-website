@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:security": "node --test --test-isolation=none tests/executive-access.test.mjs",
+    "test": "npm run test:unit && npm run test:security",
+    "test:unit": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/unit/*.test.mjs\"",
+    "test:security": "node --test --test-isolation=none tests/executive-access.test.mjs tests/admin-provisioning.test.mjs",
     "eb:prepare": "node scripts/provision-executives.mjs --prepare",
     "eb:create": "node scripts/provision-executives.mjs --create"
   },

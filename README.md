@@ -5,6 +5,10 @@
 > events after email verification. This supersedes the earlier three-officer
 > access descriptions below. See [Executive access setup](EXECUTIVE_ACCESS_SETUP.md)
 > for database migrations, private roster import, prepared credentials, and tests.
+>
+> Registration has no membership type. Site administrators provision core
+> executive and executive members from **Admin → Executive provisioning**
+> (`/admin/executives`); see the setup guide for adding the first administrator.
 
 A website for BulSU MSC members to manage their profiles, read announcements, find activities, and keep track of organization events.
 

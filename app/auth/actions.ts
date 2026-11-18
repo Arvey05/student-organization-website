@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { isSignupRole } from "@/lib/supabase/roles";
 import {
   validateCollegeProgramMajor,
   VALID_YEAR_LEVEL_VALUES,
@@ -67,11 +66,6 @@ export async function signup(
   const email = getString(formData, "email");
   const password = getString(formData, "password");
   const confirmPassword = getString(formData, "confirmPassword");
-  const membershipType = getString(formData, "membership_type") || "member";
-
-  if (!isSignupRole(membershipType)) {
-    return { error: "Select a valid membership type." };
-  }
 
   if (!firstName || !lastName || !email || !password || !confirmPassword) {
     return { error: "First name, last name, email, and password are required." };
@@ -107,21 +101,9 @@ export async function signup(
 
   const supabase = await createSupabaseServerClient();
 
-  if (membershipType !== "member") {
-    const { data: approved, error: rosterError } = await supabase.rpc(
-      "executive_signup_is_allowed",
-      { signup_email: email, requested_role: membershipType },
-    );
-
-    if (rosterError) {
-      return { error: "Executive sign-up is unavailable. Please contact the organization to check the approved roster setup." };
-    }
-
-    if (approved !== true) {
-      return { error: "This email and membership type do not match the approved Executive Board roster. Use your roster email or sign up as a regular member." };
-    }
-  }
-
+  // Everyone registers as a regular member. Executive Board access is never
+  // requested here: an administrator approves the person's email on the roster,
+  // and the database grants the role once that email is verified.
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -134,7 +116,6 @@ export async function signup(
         major: major || null,
         year_level: yearLevel || null,
         gender: gender || null,
-        requested_role: membershipType,
       },
       // Redirect to the email-confirmed page after the user clicks the link
       emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/email-confirmed`,

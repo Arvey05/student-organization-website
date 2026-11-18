@@ -21,9 +21,35 @@ In the project's Supabase SQL Editor, run each of these files **separately and i
 
 1. `supabase/migrations/20261025000000_add_executive_roles.sql`
 2. `supabase/migrations/20261025000100_executive_roster_access.sql`
-3. `.private/executive-board-seed.sql`
+3. `supabase/migrations/20261118000000_admin_executive_provisioning.sql`
+4. `.private/executive-board-seed.sql` (optional; see the next section)
 
 Commit the first file before running the second because PostgreSQL cannot use newly added enum values until their transaction has committed. The original project migrations must already be applied. The private seed deactivates any earlier allowlist entries outside this roster. Keep roster data private rather than committing the seed to Git.
+
+## Administrators and the provisioning page
+
+Executive Board access is no longer requested at registration. The Sign Up form has no membership type: everyone registers as a regular member. An administrator approves a person on the roster instead, and their role and event permissions activate automatically once they verify their login email.
+
+Administrators are a separate allowlist (`private.site_administrators`), deliberately not derived from the Executive Board roster, so being an executive never grants the power to approve more executives. Add the first administrator once, from the SQL Editor, with a real address (never commit real addresses):
+
+```sql
+insert into private.site_administrators (email, note)
+values ('maintainer@example.com', 'Website maintainer')
+on conflict (email) do update set active = true;
+```
+
+An administrator must verify that email and have an active member profile. Administrators see an **Admin** link in the member navigation. **Admin → Executive provisioning** (`/admin/executives`) lets them:
+
+- add a core executive or executive member (name, login email, position, tier) before or after the person signs up;
+- change a member's name, position, or tier;
+- deactivate or reactivate access, which takes effect immediately, including for open sessions;
+- remove an entry that was added by mistake.
+
+The **Admin dashboard** (`/admin`) shows roster counts and recent changes. Every change is recorded in a private audit table (`private.executive_provisioning_audit`) with who made it. This table is separate from `event_logs`, which every event creator can read.
+
+The web application never holds a service role key for this: the roster tables have no grants for any application role, and administrators reach them only through `admin_*` database functions that verify the caller. Administrators themselves are managed only through SQL.
+
+The private seed above remains a convenient way to import the initial 33-person roster in one step, but the page can do the same one entry at a time.
 
 The database grants event access only when the authenticated account has an active roster entry, an active profile, and a completed email verification cycle. Legacy manually assigned officer roles and edited personal contact emails do not grant access. Removing or deactivating an approval revokes event access for existing sessions as well.
 
@@ -51,7 +77,7 @@ npm run eb:create
 
 The script verifies that all 33 local entries match the database allowlist before creating any account. It creates missing Auth accounts with the prepared passwords and email confirmation pending. It never resets an existing account's password, grants a role through editable user metadata, auto-confirms an email, or sends email. It writes per-account results to the private credentials file after each account, so interrupted runs can be resumed.
 
-Each new EB member can request their verification email from **Log In → Need to verify your email? Resend verification**, verify the link in their own inbox, and then log in with the prepared password. People registering themselves instead can choose their approved membership type and set their own password on Sign Up. In that case, their prepared password is not used.
+Each new EB member can request their verification email from **Log In → Need to verify your email? Resend verification**, verify the link in their own inbox, and then log in with the prepared password. People may instead register themselves on Sign Up with their roster email and set their own password. There is no membership type to choose; once they verify that email, the roster grants their tier automatically. In that case, their prepared password is not used.
 
 To prepare or refresh local credential records without making remote changes:
 
@@ -64,12 +90,12 @@ This preserves previously generated passwords. Keep the JSON provisioning state 
 ## 4. Verify the result
 
 ```powershell
-npm run test:security
+npm test
 npm run lint
 npm run build
 ```
 
-The security tests execute the real project migrations and RLS rules in a temporary PostgreSQL database using PGlite. They cover both EB tiers, unknown emails, mismatched tiers, unverified and auto-confirmed accounts, forged profile roles/contact emails/metadata, direct event inserts, roster revocation, inactive members, and ordinary member registration. They use synthetic accounts and make no calls to Supabase.
+`npm test` runs the unit tests for the roster rules (`tests/unit`, Node 22.18 or newer) and the security tests (`npm run test:security`). The security tests execute the real project migrations and RLS rules in a temporary PostgreSQL database using PGlite. They cover both EB tiers, unknown emails, mismatched tiers, unverified and auto-confirmed accounts, forged profile roles/contact emails/metadata, direct event inserts, roster revocation, inactive members, ordinary member registration, and the administrator provisioning functions: who counts as an administrator, rejection of everyone else (including core executives and anonymous callers), input validation, duplicates, promotion and revocation, and the audit trail. They use synthetic accounts and make no calls to Supabase.
 
 After setup, log in as a verified core member and as a verified executive member and create a sample event. A regular member should be able to register but should not see event management controls or be able to call event creation directly.
 

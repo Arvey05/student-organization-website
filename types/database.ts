@@ -24,6 +24,19 @@ export type RegistrationStatus =
   | "pre_registered"
   | "cancelled";
 
+/** State of the Auth account behind an Executive Board roster entry. */
+export type ExecutiveAccountStatus =
+  | "no_account"
+  | "awaiting_verification"
+  | "verified";
+
+export type ProvisioningAction =
+  | "added"
+  | "updated"
+  | "activated"
+  | "deactivated"
+  | "removed";
+
 export type Database = {
   public: {
     Tables: {
@@ -317,6 +330,62 @@ export type Database = {
       executive_signup_is_allowed: {
         Args: { signup_email: string; requested_role: string };
         Returns: boolean;
+      };
+      is_site_admin: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+      admin_list_executives: {
+        Args: Record<PropertyKey, never>;
+        Returns: Array<{
+          email: string;
+          full_name: string;
+          position: string;
+          role: UserRole;
+          active: boolean;
+          account_status: ExecutiveAccountStatus;
+          has_access: boolean;
+          created_at: string;
+          updated_at: string;
+        }>;
+      };
+      admin_add_executive: {
+        Args: {
+          p_email: string;
+          p_full_name: string;
+          p_position: string;
+          p_role: string;
+        };
+        Returns: undefined;
+      };
+      admin_update_executive: {
+        Args: {
+          p_email: string;
+          p_full_name: string;
+          p_position: string;
+          p_role: string;
+        };
+        Returns: undefined;
+      };
+      admin_set_executive_active: {
+        Args: { p_email: string; p_active: boolean };
+        Returns: undefined;
+      };
+      admin_remove_executive: {
+        Args: { p_email: string };
+        Returns: undefined;
+      };
+      admin_list_provisioning_activity: {
+        Args: { p_limit?: number };
+        Returns: Array<{
+          id: number;
+          action: ProvisioningAction;
+          target_email: string;
+          actor_email: string | null;
+          actor_name: string | null;
+          details: Json;
+          created_at: string;
+        }>;
       };
     };
     Enums: {
