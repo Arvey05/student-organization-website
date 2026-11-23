@@ -8,24 +8,39 @@ import { getActivityById } from "@/lib/member/activity-data";
 import { formatDateTimeLocalInput } from "@/lib/member/display";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 
-type PageProps = {
-  params: Promise<{ id: string }>;
+const ERROR_MESSAGES: Record<string, string> = {
+  missing_fields: "Please fill in all required event fields.",
+  invalid_time_frame: "End date and time must be after the start date and time.",
+  invalid_status: "Please select a valid event status.",
+  invalid_image_url: "The uploaded cover image URL is invalid.",
+  update_failed: "Unable to save event changes. Please try again.",
 };
 
-export default async function EditOfficerEventPage({ params }: PageProps) {
-  const { id } = await params;
-  const [{ isEventCreator }, activity] = await Promise.all([
-    getCurrentMemberProfile(),
-    getActivityById(id),
-  ]);
+type PageProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string }>;
+};
+
+export default async function EditOfficerEventPage({
+  params,
+  searchParams,
+}: PageProps) {
+  const { isEventCreator } = await getCurrentMemberProfile();
 
   if (!isEventCreator) {
     redirect("/dashboard?error=officer_required");
   }
 
+  const [{ id }, query] = await Promise.all([params, searchParams]);
+  const activity = await getActivityById(id);
+
   if (!activity) {
     redirect("/member/activities");
   }
+
+  const errorMessage = query.error
+    ? (ERROR_MESSAGES[query.error] ?? null)
+    : null;
 
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
@@ -35,6 +50,15 @@ export default async function EditOfficerEventPage({ params }: PageProps) {
           title="Edit event or program"
           description="Update official organization activity details."
         />
+
+        {errorMessage ? (
+          <p
+            role="alert"
+            className="mt-6 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-100"
+          >
+            {errorMessage}
+          </p>
+        ) : null}
 
         <OfficerForm
           action={updateOfficerEvent}

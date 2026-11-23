@@ -1,9 +1,12 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
-
 import { revalidatePath } from "next/cache";
 
+import { ensureMemberProfile } from "@/lib/member/ensure-profile";
+import {
+  isValidBirthdate,
+  uploadMemberProfilePicture,
+} from "@/lib/member/profile-validation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   validateCollegeProgramMajor,
@@ -11,24 +14,11 @@ import {
   VALID_GENDER_VALUES,
 } from "@/lib/member/colleges";
 
-const MAX_IMAGE_SIZE = 1 * 1024 * 1024; // 1 MB
-const ALLOWED_IMAGE_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-]);
-
 function getOptional(formData: FormData, key: string): string | null {
   const value = formData.get(key);
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
   return trimmed.length ? trimmed : null;
-}
-
-function getImageExtension(file: File): string {
-  const ext = file.name.split(".").pop()?.toLowerCase();
-  if (ext && /^[a-z0-9]+$/.test(ext)) return ext;
-  return file.type.split("/")[1] ?? "jpg";
 }
 
 type CompleteProfileResult = { error?: string } | undefined;
@@ -43,6 +33,11 @@ export async function completeProfile(
 
   if (!user) {
     return { error: "You must be logged in." };
+  }
+
+  const { error: ensureError } = await ensureMemberProfile(supabase, user);
+  if (ensureError) {
+    return { error: "Profile setup failed. Please try again." };
   }
 
   // ── Validate college / program / major ──────────────────────────────
@@ -66,44 +61,30 @@ export async function completeProfile(
 
   // ── Validate birthdate ──────────────────────────────────────────────
   const dateOfBirth = getOptional(formData, "date_of_birth");
-  if (dateOfBirth) {
-    const dob = new Date(dateOfBirth);
-    const now = new Date();
-    const maxDob = new Date(now.getFullYear() - 14, now.getMonth(), now.getDate());
-    const minDob = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
-    if (isNaN(dob.getTime()) || dob > maxDob || dob < minDob) {
-      return { error: "Please enter a valid birthdate (minimum age: 14)." };
-    }
+  if (dateOfBirth && !isValidBirthdate(dateOfBirth)) {
+    return { error: "Please enter a valid birthdate (minimum age: 14)." };
   }
 
   // ── Profile picture upload ──────────────────────────────────────────
-  let profilePictureUrl: string | undefined;
-  const profilePictureFile = formData.get("profile_picture");
-  if (profilePictureFile instanceof File && profilePictureFile.size > 0) {
-    if (!ALLOWED_IMAGE_TYPES.has(profilePictureFile.type)) {
-      return { error: "Only JPG, PNG, or WebP profile pictures are accepted." };
-    }
-    if (profilePictureFile.size > MAX_IMAGE_SIZE) {
-      return {
-        error: `Image must be 1 MB or less. Your file is ${(profilePictureFile.size / (1024 * 1024)).toFixed(1)} MB.`,
-      };
-    }
-    const ext = getImageExtension(profilePictureFile);
-    const path = `${user.id}/profile-${randomUUID()}.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from("profile-pictures")
-      .upload(path, profilePictureFile, {
-        cacheControl: "3600",
-        contentType: profilePictureFile.type,
-        upsert: false,
-      });
-    if (uploadError) {
-      return { error: "Profile picture upload failed. Please try again." };
-    }
-    const { data: publicData } = supabase.storage
-      .from("profile-pictures")
-      .getPublicUrl(path);
-    profilePictureUrl = publicData.publicUrl;
+  const rawFile = formData.get("profile_picture");
+  const profilePictureFile =
+    rawFile instanceof File && rawFile.size > 0 ? rawFile : null;
+  const uploadResult = await uploadMemberProfilePicture(
+    supabase,
+    user.id,
+    profilePictureFile,
+  );
+
+  if (uploadResult.error === "type") {
+    return { error: "Only JPG, PNG, or WebP profile pictures are accepted." };
+  }
+  if (uploadResult.error === "size" && profilePictureFile) {
+    return {
+      error: `Image must be 1 MB or less. Your file is ${(profilePictureFile.size / (1024 * 1024)).toFixed(1)} MB.`,
+    };
+  }
+  if (uploadResult.error === "upload") {
+    return { error: "Profile picture upload failed. Please try again." };
   }
 
   const removePicture = formData.get("remove_profile_picture") === "1";
@@ -123,8 +104,8 @@ export async function completeProfile(
       phone: getOptional(formData, "phone"),
       personal_email: getOptional(formData, "personal_email"),
       has_completed_profile: true,
-      ...(profilePictureUrl
-        ? { profile_picture_url: profilePictureUrl }
+      ...(uploadResult.imageUrl
+        ? { profile_picture_url: uploadResult.imageUrl }
         : removePicture
           ? { profile_picture_url: null }
           : {}),
