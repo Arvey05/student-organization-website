@@ -7,14 +7,18 @@ import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { canCreateEvents } from "@/lib/supabase/roles";
+import { getEventCreatorAccess } from "@/lib/supabase/event-access";
+import {
+  validateCollegeProgramMajor,
+  VALID_YEAR_LEVEL_VALUES,
+  VALID_GENDER_VALUES,
+} from "@/lib/member/colleges";
 
-const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_PROFILE_IMAGE_SIZE = 1 * 1024 * 1024; // 1 MB (Task 5)
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
-  "image/gif",
 ]);
 
 function getOptionalString(formData: FormData, key: string): string | null {
@@ -130,6 +134,8 @@ export async function updateProfile(formData: FormData) {
     redirect("/profile/edit?error=profile_setup_failed");
   }
 
+  const removePicture =
+    getOptionalString(formData, "remove_profile_picture") === "1";
   const profilePictureFile = getOptionalFile(formData, "profile_picture");
   const profilePictureUpload = await uploadProfilePicture(
     supabase,
@@ -141,6 +147,47 @@ export async function updateProfile(formData: FormData) {
     redirect(`/profile/edit?error=profile_picture_${profilePictureUpload.error}`);
   }
 
+  // ── Task 3: Server-side validation of college/program/major ──────────
+  const college = getOptionalString(formData, "college");
+  const program = getOptionalString(formData, "program");
+  const major = getOptionalString(formData, "major");
+  const collegeProgramMajorError = validateCollegeProgramMajor(
+    college,
+    program,
+    major,
+  );
+
+  if (collegeProgramMajorError) {
+    redirect("/profile/edit?error=invalid_college_program_major");
+  }
+
+  // ── Task 3: Server-side validation of year level ──────────────────────
+  const yearLevel = getOptionalString(formData, "year_level");
+
+  if (yearLevel && !VALID_YEAR_LEVEL_VALUES.has(yearLevel)) {
+    redirect("/profile/edit?error=invalid_year_level");
+  }
+
+  // ── Task 3: Server-side validation of gender ─────────────────────────
+  const gender = getOptionalString(formData, "gender");
+
+  if (gender && !VALID_GENDER_VALUES.has(gender)) {
+    redirect("/profile/edit?error=invalid_gender");
+  }
+
+  // ── Task 4: Server-side validation of birthdate ───────────────────────
+  const dateOfBirth = getOptionalString(formData, "date_of_birth");
+  if (dateOfBirth) {
+    const dob = new Date(dateOfBirth);
+    const now = new Date();
+    const maxDob = new Date(now.getFullYear() - 14, now.getMonth(), now.getDate());
+    const minDob = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+
+    if (isNaN(dob.getTime()) || dob > maxDob || dob < minDob) {
+      redirect("/profile/edit?error=invalid_birthdate");
+    }
+  }
+
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -150,18 +197,18 @@ export async function updateProfile(formData: FormData) {
       first_name: getOptionalString(formData, "first_name"),
       middle_name: getOptionalString(formData, "middle_name"),
       extension: getOptionalString(formData, "extension"),
-      college: getOptionalString(formData, "college"),
-      program: getOptionalString(formData, "program"),
-      major: getOptionalString(formData, "major"),
-      year_level: getOptionalString(formData, "year_level"),
+      college: college,
+      program: program,
+      major: major,
+      year_level: yearLevel,
       section: getOptionalString(formData, "section"),
       phone: getOptionalString(formData, "phone"),
       personal_email: getOptionalString(formData, "personal_email"),
       bulsu_email: getOptionalString(formData, "bulsu_email"),
       social_media_url: getOptionalString(formData, "social_media_url"),
       address: getOptionalString(formData, "address"),
-      date_of_birth: getOptionalString(formData, "date_of_birth"),
-      gender: getOptionalString(formData, "gender"),
+      date_of_birth: dateOfBirth,
+      gender: gender,
       guardian_name: getOptionalString(formData, "guardian_name"),
       guardian_relationship: getOptionalString(
         formData,
@@ -169,9 +216,12 @@ export async function updateProfile(formData: FormData) {
       ),
       guardian_phone: getOptionalString(formData, "guardian_phone"),
       guardian_address: getOptionalString(formData, "guardian_address"),
+      has_completed_profile: true,
       ...(profilePictureUpload.imageUrl
         ? { profile_picture_url: profilePictureUpload.imageUrl }
-        : {}),
+        : removePicture
+          ? { profile_picture_url: null }
+          : {}),
       updated_at: new Date().toISOString(),
     })
     .eq("id", user.id)
@@ -215,13 +265,7 @@ export async function createOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -358,13 +402,7 @@ export async function updateOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -436,13 +474,7 @@ export async function archiveOfficerEvent(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -482,13 +514,7 @@ export async function createOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -550,13 +576,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -625,13 +645,7 @@ export async function archiveOfficerAnnouncement(formData: FormData) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!canCreateEvents(profile?.role)) {
+  if (!(await getEventCreatorAccess(supabase, user.id))) {
     redirect("/dashboard?error=officer_required");
   }
 

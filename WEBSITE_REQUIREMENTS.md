@@ -1,3 +1,12 @@
+Current Executive Board access policy (October 25, 2026):
+The approved private roster is the authority for executive permissions.
+Core executive members are the President, both Vice Presidents, and Executive Secretary.
+All other approved Executive Board members have the executive role.
+Both approved tiers can create events after verifying their roster login email.
+Regular members can register for events but cannot create them.
+This policy replaces the earlier President/VPIA/VPEA-only descriptions below.
+See EXECUTIVE_ACCESS_SETUP.md for implementation and setup instructions.
+
 Functions of the website:
 For all website users:
 -	Landing Page

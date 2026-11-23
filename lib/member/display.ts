@@ -1,6 +1,8 @@
 import type { UserRole } from "@/types/database";
 
 export function formatRole(role: UserRole | null | undefined): string {
+  if (role === "core_executive") return "Core executive member";
+  if (role === "executive") return "Executive member";
   if (!role) {
     return "Member";
   }

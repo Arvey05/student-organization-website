@@ -5,12 +5,11 @@ import { OfficerForm } from "@/components/member/officer-form";
 import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
-import { canCreateEvents } from "@/lib/supabase/roles";
 
 export default async function NewOfficerAnnouncementPage() {
-  const { profile } = await getCurrentMemberProfile();
+  const { isEventCreator } = await getCurrentMemberProfile();
 
-  if (!canCreateEvents(profile?.role)) {
+  if (!isEventCreator) {
     redirect("/dashboard?error=officer_required");
   }
 
@@ -25,7 +24,7 @@ export default async function NewOfficerAnnouncementPage() {
 
         <OfficerForm
           action={createOfficerAnnouncement}
-          className="mt-8 border-y border-white/10 bg-[#02040a] p-6"
+          className="mt-8 border-y border-white/10 bg-[#02001f] p-6"
         >
           <label className="block">
             <span className="text-sm font-semibold text-slate-200">Title</span>

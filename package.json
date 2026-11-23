@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npm run test:unit && npm run test:security",
+    "test:unit": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/unit/*.test.mjs\"",
+    "test:security": "node --test --test-isolation=none tests/executive-access.test.mjs tests/admin-provisioning.test.mjs",
+    "eb:prepare": "node scripts/provision-executives.mjs --prepare",
+    "eb:create": "node scripts/provision-executives.mjs --create"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.20",
@@ -23,6 +28,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -31,5 +37,9 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true
   }
 }

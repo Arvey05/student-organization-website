@@ -12,12 +12,17 @@ export default async function ProfilePage() {
   const profileItems = [
     ["MSC ID Code", profile?.msc_id_code ?? "Not set"],
     ["School ID Code", profile?.school_id_code ?? "Not set"],
-    ["Program", profile?.program ?? "Not set"],
     ["College", profile?.college ?? "Not set"],
+    ["Program", profile?.program ?? "Not set"],
+    ["Major", profile?.major ?? "Not set"],
     ["Year Level", profile?.year_level ?? "Not set"],
     ["Section", profile?.section ?? "Not set"],
-    ["Phone", profile?.phone ?? "Not set"],
+    [
+      "Birthdate",
+      profile?.date_of_birth ? profile.date_of_birth.split("T")[0] : "Not set",
+    ],
     ["Gender", profile?.gender ?? "Not set"],
+    ["Phone", profile?.phone ?? "Not set"],
   ];
 
   return (
@@ -44,7 +49,7 @@ export default async function ProfilePage() {
                 <Mail className="size-4" aria-hidden="true" />
                 {email}
               </p>
-              <p className="mt-3 inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
+              <p className="mt-3 inline-flex items-center gap-2 border border-blue-300/30 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-blue-100">
                 <ShieldCheck className="size-4" aria-hidden="true" />
                 {formatRole(profile?.role)}
               </p>

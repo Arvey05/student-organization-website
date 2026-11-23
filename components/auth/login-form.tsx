@@ -23,7 +23,7 @@ export function LoginForm() {
             autoComplete="email"
             required
             placeholder="member@example.edu"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
 
@@ -35,7 +35,7 @@ export function LoginForm() {
             autoComplete="current-password"
             required
             placeholder="Enter your password"
-            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-300/60 focus:bg-black"
+            className="mt-2 h-12 w-full rounded-md border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition-all duration-200 placeholder:text-slate-500 hover:border-white/25 hover:bg-slate-900/60 focus:border-[var(--msc-blue)] focus:shadow-[0_0_12px_rgba(0,108,249,0.3)]"
           />
         </label>
       </div>
@@ -43,9 +43,15 @@ export function LoginForm() {
       <AuthFormMessage message={state.error} />
       <AuthSubmitButton pendingText="Logging in...">Log In</AuthSubmitButton>
 
+      <p className="mt-4 text-center text-sm text-slate-300">
+        <Link href="/email-confirmed?resend=1" className="font-semibold text-blue-200">
+          Need to verify your email? Resend verification
+        </Link>
+      </p>
+
       <p className="mt-5 text-center text-sm text-slate-300">
         New member?{" "}
-        <Link href="/signup" className="font-semibold text-blue-200">
+        <Link href="/signup" className="font-semibold text-blue-300 transition-colors duration-200 hover:text-white hover:underline">
           Create an account
         </Link>
       </p>

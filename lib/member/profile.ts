@@ -2,6 +2,7 @@ import type { AuthUser } from "@supabase/supabase-js";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getEventCreatorAccess } from "@/lib/supabase/event-access";
 import type { Database } from "@/types/database";
 
 export type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
@@ -11,6 +12,7 @@ export type MemberProfile = {
   profile: ProfileRow | null;
   displayName: string;
   email: string;
+  isEventCreator: boolean;
 };
 
 export async function getCurrentMemberProfile(): Promise<MemberProfile> {
@@ -77,5 +79,6 @@ export async function getCurrentMemberProfile(): Promise<MemberProfile> {
     profile,
     displayName,
     email: user.email ?? profile?.personal_email ?? "No email on file",
+    isEventCreator: await getEventCreatorAccess(supabase, user.id),
   };
 }
