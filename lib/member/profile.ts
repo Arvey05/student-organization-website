@@ -1,4 +1,6 @@
+import { cache } from "react";
 import type { AuthUser } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -15,7 +17,7 @@ export type MemberProfile = {
   isEventCreator: boolean;
 };
 
-export async function getCurrentMemberProfile(): Promise<MemberProfile> {
+export const getCurrentMemberProfile = cache(async (): Promise<MemberProfile> => {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -23,7 +25,7 @@ export async function getCurrentMemberProfile(): Promise<MemberProfile> {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    throw new Error("Authenticated user is required.");
+    redirect("/login");
   }
 
   const {
@@ -79,6 +81,10 @@ export async function getCurrentMemberProfile(): Promise<MemberProfile> {
     profile,
     displayName,
     email: user.email ?? profile?.personal_email ?? "No email on file",
-    isEventCreator: await getEventCreatorAccess(supabase, user.id),
+    isEventCreator: await getEventCreatorAccess(
+      supabase,
+      user.id,
+      profile?.role ?? null,
+    ),
   };
-}
+});

@@ -1,3 +1,4 @@
+import { isValidUuid } from "@/lib/member/profile-validation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 
@@ -36,6 +37,10 @@ export async function getActivities(): Promise<ActivityRow[]> {
 export async function getActivityById(
   activityId: string,
 ): Promise<ActivityRow | null> {
+  if (!isValidUuid(activityId)) {
+    return null;
+  }
+
   try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase
@@ -104,6 +109,10 @@ export async function getAnnouncements(): Promise<AnnouncementRow[]> {
 export async function getAnnouncementById(
   announcementId: string,
 ): Promise<AnnouncementRow | null> {
+  if (!isValidUuid(announcementId)) {
+    return null;
+  }
+
   try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase
@@ -172,6 +181,10 @@ export async function getRegisteredActivities(
 }
 
 export async function getCurrentUserRegistration(activityId: string) {
+  if (!isValidUuid(activityId)) {
+    return null;
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

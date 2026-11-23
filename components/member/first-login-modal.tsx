@@ -36,8 +36,23 @@ const inputCls =
 const labelCls = "block";
 const spanCls = "text-xs font-semibold text-slate-300";
 
+export type FirstLoginProfile = Pick<
+  ProfileRow,
+  | "first_name"
+  | "last_name"
+  | "college"
+  | "program"
+  | "major"
+  | "year_level"
+  | "gender"
+  | "date_of_birth"
+  | "phone"
+  | "personal_email"
+  | "profile_picture_url"
+>;
+
 type Props = {
-  profile: ProfileRow;
+  profile: FirstLoginProfile;
   displayName: string;
   userEmail?: string;
 };
@@ -77,9 +92,9 @@ export function FirstLoginModal({ profile, displayName, userEmail }: Props) {
 
   // Focus trap: when modal opens, focus first field
   React.useEffect(() => {
-    if (open) {
-      setTimeout(() => firstFieldRef.current?.focus(), 50);
-    }
+    if (!open) return;
+    const timeoutId = window.setTimeout(() => firstFieldRef.current?.focus(), 50);
+    return () => window.clearTimeout(timeoutId);
   }, [open]);
 
   // Keyboard handling: Escape closes modal (without saving)

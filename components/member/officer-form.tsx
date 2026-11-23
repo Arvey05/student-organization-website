@@ -5,12 +5,12 @@ import * as React from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-]);
+const MIME_TO_EXTENSION: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+};
 
 type OfficerImageBucket = "activity-images" | "announcement-images";
 
@@ -20,14 +20,18 @@ type OfficerFormProps = {
   className?: string;
 };
 
-function getSafeExtension(file: File) {
-  const extension = file.name.split(".").pop()?.toLowerCase();
-
-  if (extension && /^[a-z0-9]+$/.test(extension)) {
-    return extension;
+function isNextRedirectError(error: unknown): boolean {
+  if (typeof error !== "object" || error === null || !("digest" in error)) {
+    return false;
   }
 
-  return file.type.split("/")[1] ?? "jpg";
+  return (
+    typeof error.digest === "string" && error.digest.startsWith("NEXT_REDIRECT")
+  );
+}
+
+function getSafeExtension(file: File): string | null {
+  return MIME_TO_EXTENSION[file.type] ?? null;
 }
 
 function getFolder(bucket: OfficerImageBucket) {
@@ -52,7 +56,8 @@ function createUploadSupabaseClient() {
 }
 
 async function uploadOfficerImage(file: File, bucket: OfficerImageBucket) {
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+  const extension = getSafeExtension(file);
+  if (!extension) {
     throw new Error("Upload a JPG, PNG, WebP, or GIF image.");
   }
 
@@ -69,7 +74,6 @@ async function uploadOfficerImage(file: File, bucket: OfficerImageBucket) {
     throw new Error("You must be signed in to upload an image.");
   }
 
-  const extension = getSafeExtension(file);
   const uniquePart =
     typeof crypto.randomUUID === "function"
       ? crypto.randomUUID()
@@ -129,6 +133,10 @@ export function OfficerForm({ action, children, className }: OfficerFormProps) {
 
       await action(formData);
     } catch (submitError) {
+      if (isNextRedirectError(submitError)) {
+        throw submitError;
+      }
+
       setError(
         submitError instanceof Error
           ? submitError.message

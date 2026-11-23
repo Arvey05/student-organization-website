@@ -6,12 +6,30 @@ import { OfficerImageUpload } from "@/components/member/officer-image-upload";
 import { MemberPageHeader } from "@/components/member/page-header";
 import { getCurrentMemberProfile } from "@/lib/member/profile";
 
-export default async function NewOfficerAnnouncementPage() {
-  const { isEventCreator } = await getCurrentMemberProfile();
+const ERROR_MESSAGES: Record<string, string> = {
+  missing_fields: "Title and description are required.",
+  invalid_time_frame: "End date and time must be after the start date and time.",
+  invalid_image_url: "The uploaded cover image URL is invalid.",
+  create_failed: "Unable to create the announcement. Please try again.",
+};
+
+export default async function NewOfficerAnnouncementPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const [{ isEventCreator }, params] = await Promise.all([
+    getCurrentMemberProfile(),
+    searchParams,
+  ]);
 
   if (!isEventCreator) {
     redirect("/dashboard?error=officer_required");
   }
+
+  const errorMessage = params.error
+    ? (ERROR_MESSAGES[params.error] ?? null)
+    : null;
 
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
@@ -21,6 +39,15 @@ export default async function NewOfficerAnnouncementPage() {
           title="Add announcement"
           description="Publish booths, bazaars, reminders, and organization updates for members."
         />
+
+        {errorMessage ? (
+          <p
+            role="alert"
+            className="mt-6 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-100"
+          >
+            {errorMessage}
+          </p>
+        ) : null}
 
         <OfficerForm
           action={createOfficerAnnouncement}
