@@ -3,24 +3,9 @@ type PublicEnv = {
   supabasePublishableKey: string;
 };
 
-const DEV_FALLBACKS: Record<string, string> = {
-  NEXT_PUBLIC_SUPABASE_URL: "https://placeholder-project.supabase.co",
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.placeholder-anon-key",
-};
-
-function readRequiredEnv(name: string): string {
-  const value = process.env[name];
-
-  if (!value) {
-    if (DEV_FALLBACKS[name]) {
-      return DEV_FALLBACKS[name];
-    }
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-
-  return value;
-}
+const FALLBACK_SUPABASE_URL = "https://placeholder-project.supabase.co";
+const FALLBACK_SUPABASE_PUBLISHABLE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.placeholder-anon-key";
 
 export function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -35,9 +20,10 @@ export function isSupabaseConfigured(): boolean {
 
 export function getPublicEnv(): PublicEnv {
   return {
-    supabaseUrl: readRequiredEnv("NEXT_PUBLIC_SUPABASE_URL"),
-    supabasePublishableKey: readRequiredEnv(
-      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-    ),
+    supabaseUrl:
+      process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_SUPABASE_URL,
+    supabasePublishableKey:
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      FALLBACK_SUPABASE_PUBLISHABLE_KEY,
   };
 }

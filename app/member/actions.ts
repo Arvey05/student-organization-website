@@ -1,11 +1,14 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
-
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
+import {
+  isValidBirthdate,
+  isValidUuid,
+  uploadMemberProfilePicture,
+} from "@/lib/member/profile-validation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getEventCreatorAccess } from "@/lib/supabase/event-access";
 import {
@@ -14,12 +17,7 @@ import {
   VALID_GENDER_VALUES,
 } from "@/lib/member/colleges";
 
-const MAX_PROFILE_IMAGE_SIZE = 1 * 1024 * 1024; // 1 MB (Task 5)
-const ALLOWED_IMAGE_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-]);
+const MIN_PASSWORD_LENGTH = 8;
 
 function getOptionalString(formData: FormData, key: string): string | null {
   const value = formData.get(key);
@@ -72,52 +70,6 @@ function getOptionalFile(formData: FormData, key: string): File | null {
   return value;
 }
 
-function getImageExtension(file: File): string {
-  const extension = file.name.split(".").pop()?.toLowerCase();
-
-  if (extension && /^[a-z0-9]+$/.test(extension)) {
-    return extension;
-  }
-
-  return file.type.split("/")[1] ?? "jpg";
-}
-
-async function uploadProfilePicture(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
-  userId: string,
-  file: File | null,
-): Promise<{ imageUrl: string | null; error: "type" | "size" | "upload" | null }> {
-  if (!file) {
-    return { imageUrl: null, error: null };
-  }
-
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { imageUrl: null, error: "type" };
-  }
-
-  if (file.size > MAX_PROFILE_IMAGE_SIZE) {
-    return { imageUrl: null, error: "size" };
-  }
-
-  const extension = getImageExtension(file);
-  const path = `${userId}/profile-${randomUUID()}.${extension}`;
-  const { error } = await supabase.storage
-    .from("profile-pictures")
-    .upload(path, file, {
-      cacheControl: "3600",
-      contentType: file.type,
-      upsert: false,
-    });
-
-  if (error) {
-    return { imageUrl: null, error: "upload" };
-  }
-
-  const { data } = supabase.storage.from("profile-pictures").getPublicUrl(path);
-
-  return { imageUrl: data.publicUrl, error: null };
-}
-
 export async function updateProfile(formData: FormData) {
   const supabase = await createSupabaseServerClient();
   const {
@@ -137,7 +89,7 @@ export async function updateProfile(formData: FormData) {
   const removePicture =
     getOptionalString(formData, "remove_profile_picture") === "1";
   const profilePictureFile = getOptionalFile(formData, "profile_picture");
-  const profilePictureUpload = await uploadProfilePicture(
+  const profilePictureUpload = await uploadMemberProfilePicture(
     supabase,
     user.id,
     profilePictureFile,
@@ -177,15 +129,8 @@ export async function updateProfile(formData: FormData) {
 
   // ── Task 4: Server-side validation of birthdate ───────────────────────
   const dateOfBirth = getOptionalString(formData, "date_of_birth");
-  if (dateOfBirth) {
-    const dob = new Date(dateOfBirth);
-    const now = new Date();
-    const maxDob = new Date(now.getFullYear() - 14, now.getMonth(), now.getDate());
-    const minDob = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
-
-    if (isNaN(dob.getTime()) || dob > maxDob || dob < minDob) {
-      redirect("/profile/edit?error=invalid_birthdate");
-    }
+  if (dateOfBirth && !isValidBirthdate(dateOfBirth)) {
+    redirect("/profile/edit?error=invalid_birthdate");
   }
 
   const { error } = await supabase
@@ -245,7 +190,28 @@ export async function changePassword(formData: FormData) {
     redirect("/settings/password?error=password_mismatch");
   }
 
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    redirect("/settings/password?error=password_too_short");
+  }
+
   const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user || !user.email) {
+    redirect("/login");
+  }
+
+  const { error: verifyError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: oldPassword,
+  });
+
+  if (verifyError) {
+    redirect("/settings/password?error=incorrect_old_password");
+  }
+
   const { error } = await supabase.auth.updateUser({ password });
 
   if (error) {
@@ -314,7 +280,7 @@ export async function createOfficerEvent(formData: FormData) {
 export async function registerForActivity(formData: FormData) {
   const activityId = getOptionalString(formData, "activity_id");
 
-  if (!activityId) {
+  if (!activityId || !isValidUuid(activityId)) {
     redirect("/member/activities");
   }
 
@@ -351,7 +317,7 @@ export async function registerForActivity(formData: FormData) {
 export async function cancelActivityRegistration(formData: FormData) {
   const activityId = getOptionalString(formData, "activity_id");
 
-  if (!activityId) {
+  if (!activityId || !isValidUuid(activityId)) {
     redirect("/member/activities");
   }
 
@@ -389,7 +355,7 @@ export async function cancelActivityRegistration(formData: FormData) {
 export async function updateOfficerEvent(formData: FormData) {
   const activityId = getOptionalString(formData, "activity_id");
 
-  if (!activityId) {
+  if (!activityId || !isValidUuid(activityId)) {
     redirect("/member/activities");
   }
 
@@ -461,7 +427,7 @@ export async function updateOfficerEvent(formData: FormData) {
 export async function archiveOfficerEvent(formData: FormData) {
   const activityId = getOptionalString(formData, "activity_id");
 
-  if (!activityId) {
+  if (!activityId || !isValidUuid(activityId)) {
     redirect("/member/activities");
   }
 
@@ -563,7 +529,7 @@ export async function createOfficerAnnouncement(formData: FormData) {
 export async function updateOfficerAnnouncement(formData: FormData) {
   const announcementId = getOptionalString(formData, "announcement_id");
 
-  if (!announcementId) {
+  if (!announcementId || !isValidUuid(announcementId)) {
     redirect("/announcements");
   }
 
@@ -632,7 +598,7 @@ export async function updateOfficerAnnouncement(formData: FormData) {
 export async function archiveOfficerAnnouncement(formData: FormData) {
   const announcementId = getOptionalString(formData, "announcement_id");
 
-  if (!announcementId) {
+  if (!announcementId || !isValidUuid(announcementId)) {
     redirect("/announcements");
   }
 

@@ -4,7 +4,7 @@ import { MemberShell } from "@/components/member/member-shell";
 import { FirstLoginModal } from "@/components/member/first-login-modal";
 import { getSiteAdminAccess } from "@/lib/admin/access";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { getEventCreatorAccess } from "@/lib/supabase/event-access";
+import { isApprovedExecutiveTier } from "@/lib/supabase/event-access";
 
 export const dynamic = "force-dynamic";
 
@@ -22,19 +22,26 @@ export default async function MemberLayout({
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select(
-      "role, first_name, last_name, username, profile_picture_url, has_completed_profile, college, program, major, year_level, gender, date_of_birth, phone, personal_email",
-    )
-    .eq("id", user.id)
-    .maybeSingle();
+  // Fetch profile and role RPCs in parallel (avoids redundant profiles query).
+  // The nav links are convenience only; every admin/officer page and action re-checks.
+  const [{ data: profile, error: profileError }, eventCreatorRpc, isSiteAdmin] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select(
+          "role, first_name, last_name, username, profile_picture_url, has_completed_profile, college, program, major, year_level, gender, date_of_birth, phone, personal_email",
+        )
+        .eq("id", user.id)
+        .maybeSingle(),
+      supabase.rpc("is_event_creator", { user_id: user.id }),
+      getSiteAdminAccess(supabase),
+    ]);
 
-  // The nav link is a convenience only; every admin page and action re-checks.
-  const [isEventCreator, isSiteAdmin] = await Promise.all([
-    getEventCreatorAccess(supabase, user.id),
-    getSiteAdminAccess(supabase),
-  ]);
+  const isEventCreator =
+    !profileError &&
+    isApprovedExecutiveTier(profile?.role) &&
+    !eventCreatorRpc.error &&
+    eventCreatorRpc.data === true;
 
   const displayName =
     [profile?.first_name, profile?.last_name].filter(Boolean).join(" ") ||
@@ -59,30 +66,7 @@ export default async function MemberLayout({
       {children}
       {showFirstLoginModal && profile && (
         <FirstLoginModal
-          profile={{
-            ...profile,
-            id: user.id,
-            role: profile.role ?? "member",
-            member_status: "active",
-            msc_id_code: null,
-            school_id_code: null,
-            middle_name: null,
-            extension: null,
-            section: null,
-            username: null,
-            address: null,
-            social_media_url: null,
-            bulsu_email: null,
-            guardian_name: null,
-            guardian_relationship: null,
-            guardian_phone: null,
-            guardian_address: null,
-            has_completed_profile: profile.has_completed_profile ?? false,
-            member_since: null,
-            last_login_at: null,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          }}
+          profile={profile}
           displayName={displayName}
           userEmail={user.email}
         />

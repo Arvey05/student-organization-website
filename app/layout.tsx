@@ -29,9 +29,6 @@ export const metadata: Metadata = {
     description:
       "Official website of the BulSU MSC (Bulacan State University Microsoft Student Community).",
   },
-  icons: {
-    icon: "/brand/msc-stacked-color.png",
-  },
 };
 
 export default function RootLayout({
