@@ -1,4 +1,4 @@
-# Student Organization Website
+# BulSU MSC Website
 
 > Current Executive Board access policy (October 25, 2026): the private approved
 > roster controls `core_executive` and `executive` roles. Both EB tiers can create
