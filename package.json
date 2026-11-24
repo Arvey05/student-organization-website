@@ -14,7 +14,7 @@
     "eb:create": "node scripts/provision-executives.mjs --create"
   },
   "dependencies": {
-    "@fullcalendar/daygrid": "^6.1.20",
+    "@fullcalendar/daygrid": "^6.1.22",
     "@fullcalendar/react": "^6.1.20",
     "@fullcalendar/timegrid": "^6.1.20",
     "@supabase/ssr": "^0.12.7",
