@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { ensureMemberProfile } from "@/lib/member/ensure-profile";
@@ -13,6 +14,26 @@ import {
 type AuthResult = {
   error?: string;
 };
+
+/**
+ * The origin the visitor is actually on, so the confirmation link always returns
+ * to the same deployment. A fixed NEXT_PUBLIC_SITE_URL that is missing or still
+ * points at localhost in production sends people to a dead page.
+ */
+async function getRequestOrigin(): Promise<string> {
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+
+  if (host) {
+    const isLocal = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(host);
+    const protocol =
+      requestHeaders.get("x-forwarded-proto") ?? (isLocal ? "http" : "https");
+    return `${protocol}://${host}`;
+  }
+
+  return process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+}
 
 function getString(formData: FormData, key: string): string {
   const value = formData.get(key);
@@ -118,7 +139,7 @@ export async function signup(
         gender: gender || null,
       },
       // Redirect to the email-confirmed page after the user clicks the link
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/email-confirmed`,
+      emailRedirectTo: `${await getRequestOrigin()}/email-confirmed`,
     },
   });
 
