@@ -49,7 +49,9 @@ export function MemberShell({
   isSiteAdmin = false,
 }: MemberShellProps) {
   const pathname = usePathname();
-  const navItems = isSiteAdmin ? [...memberNav, adminNavItem] : memberNav;
+  // Event creators (Executive Board) and site administrators get the admin area.
+  const navItems =
+    isSiteAdmin || isEventCreator ? [...memberNav, adminNavItem] : memberNav;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [profileOpen, setProfileOpen] = React.useState(false);
   const [officerOpen, setOfficerOpen] = React.useState(false);
