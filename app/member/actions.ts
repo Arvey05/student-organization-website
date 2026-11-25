@@ -19,6 +19,14 @@ import {
 
 const MIN_PASSWORD_LENGTH = 8;
 
+/** Lets admin pages send people back to the list they came from. Only /admin paths. */
+function getAdminReturnPath(formData: FormData): string | null {
+  const value = formData.get("return_to");
+  return typeof value === "string" && /^\/admin(\/[a-z-]+)?$/.test(value)
+    ? value
+    : null;
+}
+
 function getOptionalString(formData: FormData, key: string): string | null {
   const value = formData.get(key);
 
@@ -444,6 +452,7 @@ export async function archiveOfficerEvent(formData: FormData) {
     redirect("/dashboard?error=officer_required");
   }
 
+  const returnTo = getAdminReturnPath(formData);
   const { error } = await supabase
     .from("activities")
     .update({
@@ -458,8 +467,11 @@ export async function archiveOfficerEvent(formData: FormData) {
     .single();
 
   if (error) {
-    redirect(`/member/activities/${activityId}?error=delete_failed`);
+    redirect(returnTo ? `${returnTo}?error=delete_failed` : `/member/activities/${activityId}?error=delete_failed`);
   }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/events");
 
   revalidatePath(`/member/activities/${activityId}`);
   revalidatePath("/activities");
@@ -467,7 +479,7 @@ export async function archiveOfficerEvent(formData: FormData) {
   revalidatePath("/calendar");
   revalidatePath("/dashboard");
   revalidatePath("/my-activities");
-  redirect("/member/activities?event=deleted");
+  redirect(returnTo ? `${returnTo}?deleted=1` : "/member/activities?event=deleted");
 }
 
 export async function createOfficerAnnouncement(formData: FormData) {
@@ -615,6 +627,7 @@ export async function archiveOfficerAnnouncement(formData: FormData) {
     redirect("/dashboard?error=officer_required");
   }
 
+  const returnTo = getAdminReturnPath(formData);
   const { error } = await supabase
     .from("announcements")
     .update({
@@ -628,11 +641,14 @@ export async function archiveOfficerAnnouncement(formData: FormData) {
     .single();
 
   if (error) {
-    redirect("/announcements?error=delete_failed");
+    redirect(returnTo ? `${returnTo}?error=delete_failed` : "/announcements?error=delete_failed");
   }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/announcements");
 
   revalidatePath("/announcements");
   revalidatePath("/calendar");
   revalidatePath("/dashboard");
-  redirect("/announcements?announcement=deleted");
+  redirect(returnTo ? `${returnTo}?deleted=1` : "/announcements?announcement=deleted");
 }

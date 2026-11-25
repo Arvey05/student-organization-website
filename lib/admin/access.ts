@@ -1,6 +1,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 
+import { getEventCreatorAccess } from "@/lib/supabase/event-access";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 
@@ -39,4 +40,46 @@ export async function requireSiteAdmin(): Promise<{
   }
 
   return { supabase, user };
+}
+
+/**
+ * The admin area is for Executive Board members who can manage events and
+ * announcements, plus site administrators. Regular members are turned away.
+ * Individual tools still check their own, narrower permission.
+ */
+export async function requireAdminAreaAccess(): Promise<{
+  supabase: Supabase;
+  user: User;
+  isEventCreator: boolean;
+  isSiteAdmin: boolean;
+}> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const [isEventCreator, isSiteAdmin] = await Promise.all([
+    getEventCreatorAccess(supabase, user.id),
+    getSiteAdminAccess(supabase),
+  ]);
+
+  if (!isEventCreator && !isSiteAdmin) {
+    redirect("/dashboard?error=admin_required");
+  }
+
+  return { supabase, user, isEventCreator, isSiteAdmin };
+}
+
+export async function requireEventCreator() {
+  const access = await requireAdminAreaAccess();
+
+  if (!access.isEventCreator) {
+    redirect("/admin");
+  }
+
+  return access;
 }
