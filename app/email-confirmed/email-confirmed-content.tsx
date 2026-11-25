@@ -2,31 +2,38 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { CheckCircle, AlertTriangle, Clock, RefreshCw } from "lucide-react";
+
+import { parseVerificationResult } from "@/lib/auth/verification-result";
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
-export function EmailConfirmedContent() {
-  const searchParams = useSearchParams();
-  const errorCode = searchParams.get("error_code");
-  const errorDescription = searchParams.get("error_description");
-  const isResend = searchParams.get("resend") === "1";
+// Supabase reports results in the URL fragment as well as the query string, and
+// the server cannot see the fragment, so read the live location instead.
+function subscribeToLocation(onChange: () => void) {
+  window.addEventListener("hashchange", onChange);
+  return () => window.removeEventListener("hashchange", onChange);
+}
 
-  // Determine state based on URL params that Supabase appends on error
-  // Supabase redirects here on success with no error params
-  // On expired link: error_code=otp_expired
-  // On already confirmed: error_code=email_exists or similar
-  const isExpired =
-    errorCode === "otp_expired" ||
-    (errorDescription ?? "").toLowerCase().includes("expired");
-  const isAlreadyConfirmed =
-    errorCode === "email_exists" ||
-    errorCode === "user_already_exists" ||
-    (errorDescription ?? "").toLowerCase().includes("already confirmed") ||
-    (errorDescription ?? "").toLowerCase().includes("already registered");
-  const isError = Boolean(errorCode);
-  const isSuccess = !isError && !isResend;
+const getLocationSnapshot = () => window.location.search + window.location.hash;
+const getServerSnapshot = () => "";
+
+export function EmailConfirmedContent() {
+  const location = React.useSyncExternalStore(
+    subscribeToLocation,
+    getLocationSnapshot,
+    getServerSnapshot,
+  );
+  const hashStart = location.indexOf("#");
+  const result = parseVerificationResult(
+    hashStart === -1 ? location : location.slice(0, hashStart),
+    hashStart === -1 ? "" : location.slice(hashStart),
+  );
+  const isSuccess = result === "confirmed";
+  const isAlreadyConfirmed = result === "already_confirmed";
+  const isExpired = result === "expired";
+  // Opened directly, with no verification result in the URL: don't claim success.
+  const isResend = result === "resend" || result === "unknown";
 
   const [resendEmail, setResendEmail] = React.useState("");
   const [resendStatus, setResendStatus] = React.useState<
@@ -150,10 +157,10 @@ export function EmailConfirmedContent() {
       </h1>
       <p className="mt-4 text-center text-base leading-8 text-slate-300">
         {isResend
-          ? "Enter your account email below to request a verification link. Executive Board members must verify their roster email before creating events."
+          ? "Open the verification link in your email to finish signing up. Already verified? Log in. Need a new link? Enter your account email below. Executive Board members must verify their roster email before creating events."
           : isExpired
-          ? "This verification link has expired. Verification links are only valid for a short time. Request a new one below."
-          : "This verification link is invalid or has already been used. Request a new one below."}
+          ? "This verification link has expired, or was already opened once (some email apps open links automatically). Your email may already be verified, so try logging in first. If that fails, request a new link below."
+          : "This verification link is invalid or has already been used. Your email may already be verified, so try logging in first. If that fails, request a new link below."}
       </p>
 
       <div className="mt-8 border border-white/10 bg-black/20 p-6">
