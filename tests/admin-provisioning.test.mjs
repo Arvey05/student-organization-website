@@ -331,6 +331,15 @@ test("administrators provision Executive Board access through audited database f
     assert.deepEqual(order, ["c-core@example.test", "b-exec@example.test", "a-core@example.test"]);
   });
 
+  await suite.test("the roster membership check is not callable by anonymous or signed-in users", async () => {
+    for (const [id, role] of [[null, "anon"], [ids.member, "authenticated"]]) {
+      await assertSqlError(
+        call(id, "select public.executive_signup_is_allowed('core@example.test', 'core_executive')", [], role),
+        { code: "42501", message: /permission denied/ },
+      );
+    }
+  });
+
   await suite.test("reapplying the migration keeps roster data and administrator access", async () => {
     const before = await listRoster();
     await db.exec(await readMigration(migrations.adminProvisioning));

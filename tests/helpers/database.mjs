@@ -15,6 +15,7 @@ export const migrations = {
   executiveRoles: "20261025000000_add_executive_roles.sql",
   rosterAccess: "20261025000100_executive_roster_access.sql",
   adminProvisioning: "20261118000000_admin_executive_provisioning.sql",
+  restrictRosterCheck: "20261125000000_restrict_signup_roster_check.sql",
 };
 
 export async function readMigration(name) {
