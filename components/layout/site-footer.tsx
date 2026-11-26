@@ -68,7 +68,7 @@ export function SiteFooter() {
                   alt={item.label}
                   width={120}
                   height={120}
-                  className={`h-12 w-12 object-contain sm:h-14 sm:w-14 ${item.imageClassName}`}
+                  className={`h-8 w-8 object-contain sm:h-10 sm:w-10 ${item.imageClassName}`}
                 />
               </div>
             ))}
