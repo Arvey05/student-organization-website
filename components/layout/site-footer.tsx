@@ -15,14 +15,9 @@ const footerLinks = [
 
 const logoItems = [
   {
-    label: "Bulacan State University seal",
-    src: "/brand/bulsu-seal.webp",
+    label: "YORP logo",
+    src: "/brand/yorp-logo.png",
     imageClassName: "",
-  },
-  {
-    label: "OSOA seal",
-    src: "/brand/osoa-seal.png",
-    imageClassName: "brightness-0 invert",
   },
 ];
 
@@ -62,18 +57,18 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="mt-6 grid max-w-xs grid-cols-2 gap-3">
+          <div className="mt-5 flex items-center gap-3">
             {logoItems.map((item) => (
               <div
                 key={item.label}
-                className="flex aspect-[4/3] items-center justify-center px-3"
+                className="flex items-center justify-center"
               >
                 <Image
                   src={item.src}
                   alt={item.label}
                   width={120}
                   height={120}
-                  className={`h-20 w-20 object-contain sm:h-24 sm:w-24 ${item.imageClassName}`}
+                  className={`h-12 w-12 object-contain sm:h-14 sm:w-14 ${item.imageClassName}`}
                 />
               </div>
             ))}
