@@ -73,10 +73,16 @@ function Guidance() {
           </li>
         ))}
       </ul>
-      <p className="mt-6 text-sm text-slate-400">
-        <span className="font-semibold text-slate-200">Lead peer mentors: </span>
-        {guidance.mentors.map((m) => m.name).join(" · ")}
-      </p>
+      <div className="mt-12">
+        <h4 className="text-sm font-semibold text-msc-amber">
+          Lead peer mentors
+        </h4>
+        <ul role="list" className="mt-5 grid max-w-md grid-cols-2 gap-6">
+          {guidance.mentors.map((member) => (
+            <Figure key={member.name} member={member} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

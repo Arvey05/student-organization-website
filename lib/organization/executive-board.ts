@@ -23,8 +23,8 @@ export const guidance: { faculty: BoardMember[]; mentors: BoardMember[] } = {
     { name: "Orlando R. Bernaldez", role: "Faculty Adviser", photo: "orlando-bernaldez" },
   ],
   mentors: [
-    { name: "Dave Anthony R. De Jesus", role: "Lead Peer Mentor" },
-    { name: "Glen Justine P. Batis", role: "Lead Peer Mentor" },
+    { name: "Dave Anthony R. De Jesus", role: "Lead Peer Mentor", photo: "dave-de-jesus" },
+    { name: "Glen Justine P. Batis", role: "Lead Peer Mentor", photo: "glen-batis" },
   ],
 };
 
